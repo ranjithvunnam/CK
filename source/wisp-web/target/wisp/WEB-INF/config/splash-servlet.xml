@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:oxm="http://www.springframework.org/schema/oxm"
+	xmlns:int-ftp="http://www.springframework.org/schema/integration/ftp"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/oxm
+        http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+        http://www.springframework.org/schema/integration/ftp
+    	http://www.springframework.org/schema/integration/ftp/spring-integration-ftp.xsd">
+	<context:component-scan base-package="com.nunc.wisp.web.restservices" />
+
+	<context:annotation-config />
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="false">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter" >
+				<constructor-arg index="0" name="defaultCharset" value="UTF-8"/>
+			</bean>
+			<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>image/jpeg</value>
+						<value>image/png</value>
+						<value>image/jpg</value>
+						<value>image/gif</value>
+					</list>
+				</property>
+			</bean>
+			<!-- Converter for images -->
+			<bean
+				class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />
+
+			<!-- This must come after our image converter -->
+			<bean id="jsonConverter"
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="supportedMediaTypes" value="application/json" />
+			</bean>
+
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/WEB-INF/pages/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:properties/application-${wisp.environment}.properties
+			</value>
+		</property>
+	</bean>
+</beans>

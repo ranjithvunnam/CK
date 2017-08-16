@@ -1,0 +1,8 @@
+com\nunc\wisp\web\restservices\AdminServicesController.class
+com\nunc\wisp\web\restservices\ClientServicesController.class
+com\nunc\wisp\web\restservices\VendorServicesController.class
+com\nunc\wisp\web\restservices\utils\PaginationTaglib.class
+com\nunc\wisp\web\restservices\exception\handler\ResourceNotFoundException.class
+com\nunc\wisp\web\restservices\exception\handler\MethodNotAllowedException.class
+com\nunc\wisp\web\restservices\utils\Paginator.class
+com\nunc\wisp\web\restservices\ApplicationController.class

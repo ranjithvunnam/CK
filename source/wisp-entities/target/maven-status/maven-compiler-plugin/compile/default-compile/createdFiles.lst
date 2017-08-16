@@ -1,0 +1,12 @@
+com\nunc\wisp\entities\ServiceListEntity.class
+com\nunc\wisp\entities\ServiceVideosEntity.class
+com\nunc\wisp\entities\UserRoleEntity.class
+com\nunc\wisp\entities\ServiceHitsEntity.class
+com\nunc\wisp\entities\PasswordResetTokenEntity.class
+com\nunc\wisp\entities\UserFavoritesEntity.class
+com\nunc\wisp\entities\MainSliderEntity.class
+com\nunc\wisp\entities\ServiceCommentsEntity.class
+com\nunc\wisp\entities\ServiceImagesEntity.class
+com\nunc\wisp\entities\UserEntity.class
+com\nunc\wisp\entities\ServicesAddressEntity.class
+com\nunc\wisp\entities\ServiceAmenitiyEntity.class
