@@ -20,6 +20,7 @@ import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
+import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.MainSliderEntity;
@@ -214,10 +215,10 @@ public class ApplicationServicesImpl implements ApplicationServices {
 	
 	@Override
 	@Transactional
-	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceType) throws WISPServiceException {
+	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceType, String location) throws WISPServiceException {
 		List<ServiceListEntity> results = null;
 		try {
-			results = applicationRepository.getMainPageServiceList(serviceType);
+			results = applicationRepository.getMainPageServiceList(serviceType, location);
 		} catch (WISPDataAccessException e) {
 			LOG_R.error("Exception occured ::: ", e);
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
@@ -227,10 +228,10 @@ public class ApplicationServicesImpl implements ApplicationServices {
 
 	@Override
 	@Transactional
-	public List<ServiceListEntity> getListOfServices(ServiceType serviceType, Integer offset, Integer maxResults) throws WISPServiceException {
+	public List<ServiceListEntity> getListOfServices(ServiceFilterRequestBean bean, Integer offset, Integer maxResults) throws WISPServiceException {
 		List<ServiceListEntity> results = null;
 		try {
-			results = applicationRepository.getListOfServices(serviceType, offset, maxResults);
+			results = applicationRepository.getListOfServices(bean, offset, maxResults);
 		} catch (WISPDataAccessException e) {
 			LOG_R.error("Exception occured ::: ", e);
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
@@ -240,9 +241,9 @@ public class ApplicationServicesImpl implements ApplicationServices {
 
 	@Override
 	@Transactional
-	public Long getServiceListCount(ServiceType serviceType) throws WISPServiceException {
+	public Long getServiceListCount(ServiceFilterRequestBean bean) throws WISPServiceException {
 		try {
-			return applicationRepository.getServiceListCount(serviceType);
+			return applicationRepository.getServiceListCount(bean);
 		} catch (WISPDataAccessException e) {
 			LOG_R.error("Exception occured ::: ", e);
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());

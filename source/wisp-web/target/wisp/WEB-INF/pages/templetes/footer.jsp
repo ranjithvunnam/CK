@@ -7,7 +7,7 @@
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point.</p>
                     </div>
                     <div class="col-xs-6 col-sm-2 col-md-2">
-                        <p><a href="venue/service_listing" style="color: white;">Services</a></p>
+                        <p><a href="Venue/service_listing" style="color: white;">Services</a></p>
                         <p><a href="favorites" style="color: white;">Favourites</a></p>
                         <p>Estimate</p>
                         <p>Offers</p>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
@@ -35,11 +36,11 @@ public interface ApplicationRepository {
 
 	public void removePasswordResetToken(String token) throws WISPDataAccessException;
 
-	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceType) throws WISPDataAccessException;
+	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceType, String location) throws WISPDataAccessException;
 
-	public List<ServiceListEntity> getListOfServices(ServiceType serviceType, Integer offset, Integer maxResults) throws WISPDataAccessException;
+	public List<ServiceListEntity> getListOfServices(ServiceFilterRequestBean bean, Integer offset, Integer maxResults) throws WISPDataAccessException;
 
-	public Long getServiceListCount(ServiceType serviceType) throws WISPDataAccessException;
+	public Long getServiceListCount(ServiceFilterRequestBean bean) throws WISPDataAccessException;
 
 	public ServiceListEntity getServiceIndetailed(ServiceType serviceType,	Long service_id) throws WISPDataAccessException;
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,9 +38,9 @@ import com.nunc.wisp.beans.ForgotPasswordBeans;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
+import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
 import com.nunc.wisp.beans.enums.ServiceType;
-import com.nunc.wisp.beans.enums.ServiceVenueFiltersEnum;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.UserEntity;
@@ -55,6 +57,7 @@ import com.nunc.wisp.web.restservices.exception.handler.ResourceNotFoundExceptio
  */
 
 @Controller
+@SessionAttributes("location")
 public class ApplicationController {
 
 	protected static final Logger LOG_R = Logger.getLogger(ApplicationController.class);
@@ -66,7 +69,7 @@ public class ApplicationController {
 	@Autowired
 	@Qualifier("VendorAppServices")
 	private VendorAppServices vendorAppServices;
-
+	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public String handleResourceNotFoundException() {
 		return "404";
@@ -87,21 +90,64 @@ public class ApplicationController {
 		throw new MethodNotAllowedException();
 	}
 	
-	@RequestMapping(value = {"/home","/home/{location}"}, method = RequestMethod.GET)
-	public ModelAndView index(@PathVariable Map<String, String> pathVariables) throws WISPServiceException {
+	@RequestMapping(value = "/updateLocation", method = RequestMethod.GET)  
+    public String updateLocation(@RequestParam("location") String location, HttpSession session, Model model){
+		session.setAttribute("location", location);
+		model.asMap().clear();
+		return "redirect:home/"+location;  
+    }  
+	
+	/*
+	 * Home controller with out location
+	 * */
+	@RequestMapping(value = {"/home"}, method = RequestMethod.GET)
+	public String home(Model model, HttpSession session) throws WISPServiceException {
+		
+		String location = (String) session.getAttribute("location");
+		model.asMap().clear();
+		if(location != null && !location.isEmpty()) {
+			return "redirect:home/"+location;
+		} else {
+			List<ServiceListEntity> venue_list = null;
+			List<ServiceListEntity> caterers_list = null;
+			List<ServiceListEntity> photography_list = null;
+			List<String> city_list = applicationServices.getListOfCities();
+			List<MainSliderEntity> slider_images = applicationServices.getMainSliderImages();
+			venue_list = applicationServices.getMainPageServiceList(ServiceType.SER_VENUE, null);
+			caterers_list = applicationServices.getMainPageServiceList(ServiceType.SER_CATERERS, null);
+			photography_list = applicationServices.getMainPageServiceList(ServiceType.SER_PHOTOGRAPHY, null);
+			
+			model.addAttribute("city_list", city_list);
+			model.addAttribute("slider_images", slider_images);
+			model.addAttribute("venue_list", venue_list);
+			model.addAttribute("caterers_list", caterers_list);
+			model.addAttribute("photography_list", photography_list);
+			return "home";
+		}
+	}
+	/*
+	 * Home controller with location
+	 * */
+	@RequestMapping(value = {"/home/{location}"}, method = RequestMethod.GET)
+	public ModelAndView index(@PathVariable Map<String, String> pathVariables, HttpSession session) throws WISPServiceException {
+		
+		ModelAndView mav = new ModelAndView();
+		List<ServiceListEntity> venue_list = null;
+		List<ServiceListEntity> caterers_list = null;
+		List<ServiceListEntity> photography_list = null;
+		List<String> city_list = applicationServices.getListOfCities();
+		List<MainSliderEntity> slider_images = applicationServices.getMainSliderImages();
+		
 		if (pathVariables.containsKey("location")) {
-	        LOG_R.info("Path variable contains map "+pathVariables.get("location"));
+			venue_list = applicationServices.getMainPageServiceList(ServiceType.SER_VENUE, pathVariables.get("location"));
+			caterers_list = applicationServices.getMainPageServiceList(ServiceType.SER_CATERERS, pathVariables.get("location"));
+			photography_list = applicationServices.getMainPageServiceList(ServiceType.SER_PHOTOGRAPHY, pathVariables.get("location"));
 	    }
 	    else {
-	    	LOG_R.info("Path variable not contains map");
+			venue_list = applicationServices.getMainPageServiceList(ServiceType.SER_VENUE, null);
+			caterers_list = applicationServices.getMainPageServiceList(ServiceType.SER_CATERERS, null);
+			photography_list = applicationServices.getMainPageServiceList(ServiceType.SER_PHOTOGRAPHY, null);
 	    }
-		ModelAndView mav = new ModelAndView();
-		List<MainSliderEntity> slider_images = applicationServices.getMainSliderImages();
-		//TODO Need to simplify below code 
-		List<ServiceListEntity> venue_list = applicationServices.getMainPageServiceList(ServiceType.SER_VENUE);
-		List<ServiceListEntity> caterers_list = applicationServices.getMainPageServiceList(ServiceType.SER_CATERERS);
-		List<ServiceListEntity> photography_list = applicationServices.getMainPageServiceList(ServiceType.SER_PHOTOGRAPHY);
-		List<String> city_list = applicationServices.getListOfCities();
 		mav.addObject("city_list", city_list);
 		mav.addObject("slider_images", slider_images);
 		mav.addObject("venue_list", venue_list);
@@ -111,19 +157,64 @@ public class ApplicationController {
 		return mav;
 	}
 	
+	/*
+	 * ServiceList controller with out location
+	 * */
 	@RequestMapping(value = "/{token}/service_listing", method = RequestMethod.GET)
-	public String showListOfServices(@PathVariable(value="token") String token, Model model, Integer offset, Integer maxResults) throws WISPServiceException {
-		List<ServiceListEntity> services = applicationServices.getListOfServices(ServiceType.getNameByCode(token), offset, maxResults);
+	public String showListOfServices(@PathVariable(value="token") String token, Model model, Integer offset, Integer maxResults, HttpSession session) throws WISPServiceException {
+		String location = (String) session.getAttribute("location");
+		model.asMap().clear();
+		if(location != null && !location.isEmpty()) {
+			return "redirect:/"+location+"/"+token+"/service_listing";
+		} else {
+			ServiceFilterRequestBean bean = new ServiceFilterRequestBean();
+			bean.setService_type(ServiceType.getNameByCode(token));
+			List<ServiceListEntity> services = applicationServices.getListOfServices(bean, offset, maxResults);
+			model.addAttribute("services", services);
+			model.addAttribute("service_type", token);
+			model.addAttribute("count", applicationServices.getServiceListCount(bean));
+			model.addAttribute("offset", offset);
+			model.addAttribute("service_list", ServiceType.values());
+			List<String> city_list = applicationServices.getListOfCities();
+			model.addAttribute("city_list", city_list);
+			model.addAttribute("serviceFilterBean", new ServiceFilterRequestBean());
+			return "services/service_listing";
+		}
+	}
+	
+	/*
+	 * ServiceList controller with location
+	 * */
+	@RequestMapping(value = "{location}/{token}/service_listing", method = RequestMethod.GET)
+	public String showLocationBasedListOfServices(@ModelAttribute("serviceFilterBean") final ServiceFilterRequestBean bean,@PathVariable(value="location") String location,
+			@PathVariable(value="token") String token, Model model, Integer offset, Integer maxResults) throws WISPServiceException {
+		
+		location = (bean.getLocation() != null && !bean.getLocation().isEmpty()) ? bean.getLocation() : location;
+		ServiceType serv_type = (bean.getService_type() != null && !bean.getService_type().name().isEmpty()) ? bean.getService_type() : ServiceType.getNameByCode(token);
+		bean.setService_type(serv_type);
+		bean.setLocation(location);
+		
+		List<ServiceListEntity> services = applicationServices.getListOfServices(bean, offset, maxResults);
 		model.addAttribute("services", services);
 		model.addAttribute("service_type", token);
-		List<ServiceVenueFiltersEnum> aminities = ServiceType.getAmenities(token);
-		model.addAttribute("aminities", aminities);
-		model.addAttribute("count", applicationServices.getServiceListCount(ServiceType.getNameByCode(token)));
+		model.addAttribute("count", applicationServices.getServiceListCount(bean));
 		model.addAttribute("offset", offset);
+		model.addAttribute("service_list", ServiceType.values());
+		List<String> city_list = applicationServices.getListOfCities();
+		model.addAttribute("city_list", city_list);
+		bean.setService_type(ServiceType.getNameByCode(token));
+		model.addAttribute("serviceFilterBean", bean);
 		return "services/service_listing";
 	}
 	
-	@RequestMapping(value = "/{token}/{service_id}/service_par_listing", method = RequestMethod.GET)
+	@RequestMapping(value = "/filterServices", method = RequestMethod.POST)
+	public String filterServices(@ModelAttribute("serviceFilterBean") @Valid ServiceFilterRequestBean bean,
+			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes) throws WISPServiceException {
+		redirectAttributes.addFlashAttribute("serviceFilterBean", bean);
+		return "redirect:/"+bean.getLocation()+"/"+bean.getService_type().getDescription()+"/service_listing";
+	}
+	
+	@RequestMapping(value = {"/{token}/{service_id}/service_par_listing"}, method = RequestMethod.GET)
 	public String showPartialListOfServices(@PathVariable(value="token") String token, Model model, @PathVariable(value="service_id") Long service_id, HttpServletRequest request) 
 			throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

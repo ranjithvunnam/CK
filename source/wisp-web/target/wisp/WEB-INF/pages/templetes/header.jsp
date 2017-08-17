@@ -23,9 +23,9 @@
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Services <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li id="venuex"><a href="venue/service_listing">Venues</a></li>
-							<li id="catererx"><a href="caterers/service_listing">Caterers</a></li>
-							<li id="photox"><a href="photography/service_listing">Photographers</a></li>
+							<li id="venuex"><a href="Venue/service_listing">Venues</a></li>
+							<li id="catererx"><a href="Caterers/service_listing">Caterers</a></li>
+							<li id="photox"><a href="Photography/service_listing">Photographers</a></li>
 							<li id="evtplanx"><a href="event_planners/service_listing">Event Planners</a></li>
 						</ul>
 					</li>
@@ -40,7 +40,7 @@
 							aria-hidden="true"></i> Location <span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<c:forEach items = "${city_list}" var="city" varStatus="city_var">
-								<li><a href="#">${city}</a></li>
+								<li><a href="updateLocation?location=${city}">${city}</a></li>
 							</c:forEach>
 						</ul>
 					</li>

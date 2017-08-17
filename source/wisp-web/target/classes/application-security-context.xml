@@ -41,6 +41,8 @@
 		<intercept-url pattern="/index.jsp" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/home" access="permitAll" />
+		<intercept-url pattern="/updateLocation" access="permitAll" />
+		<intercept-url pattern="/home/**" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 		<intercept-url pattern="/register" access="permitAll" />
@@ -48,6 +50,7 @@
 		<intercept-url pattern="/forgotpassword" access="permitAll" />
 		<intercept-url pattern="/resetpassword/**" access="permitAll" />
 		<intercept-url pattern="/resetpassword" access="permitAll" />
+		<intercept-url pattern="/filterServices" access="permitAll" />
 		<intercept-url pattern="/simulateSearch" access="permitAll" />
 		<intercept-url pattern="/**/**/service_par_listing" access="permitAll" />
 		<intercept-url pattern="/**/service_listing/" access="permitAll" />

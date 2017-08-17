@@ -15,6 +15,7 @@ com\nunc\wisp\beans\ServiceStatusUpdateRequestBean.class
 com\nunc\wisp\beans\custom\validators\ScriptAssertFieldErrorValidator.class
 com\nunc\wisp\beans\enums\ServiceVenueFiltersEnum.class
 com\nunc\wisp\beans\custom\validators\ScriptAssertFieldError.class
+com\nunc\wisp\beans\ServiceFilterRequestBean.class
 com\nunc\wisp\beans\ServiceFeedBackBean.class
 com\nunc\wisp\beans\request\ServiceImagesRequestBean.class
 com\nunc\wisp\beans\enums\ServiceType.class

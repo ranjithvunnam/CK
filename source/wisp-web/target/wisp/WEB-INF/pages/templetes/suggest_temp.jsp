@@ -9,7 +9,7 @@
 			<section class="service-small-slider slider">
 				<c:if test="${service_details.service_type ne 'SER_VENUE'}">
 					<div class="icon">
-						<a href="venue/service_listing"> <img
+						<a href="Venue/service_listing"> <img
 							src="resources/images/icons/venues.png" alt="">
 							<p>Venues</p>
 						</a>
@@ -17,14 +17,14 @@
 				</c:if>
 				<c:if test="${service_details.service_type ne 'SER_CATERERS'}">
 					<div class="icon">
-						<a href="caterers/service_listing"><img
+						<a href="Caterers/service_listing"><img
 							src="resources/images/icons/catering.png" alt="">
 							<p>Caterers</p> </a>
 					</div>
 				</c:if>
 				<c:if test="${service_details.service_type ne 'SER_PHOTOGRAPHY'}">
 					<div class="icon">
-						<a href="photography/service_listing"> <img
+						<a href="Photography/service_listing"> <img
 							src="resources/images/icons/photographers.png" alt="">
 							<p>Photographers</p>
 						</a>

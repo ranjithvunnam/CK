@@ -95,14 +95,14 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
-					<a href="venue/service_listing">Mesmerizing Venues</a>
+					<a href="Venue/service_listing">Mesmerizing Venues</a>
 				</h5>
 				<section class="mesmerizing slider">
 					<c:forEach items="${venue_list}" var="venue" varStatus="loop">
 						<div>
 							<c:choose>
 						    <c:when test="${loggedIn}">
-								    <a href="venue/${venue.service_id}/service_details">
+								    <a href="Venue/${venue.service_id}/service_details">
 								    <c:choose>
 								    	<c:when test="${not empty venue.imagesEntities}">
 								    		<img src="${venue.imagesEntities.iterator().next().image_url}">
@@ -115,7 +115,7 @@
 								    </a>
 						    </c:when>
 						    <c:otherwise>
-								    <a href="venue/${venue.service_id}/service_par_listing">
+								    <a href="Venue/${venue.service_id}/service_par_listing">
 								    <c:choose>
 								    	<c:when test="${not empty venue.imagesEntities}">
 								    		<img src="${venue.imagesEntities.iterator().next().image_url}">
@@ -138,14 +138,14 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
-					<a href="caterers/service_listing">Mouth Watering Caterers</a>
+					<a href="Caterers/service_listing">Mouth Watering Caterers</a>
 				</h5>
 				<section class="mouthwatering slider">
 					<c:forEach items="${caterers_list}" var="caterer" varStatus="loop">
 						<div>
 							<c:choose>
 						    <c:when test="${loggedIn}">
-								    <a href="caterers/${caterer.service_id}/service_details">
+								    <a href="Caterers/${caterer.service_id}/service_details">
 								    <c:choose>
 								    	<c:when test="${not empty caterer.imagesEntities}">
 								    		<img src="${caterer.imagesEntities.iterator().next().image_url}">
@@ -181,7 +181,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
-					<a href="photography/service_listing">Mind Blowing
+					<a href="Photography/service_listing">Mind Blowing
 						Photography</a>
 				</h5>
 				<section class="photography slider">
@@ -190,7 +190,7 @@
 						<div>
 							<c:choose>
 						    <c:when test="${loggedIn}">
-								    <a href="photography/${photography.service_id}/service_details">
+								    <a href="Photography/${photography.service_id}/service_details">
 								    <c:choose>
 								    	<c:when test="${not empty photography.imagesEntities}">
 								    		<img src="${photography.imagesEntities.iterator().next().image_url}">
@@ -203,7 +203,7 @@
 								    </a>
 						    </c:when>
 						    <c:otherwise>
-								    <a href="photography/${photography.service_id}/service_par_listing">
+								    <a href="Photography/${photography.service_id}/service_par_listing">
 								    <c:choose>
 								    	<c:when test="${not empty photography.imagesEntities}">
 								    		<img src="${photography.imagesEntities.iterator().next().image_url}">
@@ -230,19 +230,19 @@
 				</h5>
 				<div class="icon-container">
 				<div class="icon">
-					<a href="venue/service_listing">
+					<a href="Venue/service_listing">
                     <img src="resources/images/icons/venues.png" alt="">
                     <p>Venues</p>
                     </a>
                 </div>
                 <div class="icon">
-                	<a href="caterers/service_listing">
+                	<a href="Caterers/service_listing">
                     <img src="resources/images/icons/catering.png" alt="">
                     <p>Caterers</p>
                     </a>
                 </div>
                 <div class="icon">
-                	<a href="photography/service_listing">
+                	<a href="Photography/service_listing">
                     <img src="resources/images/icons/photographers.png" alt="">
                     <p>Photographers</p>
                      </a>

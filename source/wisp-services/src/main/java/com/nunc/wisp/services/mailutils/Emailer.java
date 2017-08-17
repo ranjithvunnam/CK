@@ -47,7 +47,7 @@ public class Emailer {
                 message.setSentDate(new Date());
                 message.setFrom("ranjithvunnam@gmail.com");
                 Map<String, Object> model = new HashMap<String, Object>();
-                model.put("token", "http://localhost:8080"+servletContext.getContextPath()+"/"+"resetpassword/"+token);
+                model.put("token", "http://202.53.86.11:8080"+servletContext.getContextPath()+"/"+"resetpassword/"+token);
                 model.put("userName", userName);
 
                 String text = buildEmailText(model, velocityEngine, "passwordResetEmailTemplate");

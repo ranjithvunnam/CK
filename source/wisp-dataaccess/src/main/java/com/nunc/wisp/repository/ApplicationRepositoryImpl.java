@@ -23,6 +23,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
@@ -237,14 +238,18 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
 	@Override
 	@Transactional
-	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceType)
+	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceTypes, String location)
 			throws WISPDataAccessException {
 		List<ServiceListEntity> result = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Criteria criteria = session.createCriteria(ServiceListEntity.class);
+			Criteria criteria = session.createCriteria(ServiceListEntity.class, "service_list");
+			criteria.createAlias("service_list.addressEntity", "address");
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-			criteria.add(Restrictions.eq("service_type", serviceType));
+			criteria.add(Restrictions.eq("service_type", serviceTypes));
+			if(location != null && !location.isEmpty()) {
+				criteria.add(Restrictions.eq("address.city", location));
+			}
 			criteria.add(Restrictions.eq("approval_status", 2));
 			criteria.setMaxResults(15);
 			criteria.addOrder(Order.desc("service_id"));
@@ -262,13 +267,17 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
 	@Override
 	@Transactional
-	public List<ServiceListEntity> getListOfServices(ServiceType serviceType, Integer offset, Integer maxResults) throws WISPDataAccessException {
+	public List<ServiceListEntity> getListOfServices(ServiceFilterRequestBean bean, Integer offset, Integer maxResults) throws WISPDataAccessException {
 		List<ServiceListEntity> result = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Criteria criteria = session.createCriteria(ServiceListEntity.class);
+			Criteria criteria = session.createCriteria(ServiceListEntity.class, "service_list");
+			criteria.createAlias("service_list.addressEntity", "address");
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-			criteria.add(Restrictions.eq("service_type", serviceType));
+			criteria.add(Restrictions.eq("service_type", bean.getService_type()));
+			if(bean.getLocation() != null && !bean.getLocation().isEmpty()) {
+				criteria.add(Restrictions.eq("address.city", bean.getLocation()));
+			}
 			criteria.add(Restrictions.eq("approval_status", 2));
 			criteria.setFirstResult(offset!=null?offset:DEFAULT_OFFSET).setMaxResults(maxResults!=null?maxResults:MAX_ROWS_FOR_USER_SEARCH);
 			criteria.addOrder(Order.desc("service_id"));
@@ -286,13 +295,33 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
 	@Override
 	@Transactional
-	public Long getServiceListCount(ServiceType serviceType) throws WISPDataAccessException {
-		return (Long)sessionFactory.getCurrentSession()
-				.createCriteria(ServiceListEntity.class).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+	public Long getServiceListCount(ServiceFilterRequestBean bean) throws WISPDataAccessException {
+		/*return (Long)sessionFactory.getCurrentSession()
+				.createCriteria(ServiceListEntity.class, "service_list").createAlias("service_list.addressEntity", "address").setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
 				.add(Restrictions.eq("service_type", serviceType))
 				.add(Restrictions.eq("approval_status", 2))
 				.setProjection(Projections.rowCount())
-				.uniqueResult();
+				.uniqueResult();*/
+		Long result = 0L;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(ServiceListEntity.class, "service_list");
+			criteria.createAlias("service_list.addressEntity", "address");
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			criteria.add(Restrictions.eq("service_type", bean.getService_type()));
+			if(bean.getLocation() != null && !bean.getLocation().isEmpty()) {
+				criteria.add(Restrictions.eq("address.city", bean.getLocation()));
+			}
+			criteria.add(Restrictions.eq("approval_status", 2));
+			criteria.setProjection(Projections.rowCount());
+			result = (Long)criteria.uniqueResult();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return result;
 	}
 
 	@Override

@@ -562,7 +562,10 @@ body {
     margin-right: 2%;
     margin-bottom: 5px;
 }
-
+.filter-area select {
+    display: inline-block;
+	border: none;
+}
 .filter-area .dropdown {
     display: inline-block;
 }

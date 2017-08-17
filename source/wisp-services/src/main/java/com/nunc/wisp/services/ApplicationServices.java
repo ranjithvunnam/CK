@@ -9,6 +9,7 @@ import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
+import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.MainSliderEntity;
@@ -33,11 +34,11 @@ public interface ApplicationServices {
 
 	public void updateUserCredentials(ResetPasswordBeans resetPasswordBeans) throws WISPServiceException;
 
-	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceType) throws WISPServiceException;
+	public List<ServiceListEntity> getMainPageServiceList(ServiceType serviceType, String location) throws WISPServiceException;
 
-	public List<ServiceListEntity> getListOfServices(ServiceType serviceType, Integer offset, Integer maxResults) throws WISPServiceException;
+	public List<ServiceListEntity> getListOfServices(ServiceFilterRequestBean bean, Integer offset, Integer maxResults) throws WISPServiceException;
 
-	public Long getServiceListCount(ServiceType serviceType) throws WISPServiceException;
+	public Long getServiceListCount(ServiceFilterRequestBean bean) throws WISPServiceException;
 
 	public ChangePasswordBean changeUserCredentials(ChangePasswordBean changePasswordBean) throws WISPServiceException;
 
