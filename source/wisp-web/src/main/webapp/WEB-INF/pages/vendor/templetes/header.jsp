@@ -12,7 +12,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="home.do"><img src="resources/images/logo.svg" alt="logo"></a>
+				<a class="navbar-brand" href="home"><img src="resources/images/logo.svg" alt="logo"></a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -24,13 +24,13 @@
 								aria-expanded="true"><i class="fa fa-user" aria-hidden="true"></i>
 									My Profile <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="changepass.do">Change Password</a></li>
+									<li><a href="changepass">Change Password</a></li>
 									<li><a href="j_spring_security_logout">Logout</a></li>
 								</ul>
 							</li>
 					    </c:when>
 					    <c:otherwise>
-					        <!-- <li><a target="_blank" href="vendor/home.do"><span class="btn btn-info vendor">Vendor</span></a> -->
+					        <!-- <li><a target="_blank" href="vendor/home"><span class="btn btn-info vendor">Vendor</span></a> -->
 					    </c:otherwise>
 					</c:choose>
 					</li>

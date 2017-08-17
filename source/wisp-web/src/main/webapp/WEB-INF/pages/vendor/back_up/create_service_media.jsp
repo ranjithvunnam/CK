@@ -32,14 +32,14 @@
 	<div class="container">
 		<%@ include file="steps_header.jsp"%>
 		<div class="row">
-			<form method="POST" action="vendor/uploadMedia.do" enctype="multipart/form-data" id="media_form">
+			<form method="POST" action="vendor/uploadMedia" enctype="multipart/form-data" id="media_form">
 			<div class="col-xs-12 col-md-12 upload-images">
 				<div class="col-xs-12 col-md-12 vender-form mTop30">
 					<div class="col-xs-12 col-md-4 big-image bottom-xs text-center">
 						<h5 class="service-heading pull-left">Upload Images and
 							Videos</h5>
 						<img id="showSelectionImg" src="resources/images/banner2.jpg" alt="">
-						<%-- <form method="POST" action="vendor/uploadMedia.do" enctype="multipart/form-data" id="media_form"> --%>
+						<%-- <form method="POST" action="vendor/uploadMedia" enctype="multipart/form-data" id="media_form"> --%>
 							<label for="file-upload" class="custom-file-upload mTop10">
 								<i class="fa fa-cloud-upload"></i> Custom Upload
 							</label> <input id="file-upload" type="file" />
@@ -230,7 +230,7 @@
         	   var oMyForm = new FormData();
                oMyForm.append("file", files[0]);
                $.ajax({
-					url : 'vendor/uploadMedia.do',
+					url : 'vendor/uploadMedia',
 					type : 'POST',
 					contentType : 'application/json; charset=utf-8',
 					data : oMyForm,

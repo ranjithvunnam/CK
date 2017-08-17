@@ -40,13 +40,13 @@ public class AdminServicesController {
 	@Qualifier("AdminApplicationServices")
 	private AdminApplicationServices adminApplicationServices;
 	
-	@RequestMapping(value = "/access.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/access", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
 			Model model, HttpServletRequest request) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		    return "redirect:/admin/dashboard.do";
+		    return "redirect:/admin/dashboard";
 		}
 		if (error == true) {
 			model.addAttribute("errors", "invalid username or password!");
@@ -60,7 +60,7 @@ public class AdminServicesController {
 		return "admin/login";
 	}
 	
-	@RequestMapping(value = "/dashboard.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String index(Model model , Integer offset, Integer maxResults) throws WISPServiceException {
 		Long count = adminApplicationServices.getCountOfServicesToVerify();
 		List<ServiceListEntity>  vendor_service_list = adminApplicationServices.getListOfServicesToVerify(offset, maxResults);
@@ -69,7 +69,7 @@ public class AdminServicesController {
 		return "admin/admin_service_list";
 	}
 	
-	@RequestMapping(value = "/{token}/{service_id}/service_details.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/{token}/{service_id}/service_details", method = RequestMethod.GET)
 	public String showServiceIndetailed(@PathVariable(value="token") String token, @PathVariable(value="service_id") Long service_id, Model model) throws WISPServiceException{
 		ServiceListEntity service_details = adminApplicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
 		if(service_details == null) {
@@ -81,7 +81,7 @@ public class AdminServicesController {
 		}
 	}
 	
-	@RequestMapping(value = "/update_status.do", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/update_status", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void updateServiceStatus(@Valid @RequestBody ServiceStatusUpdateRequestBean bean) throws WISPServiceException {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

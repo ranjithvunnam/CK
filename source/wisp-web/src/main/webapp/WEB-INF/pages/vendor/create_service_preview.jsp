@@ -62,7 +62,7 @@
 	<div class="container">
 		<%@ include file="steps_header.jsp"%>
 		<div class="row">
-			<form id="media_form" role="form" action="vendor/create_service.do" method="POST">
+			<form id="media_form" role="form" action="vendor/create_service" method="POST">
 			<div class="col-xs-12 col-md-12 upload-images">
 				<div class="col-xs-12 col-md-12 vender-form mTop30">
 					<div class="col-xs-12 col-md-4 big-image bottom-xs text-center">

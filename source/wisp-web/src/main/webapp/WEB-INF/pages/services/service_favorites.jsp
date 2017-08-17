@@ -179,7 +179,7 @@
 										class="share"><img
 										src="resources/images/icons/share.png" alt="">share</span>
 								</div>
-									<a href="${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details.do">
+									<a href="${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details">
 										<p class="name">${service.service_fav_list_entity.service_name}</p>
 									</a>
 									<p class="contact">	${service.service_fav_list_entity.addressEntity.address_1} 
@@ -261,7 +261,7 @@
 		<div class="row">
 			<div class="col-md-12 text-right mTop10">
 				<tag:paginate max="15" offset="${offset}" count="${count}"
-					uri="favorites.do" next="&raquo;"
+					uri="favorites" next="&raquo;"
 					previous="&laquo;" />
 			</div>
 		</div>

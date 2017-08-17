@@ -49,7 +49,7 @@
 							</label> 
 							<input id="file-upload" type="file" name="images" multiple="multiple" path="service_creation_bean.images"/>
 					</div>
-					<form id="media_form" role="form" action="vendor/create_service.do" enctype="multipart/form-data" method="POST">
+					<form id="media_form" role="form" action="vendor/create_service" enctype="multipart/form-data" method="POST">
 					<div class="col-xs-12 col-md-8">
 						<hr class="display-xs">
 						<h5 class="service-heading">Your Uploded Files</h5>
@@ -245,7 +245,7 @@
 	        	   var oMyForm = new FormData();
 	               oMyForm.append("file", this.files[0]);
 	               $.ajax({
-						url : 'vendor/uploadImage.do',
+						url : 'vendor/uploadImage',
 						type : 'POST',
 						contentType : 'application/json; charset=utf-8',
 						data : oMyForm,
@@ -279,7 +279,7 @@
 					var removeForm = new FormData();
 					removeForm.append("filePath", index);
 					$.ajax({
-						url : 'vendor/removeImage.do',
+						url : 'vendor/removeImage',
 						type : 'POST',
 						contentType : 'application/json; charset=utf-8',
 						data : removeForm,

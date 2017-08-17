@@ -67,7 +67,7 @@
 		<div class="row">
 			<div class="col-md-12 service-box-right white-bg">
 				<div class="top-share-icon">
-					<a href="vendor/getSRCreationForm.do">
+					<a href="vendor/getSRCreationForm">
 						<span class="share"><img src="resources/images/icons/share.png" alt="">Create New</span>
 					</a>
 				</div>
@@ -168,7 +168,7 @@
 									<span class="share"><img
 										src="resources/images/icons/share.png" alt="">share</span>
 								</div>
-								<a href="vendor/${service.service_type.description}/${service.service_id}/service_details.do">
+								<a href="vendor/${service.service_type.description}/${service.service_id}/service_details">
 									<p class="name">${service.service_name}</p>
 								</a>
 								<p class="contact">	${service.addressEntity.address_1} 
@@ -329,7 +329,7 @@
 		<div class="row">
 			<div class="col-md-12 text-right mTop10">
 				<tag:paginate max="10" offset="${offset}" count="${count}"
-					uri="vendor/home.do" next="&raquo;"
+					uri="vendor/home" next="&raquo;"
 					previous="&laquo;" />
 			</div>
 		</div>

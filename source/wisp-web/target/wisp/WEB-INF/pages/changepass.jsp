@@ -46,7 +46,7 @@
 						<h5>Reset Your Password</h5>
 					</div>
 
-					<form id="loginform" class="form-horizontal" role="form" action="changepass.do" method="POST">
+					<form id="loginform" class="form-horizontal" role="form" action="changepass" method="POST">
 						<c:if test="${not empty error}">
 							<div id="signupalert" class="alert alert-danger">
 								<p>Error: ${error}</p>
@@ -85,7 +85,7 @@
 							<div class="col-md-12 control">
 								<div
 									style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
-									Don't have an account! <a href="register.do">Sign Up
+									Don't have an account! <a href="register">Sign Up
 										Here</a>
 								</div>
 							</div>

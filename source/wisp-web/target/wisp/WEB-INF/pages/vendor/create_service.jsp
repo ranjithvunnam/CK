@@ -35,7 +35,7 @@
 			<div class="col-md-12">
 				<div class="col-md-12 vender-form mTop30">
 					<h5 class="service-heading">Enter Demographic Details</h5>
-					<form id="create_service_form" class="form-horizontal" role="form" action="vendor/create_service.do" method="POST">
+					<form id="create_service_form" class="form-horizontal" role="form" action="vendor/create_service" method="POST">
 						<c:if test="${not empty errors}">
 							<div id="login-alert" class="alert alert-danger col-sm-12">
 								<strong>Error!</strong> ${errors}

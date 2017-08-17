@@ -284,7 +284,7 @@
 									</c:if>
 									<span class="share"><img src="resources/images/icons/share.png" alt="">share</span>
 								</div>
-									<a href="${service_type}/${service.service_id}/service_details.do">
+									<a href="${service_type}/${service.service_id}/service_details">
 										<p class="name">${service.service_name}</p>
 									</a>
 								<p class="contact">	${service.addressEntity.address_1} 
@@ -442,7 +442,7 @@
 		<div class="row">
 			<div class="col-md-12 text-right mTop10">
 				<tag:paginate max="15" offset="${offset}" count="${count}"
-					uri="${service_type}/service_listing.do" next="&raquo;"
+					uri="${service_type}/service_listing" next="&raquo;"
 					previous="&laquo;" />
 			</div>
 		</div>
@@ -479,7 +479,7 @@
 		});
 		/* function removeFavorite(event, serviceId) {
 			$.ajax({
-				url : 'removeFavorite.do?&service_id='+serviceId,
+				url : 'removeFavorite?&service_id='+serviceId,
 				type : 'DELETE',
 				contentType : 'application/json; charset=utf-8',
 				success : function(msg) {
@@ -492,7 +492,7 @@
 		};
 		function addFavorite(event, serviceId) {
 			$.ajax({
-				url : 'addFavorite.do?&service_id='+serviceId,
+				url : 'addFavorite?&service_id='+serviceId,
 				type : 'GET',
 				contentType : 'application/json; charset=utf-8',
 				success : function(msg) {
@@ -505,7 +505,7 @@
 		}; */
 		function toggleFavorite(event, serviceId, status) {
 			$.ajax({
-				url : 'toggleFavorite.do?&service_id='+serviceId+'&status='+status,
+				url : 'toggleFavorite?&service_id='+serviceId+'&status='+status,
 				type : 'GET',
 				contentType : 'application/json; charset=utf-8',
 				success : function(result, msg, xhr) {

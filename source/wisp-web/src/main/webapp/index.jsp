@@ -1,1 +1,1 @@
-<% response.sendRedirect("/wisp/home.do"); %>
+<% response.sendRedirect("/wisp/home"); %>

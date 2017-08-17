@@ -43,13 +43,13 @@
 								<div class="panel-title">Sign Up</div>
 								<div
 									style="float: right; font-size: 85%; position: relative; top: -18px">
-									<a id="signinlink" href="vendor/login.do">Already joined?
+									<a id="signinlink" href="vendor/login">Already joined?
 										&nbsp; Sign In</a>
 								</div>
 							</div>
 							<div class="panel-body">
 								<form id="signupform" class="form-horizontal" role="form"
-									action="vendor/registration.do" method="POST">
+									action="vendor/registration" method="POST">
 									<c:if test="${not empty error}">
 										<div id="signupalert" class="alert alert-danger">
 											<p>Error: ${error}</p>

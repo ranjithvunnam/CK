@@ -49,7 +49,7 @@
 								<p>Error: ${error}</p>
 							</div>
 						</c:if>
-					<form id="loginform" class="form-horizontal" role="form" action="vendor/forgotpassword.do" method="POST">
+					<form id="loginform" class="form-horizontal" role="form" action="vendor/forgotpassword" method="POST">
 						<div style="margin-bottom: 25px" class="input-group">
 							<span class="input-group-addon"><i
 								class="glyphicon glyphicon-user"></i></span> <form:input path="forgotPass.email" id="login-username"
@@ -70,7 +70,7 @@
 							<div class="col-md-12 control">
 								<div
 									style="border-top: 1px solid #888; padding-top: 15px; font-size: 85%">
-									Don't have an account! <a href="vendor/register.do">Sign Up
+									Don't have an account! <a href="vendor/register">Sign Up
 										Here</a>
 								</div>
 							</div>

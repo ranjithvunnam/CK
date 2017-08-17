@@ -12,24 +12,24 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="home.do"><img src="resources/images/logo.svg" alt="logo"></a>
+				<a class="navbar-brand" href="home"><img src="resources/images/logo.svg" alt="logo"></a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav center-menu">
-					<li id="homex"><a href="home.do">Home <span class="sr-only">(current)</span></a></li>
+					<li id="homex"><a href="home">Home <span class="sr-only">(current)</span></a></li>
 					<li class="dropdown" id="servicesx"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Services <span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li id="venuex"><a href="venue/service_listing.do">Venues</a></li>
-							<li id="catererx"><a href="caterers/service_listing.do">Caterers</a></li>
-							<li id="photox"><a href="photography/service_listing.do">Photographers</a></li>
-							<li id="evtplanx"><a href="event_planners/service_listing.do">Event Planners</a></li>
+							<li id="venuex"><a href="venue/service_listing">Venues</a></li>
+							<li id="catererx"><a href="caterers/service_listing">Caterers</a></li>
+							<li id="photox"><a href="photography/service_listing">Photographers</a></li>
+							<li id="evtplanx"><a href="event_planners/service_listing">Event Planners</a></li>
 						</ul>
 					</li>
-					<li id="favoritesx"><a href="favorites.do">Favorites</a></li>
+					<li id="favoritesx"><a href="favorites">Favorites</a></li>
 					<li id="estimatesx"><a href="#">Estimate</a></li>
 					<li id="offersx"><a href="#">Offers</a></li>
 				</ul>
@@ -51,16 +51,16 @@
 								aria-expanded="true"><i class="fa fa-user" aria-hidden="true"></i>
 									My Profile <span class="caret"></span></a>
 								<ul class="dropdown-menu">
-									<li><a href="changepass.do">Change Password</a></li>
+									<li><a href="changepass">Change Password</a></li>
 									<li><a href="j_spring_security_logout">Logout</a></li>
 								</ul>
 							</li>
 					    </c:when>
 					    <c:otherwise>
-					        <li><a href="login.do"><span class="btn btn-info signin">Sign In</span></a></li>
+					        <li><a href="login"><span class="btn btn-info signin">Sign In</span></a></li>
 					    </c:otherwise>
 					</c:choose>
-					<li><a href="vendor/home.do"><span class="btn btn-info vendor">Vendor</span></a>
+					<li><a href="vendor/home"><span class="btn btn-info vendor">Vendor</span></a>
 					</li>
 				</ul>
 			</div>

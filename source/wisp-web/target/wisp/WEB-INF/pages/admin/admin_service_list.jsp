@@ -123,7 +123,7 @@
 						</div>
 						<div class="col-md-8 col-sm-12 col-xs-12 service-box-bg">
 							<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
-								<a href="admin/${service.service_type.description}/${service.service_id}/service_details.do">
+								<a href="admin/${service.service_type.description}/${service.service_id}/service_details">
 									<p class="name">${service.service_name}</p>
 								</a>
 								<p class="contact">	${service.addressEntity.address_1} 
@@ -260,7 +260,7 @@
 		<div class="row">
 			<div class="col-md-12 text-right mTop10">
 				<tag:paginate max="10" offset="${offset}" count="${count}"
-					uri="admin/dashboard.do" next="&raquo;"
+					uri="admin/dashboard" next="&raquo;"
 					previous="&laquo;" />
 			</div>
 		</div>

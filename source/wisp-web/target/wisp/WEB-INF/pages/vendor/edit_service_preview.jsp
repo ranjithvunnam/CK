@@ -62,7 +62,7 @@
 	<div class="container">
 		<%@ include file="steps_header.jsp"%>
 		<div class="row">
-			<form id="create_service_form" class="form-horizontal" role="form" action="vendor/update_service.do" method="POST">
+			<form id="create_service_form" class="form-horizontal" role="form" action="vendor/update_service" method="POST">
 			<div class="col-xs-12 col-md-12 upload-images">
 				<div class="col-xs-12 col-md-12 vender-form mTop30">
 					<div class="col-xs-12 col-md-4 big-image bottom-xs text-center">

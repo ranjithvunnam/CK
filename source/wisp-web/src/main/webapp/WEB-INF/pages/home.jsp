@@ -95,14 +95,14 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
-					<a href="venue/service_listing.do">Mesmerizing Venues</a>
+					<a href="venue/service_listing">Mesmerizing Venues</a>
 				</h5>
 				<section class="mesmerizing slider">
 					<c:forEach items="${venue_list}" var="venue" varStatus="loop">
 						<div>
 							<c:choose>
 						    <c:when test="${loggedIn}">
-								    <a href="venue/${venue.service_id}/service_details.do">
+								    <a href="venue/${venue.service_id}/service_details">
 								    <c:choose>
 								    	<c:when test="${not empty venue.imagesEntities}">
 								    		<img src="${venue.imagesEntities.iterator().next().image_url}">
@@ -115,7 +115,7 @@
 								    </a>
 						    </c:when>
 						    <c:otherwise>
-								    <a href="venue/${venue.service_id}/service_par_listing.do">
+								    <a href="venue/${venue.service_id}/service_par_listing">
 								    <c:choose>
 								    	<c:when test="${not empty venue.imagesEntities}">
 								    		<img src="${venue.imagesEntities.iterator().next().image_url}">
@@ -138,14 +138,14 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
-					<a href="caterers/service_listing.do">Mouth Watering Caterers</a>
+					<a href="caterers/service_listing">Mouth Watering Caterers</a>
 				</h5>
 				<section class="mouthwatering slider">
 					<c:forEach items="${caterers_list}" var="caterer" varStatus="loop">
 						<div>
 							<c:choose>
 						    <c:when test="${loggedIn}">
-								    <a href="caterers/${caterer.service_id}/service_details.do">
+								    <a href="caterers/${caterer.service_id}/service_details">
 								    <c:choose>
 								    	<c:when test="${not empty caterer.imagesEntities}">
 								    		<img src="${caterer.imagesEntities.iterator().next().image_url}">
@@ -158,7 +158,7 @@
 								    </a>
 						    </c:when>
 						    <c:otherwise>
-								    <a href="caterer/${caterer.service_id}/service_par_listing.do">
+								    <a href="caterer/${caterer.service_id}/service_par_listing">
 								    <c:choose>
 								    	<c:when test="${not empty caterer.imagesEntities}">
 								    		<img src="${caterer.imagesEntities.iterator().next().image_url}">
@@ -181,7 +181,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
-					<a href="photography/service_listing.do">Mind Blowing
+					<a href="photography/service_listing">Mind Blowing
 						Photography</a>
 				</h5>
 				<section class="photography slider">
@@ -190,7 +190,7 @@
 						<div>
 							<c:choose>
 						    <c:when test="${loggedIn}">
-								    <a href="photography/${photography.service_id}/service_details.do">
+								    <a href="photography/${photography.service_id}/service_details">
 								    <c:choose>
 								    	<c:when test="${not empty photography.imagesEntities}">
 								    		<img src="${photography.imagesEntities.iterator().next().image_url}">
@@ -203,7 +203,7 @@
 								    </a>
 						    </c:when>
 						    <c:otherwise>
-								    <a href="photography/${photography.service_id}/service_par_listing.do">
+								    <a href="photography/${photography.service_id}/service_par_listing">
 								    <c:choose>
 								    	<c:when test="${not empty photography.imagesEntities}">
 								    		<img src="${photography.imagesEntities.iterator().next().image_url}">
@@ -230,97 +230,97 @@
 				</h5>
 				<div class="icon-container">
 				<div class="icon">
-					<a href="venue/service_listing.do">
+					<a href="venue/service_listing">
                     <img src="resources/images/icons/venues.png" alt="">
                     <p>Venues</p>
                     </a>
                 </div>
                 <div class="icon">
-                	<a href="caterers/service_listing.do">
+                	<a href="caterers/service_listing">
                     <img src="resources/images/icons/catering.png" alt="">
                     <p>Caterers</p>
                     </a>
                 </div>
                 <div class="icon">
-                	<a href="photography/service_listing.do">
+                	<a href="photography/service_listing">
                     <img src="resources/images/icons/photographers.png" alt="">
                     <p>Photographers</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="event_planners/service_listing.do">
+                	<a href="event_planners/service_listing">
                     <img src="resources/images/icons/event-planer.png" alt="">
                     <p>Event Planners</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="event_designers/service_listing.do">
+                	<a href="event_designers/service_listing">
                     <img src="resources/images/icons/event-desinger.png" alt="">
                     <p>Event Designers</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="florists/service_listing.do">
+                	<a href="florists/service_listing">
                     <img src="resources/images/icons/florists.png" alt="">
                     <p>Florists</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="pandits/service_listing.do">
+                	<a href="pandits/service_listing">
                     <img src="resources/images/icons/pandits.png" alt="">
                     <p>Pandits</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="baaraat/service_listing.do">
+                	<a href="baaraat/service_listing">
                     <img src="resources/images/icons/baarat.png" alt="">
                     <p>Baaraat</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="dj/service_listing.do">
+                	<a href="dj/service_listing">
                     <img src="resources/images/icons/dj.png" alt="">
                     <p>D.J</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="entertainers/service_listing.do">
+                	<a href="entertainers/service_listing">
                     <img src="resources/images/icons/entertainers.png" alt="">
                     <p>Entertainers</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="cards/service_listing.do">
+                	<a href="cards/service_listing">
                     <img src="resources/images/icons/cards.png" alt="">
                     <p>Card Designers</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="beauticians/service_listing.do">
+                	<a href="beauticians/service_listing">
                     <img src="resources/images/icons/beauticians.png" alt="">
                     <p>Makeup Artists</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="mehandi/service_listing.do">
+                	<a href="mehandi/service_listing">
                     <img src="resources/images/icons/mehandi.png" alt="">
                     <p>Mehendi Artists</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="musicians/service_listing.do">
+                	<a href="musicians/service_listing">
                     <img src="resources/images/icons/musicians.png" alt="">
                     <p>Musicians</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="choreographers/service_listing.do">
+                	<a href="choreographers/service_listing">
                     <img src="resources/images/icons/choreographers.png" alt="">
                     <p>Choreographer</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="travel/service_listing.do">
+                	<a href="travel/service_listing">
                     <img src="resources/images/icons/travel.png" alt="">
                     <p>Travel Agency</p>
                      </a>
@@ -505,11 +505,11 @@ $('#tagQuery').click(function() {
         //define callback to format results
         source: function (request, response) {
 			$(".search-items").empty();
-            $.getJSON("simulateSearch.do", request, function(result) {
+            $.getJSON("simulateSearch", request, function(result) {
 				console.log(result);
                 response($.map(result, function(item) {
 					
-						$(".search-items").append('<a href="'+item.service_type+'/'+item.service_id+'/service_par_listing.do">'+ item.service_name +'</a>');
+						$(".search-items").append('<a href="'+item.service_type+'/'+item.service_id+'/service_par_listing">'+ item.service_name +'</a>');
                     
                 }));
             });

@@ -87,7 +87,7 @@ public class ApplicationController {
 		throw new MethodNotAllowedException();
 	}
 	
-	@RequestMapping(value = {"/home.do","/home.do/{location}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/home","/home/{location}"}, method = RequestMethod.GET)
 	public ModelAndView index(@PathVariable Map<String, String> pathVariables) throws WISPServiceException {
 		if (pathVariables.containsKey("location")) {
 	        LOG_R.info("Path variable contains map "+pathVariables.get("location"));
@@ -111,7 +111,7 @@ public class ApplicationController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/{token}/service_listing.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/{token}/service_listing", method = RequestMethod.GET)
 	public String showListOfServices(@PathVariable(value="token") String token, Model model, Integer offset, Integer maxResults) throws WISPServiceException {
 		List<ServiceListEntity> services = applicationServices.getListOfServices(ServiceType.getNameByCode(token), offset, maxResults);
 		model.addAttribute("services", services);
@@ -123,7 +123,7 @@ public class ApplicationController {
 		return "services/service_listing";
 	}
 	
-	@RequestMapping(value = "/{token}/{service_id}/service_par_listing.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/{token}/{service_id}/service_par_listing", method = RequestMethod.GET)
 	public String showPartialListOfServices(@PathVariable(value="token") String token, Model model, @PathVariable(value="service_id") Long service_id, HttpServletRequest request) 
 			throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -145,7 +145,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@RequestMapping(value = "/{token}/{service_id}/service_details.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/{token}/{service_id}/service_details", method = RequestMethod.GET)
 	public String showServiceIndetailed(@PathVariable(value="token") String token, @PathVariable(value="service_id") Long service_id, Model model, HttpServletRequest request) throws WISPServiceException{
 		ServiceListEntity service_details = applicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
 		if(service_details != null) {
@@ -155,7 +155,7 @@ public class ApplicationController {
 		return "services/service_details";
 	}
 	
-	@RequestMapping(value = "/favorites.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/favorites", method = RequestMethod.GET)
 	public String showUserFavorites(Model model, Integer offset, Integer maxResults) throws WISPServiceException{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -168,7 +168,7 @@ public class ApplicationController {
 		return "services/service_favorites";
 	}
 	
-	@RequestMapping(value = "/submitFeedBack.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/submitFeedBack", method = RequestMethod.POST)
 	public @ResponseBody ServiceFeedBackBean submitUserFeedBack(@Valid @RequestBody  ServiceFeedBackBean feedbackBean, HttpServletRequest request) throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -180,7 +180,7 @@ public class ApplicationController {
 		return feedbackBean;
 	}
 	
-	@RequestMapping(value = "/removeFavorite.do", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/removeFavorite", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public void removeFavorite(@RequestParam(value = "service_id") Long service_id) throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -192,7 +192,7 @@ public class ApplicationController {
 		}
 	}
 	
-	@RequestMapping(value = "/toggleFavorite.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/toggleFavorite", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody CustomErrorMessageBan toggleFavorite(@RequestParam(value = "service_id") Long service_id, @RequestParam(value = "status") Integer status) throws WISPServiceException {
 		CustomErrorMessageBan result= null;
@@ -208,7 +208,7 @@ public class ApplicationController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/addFavorite.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/addFavorite", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody  CustomErrorMessageBan addToFavorite(@RequestParam(value = "service_id") Long service_id) throws WISPServiceException {
 		CustomErrorMessageBan result= null;
@@ -220,13 +220,13 @@ public class ApplicationController {
 		return result;
 	}
 	
-	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
 			Model model, HttpServletRequest request) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		    return "redirect:home.do";
+		    return "redirect:home";
 		}
 		if (error == true) {
 			model.addAttribute("errors", "invalid username or password!");
@@ -240,14 +240,14 @@ public class ApplicationController {
 		return "login";
 	}
 
-	@RequestMapping(value = "/register.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegistrationForm(Model model) {
 		UserRegistrationBean userBean = new UserRegistrationBean();
 		model.addAttribute("bean", userBean);
 		return "register";
 	}
 	
-	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationBean bean,
 			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes){
 		if (result.hasErrors()) {
@@ -261,7 +261,7 @@ public class ApplicationController {
 			bean.setRole(1L);
 			applicationServices.registerNewUserAccount(bean);
 			redirectAttributes.addFlashAttribute("success","Registration completed successfully.");
-			return "redirect:/login.do";
+			return "redirect:/login";
 		} catch (WISPServiceException e) {
 			if(e.getErrorCode() == 1000){
 				model.addAttribute("error", e.getMessage());
@@ -276,13 +276,13 @@ public class ApplicationController {
 		}
 	}
 	
-	@RequestMapping(value = "/forgotpassword.do", method= RequestMethod.GET)
+	@RequestMapping(value = "/forgotpassword", method= RequestMethod.GET)
 	public String forgotPassword(Model model) throws WISPServiceException{
 		model.addAttribute("forgotPass", new ForgotPasswordBeans());
 		return "forgotpassword";
 	}
 	
-	@RequestMapping(value = "/forgotpassword.do", method= RequestMethod.POST)
+	@RequestMapping(value = "/forgotpassword", method= RequestMethod.POST)
 	public String forgotPassword(@Valid ForgotPasswordBeans forgotPass,
             BindingResult result, Model model, RedirectAttributes redirectAttributes) throws WISPServiceException{
 		model.addAttribute("forgotPass", forgotPass);
@@ -298,7 +298,7 @@ public class ApplicationController {
         	}else {
         		applicationServices.generatePasswordResetLink(forgotPass.getEmail());
         		redirectAttributes.addFlashAttribute("success","Details Sent Successfully.");
-				return "redirect:login.do";
+				return "redirect:login";
         	}
         }
 	}
@@ -328,7 +328,7 @@ public class ApplicationController {
             return "resetpassword";
         } else {
         	applicationServices.updateUserCredentials(resetPasswordBeans);
-        	return "redirect:/login.do";
+        	return "redirect:/login";
         }
 	}
 	
@@ -340,7 +340,7 @@ public class ApplicationController {
 			model.addAttribute("changePass", changePass);
 			return "changepass";
 		}
-		return "redirect:/login.do";
+		return "redirect:/login";
 	}
 	
 	@RequestMapping(value = "/changepass", method = RequestMethod.POST)
@@ -368,10 +368,10 @@ public class ApplicationController {
 				}
 			}
 		}
-		return "redirect:/login.do";
+		return "redirect:/login";
 	}
 	
-	@RequestMapping(value = "/simulateSearch.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/simulateSearch", method = RequestMethod.GET)
 	public @ResponseBody List<SearchResultsResponseBean> simulateSearch(@RequestParam("term") String tagName)  throws WISPServiceException {
 		return applicationServices.simulateSearchResult(tagName);
 	}

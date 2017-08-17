@@ -49,7 +49,7 @@ public class WISPAuthenticationSuccessHandler implements
 					+ targetUrl);
 			return;
 		}
-		if(!targetUrl.contains("registration.do") && !targetUrl.contains("forgotpassword.do")
+		if(!targetUrl.contains("registration") && !targetUrl.contains("forgotpassword")
 				&& !targetUrl.contains("resetpassword")){
 			redirectStrategy.sendRedirect(request, response, targetUrl);
 		}
@@ -75,11 +75,11 @@ public class WISPAuthenticationSuccessHandler implements
 		}
 
 		if (isUser) {
-			return "/home.do";
+			return "/home";
 		} else if (isVendor) {
-			return "/vendor/home.do";
+			return "/vendor/home";
 		} else if (isAdmin) {
-			return "/admin/dashboard.do";
+			return "/admin/dashboard";
 		} else {
 			throw new IllegalStateException();
 		}

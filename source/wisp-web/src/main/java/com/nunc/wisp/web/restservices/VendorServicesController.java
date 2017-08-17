@@ -106,7 +106,7 @@ public class VendorServicesController {
 		this.validator = validator;
 	}
 	
-	@RequestMapping(value = "/home.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String index(Model model , Integer offset, Integer maxResults) throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -118,21 +118,21 @@ public class VendorServicesController {
 				model.addAttribute("services", vendor_service_list);
 				return "vendor/vendor_service_list";
 			}else{
-				return "redirect:/vendor/getSRCreationForm.do";
+				return "redirect:/vendor/getSRCreationForm";
 			}
 		}else{
-			return "redirect:/vendor/getSRCreationForm.do";
+			return "redirect:/vendor/getSRCreationForm";
 		}
 	}
 	
-	@RequestMapping(value = "/getSRCreationForm.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/getSRCreationForm", method = RequestMethod.GET)
 	public String getServiceCreationForm(Model model)  throws WISPServiceException {
 		model.addAttribute("service_list", ServiceType.values());
 		model.addAttribute("service_creation_bean", new ServiceCreationRequestBean());
 		return "vendor/create_service";
 	}
 	
-	@RequestMapping(value = "/{token}/{service_id}/service_details.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/{token}/{service_id}/service_details", method = RequestMethod.GET)
 	public String showServiceIndetailed(@PathVariable(value="token") String token, @PathVariable(value="service_id") Long service_id, Model model) throws WISPServiceException{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -154,7 +154,7 @@ public class VendorServicesController {
 		return vendorAppServices.getAccessHistoryDetails(service_id, from_date, to_date);
 	}
 	
-	@RequestMapping(value = "/create_service.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/create_service", method = RequestMethod.POST)
 	public String createServiceDemoghraphicDetails(HttpServletRequest request,
 			HttpServletResponse response, @ModelAttribute("service_creation_bean") ServiceCreationRequestBean requestBean, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, SessionStatus status, @RequestParam("_page") int currentPage) throws WISPServiceException {
@@ -169,7 +169,7 @@ public class VendorServicesController {
 		
 		if (userClickedCancel(request)) {
 			status.setComplete();
-			return "redirect:/vendor/home.do";
+			return "redirect:/vendor/home";
 		} else if (userIsFinished(request)) {
 			validator.validateServiceDemoghraphicDetails(requestBean, result);
 			if (result.hasErrors()) {
@@ -194,7 +194,7 @@ public class VendorServicesController {
 					vendorAppServices.createServiceDemoghraphicDetails(requestBean, userDetails.getUsername(), 1);
 				}
 				status.setComplete();
-				return "redirect:/vendor/home.do";
+				return "redirect:/vendor/home";
 			}
 		} else {
 			if(userClickedSave1(request)) {
@@ -298,7 +298,7 @@ public class VendorServicesController {
 		}
 	}
 	
-	@RequestMapping(value="/uploadImage.do",method=RequestMethod.POST)
+	@RequestMapping(value="/uploadImage",method=RequestMethod.POST)
 	@ResponseBody
 	public String upload(@RequestParam("file") MultipartFile multipartFile, HttpSession session) throws WISPServiceException{
 		ServiceCreationRequestBean srCreationBean = (ServiceCreationRequestBean) session.getAttribute("service_creation_bean");
@@ -338,7 +338,7 @@ public class VendorServicesController {
 		return url;
 	}
 	
-	@RequestMapping(value="/removeImage.do",method=RequestMethod.POST)
+	@RequestMapping(value="/removeImage",method=RequestMethod.POST)
 	@ResponseBody
 	public void deleteTempFile(@RequestParam("filePath") String filePath, HttpSession session) throws WISPServiceException{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -422,7 +422,7 @@ public class VendorServicesController {
 		return tempFilePath;
 	}
 	
-	@RequestMapping(value = "/{service_id}/edit_service.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/{service_id}/edit_service", method = RequestMethod.GET)
 	public String updateServiceDemoghraphicDetails(@PathVariable(value="service_id") Long service_id, Model model) throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -502,7 +502,7 @@ public class VendorServicesController {
 		return requestBean;
 	}
 	
-	@RequestMapping(value = "/update_service.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/update_service", method = RequestMethod.POST)
 	public String updateServiceDemoghraphicDetails(HttpServletRequest request,
 			HttpServletResponse response, @ModelAttribute("service_creation_bean") ServiceCreationRequestBean requestBean, 
 			BindingResult result, Model model, RedirectAttributes redirectAttributes, SessionStatus status, @RequestParam("_page") int currentPage) throws WISPServiceException {
@@ -516,7 +516,7 @@ public class VendorServicesController {
 		pageForms.put(2, "vendor/edit_service_preview");
 		if (userClickedCancel(request)) {
 			status.setComplete();
-			return "redirect:/vendor/home.do";
+			return "redirect:/vendor/home";
 		} else if (userIsFinished(request)) {
 			validator.validateServiceDemoghraphicDetails(requestBean, result);
 			if (result.hasErrors()) {
@@ -541,7 +541,7 @@ public class VendorServicesController {
 					vendorAppServices.createServiceDemoghraphicDetails(requestBean, userDetails.getUsername(), 1);
 				}
 				status.setComplete();
-				return "redirect:/vendor/home.do";
+				return "redirect:/vendor/home";
 			}
 		} else {
 			if(userClickedSave1(request)) {
@@ -645,13 +645,13 @@ public class VendorServicesController {
 		}
 	}
 	
-	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
 			Model model, HttpServletRequest request) {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		    return "redirect:/vendor/home.do";
+		    return "redirect:/vendor/home";
 		}
 		if (error == true) {
 			model.addAttribute("errors", "invalid username or password!");
@@ -665,14 +665,14 @@ public class VendorServicesController {
 		return "vendor/login";
 	}
 	
-	@RequestMapping(value = "/register.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String showRegistrationForm(Model model) {
 		UserRegistrationBean userBean = new UserRegistrationBean();
 		model.addAttribute("bean", userBean);
 		return "vendor/register";
 	}
 	
-	@RequestMapping(value = "/registration.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationBean bean,
 			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes){
 		if (result.hasErrors()) {
@@ -686,7 +686,7 @@ public class VendorServicesController {
 			bean.setRole(2L);
 			applicationServices.registerNewUserAccount(bean);
 			redirectAttributes.addFlashAttribute("success","Registration completed successfully.");
-			return "redirect:/vendor/login.do";
+			return "redirect:/vendor/login";
 		} catch (WISPServiceException e) {
 			if(e.getErrorCode() == 1000){
 				model.addAttribute("error", e.getMessage());
@@ -701,13 +701,13 @@ public class VendorServicesController {
 		}
 	}
 	
-	@RequestMapping(value = "/forgotpassword.do", method= RequestMethod.GET)
+	@RequestMapping(value = "/forgotpassword", method= RequestMethod.GET)
 	public String forgotPassword(Model model) throws WISPServiceException{
 		model.addAttribute("forgotPass", new ForgotPasswordBeans());
 		return "vendor/forgotpassword";
 	}
 	
-	@RequestMapping(value = "/forgotpassword.do", method= RequestMethod.POST)
+	@RequestMapping(value = "/forgotpassword", method= RequestMethod.POST)
 	public String forgotPassword(@Valid ForgotPasswordBeans forgotPass,
             BindingResult result, Model model, RedirectAttributes redirectAttributes) throws WISPServiceException{
 		model.addAttribute("forgotPass", forgotPass);
@@ -723,7 +723,7 @@ public class VendorServicesController {
         	}else {
         		applicationServices.generatePasswordResetLink(forgotPass.getEmail());
         		redirectAttributes.addFlashAttribute("success","Details Sent Successfully.");
-				return "redirect:/vendor/login.do";
+				return "redirect:/vendor/login";
         	}
         }
 	}
@@ -753,7 +753,7 @@ public class VendorServicesController {
             return "vendor/resetpassword";
         } else {
         	applicationServices.updateUserCredentials(resetPasswordBeans);
-        	return "redirect:/vendor/login.do";
+        	return "redirect:/vendor/login";
         }
 	}
 	
@@ -765,7 +765,7 @@ public class VendorServicesController {
 			model.addAttribute("changePass", changePass);
 			return "vendor/changepass";
 		}
-		return "redirect:/vendor/login.do";
+		return "redirect:/vendor/login";
 	}
 	
 	@RequestMapping(value = "/changepass", method = RequestMethod.POST)
@@ -792,7 +792,7 @@ public class VendorServicesController {
 				}
 			}
 		}
-		return "redirect:/vendor/login.do";
+		return "redirect:/vendor/login";
 	}
 	
 	private boolean userClickedCancel(HttpServletRequest request) {

@@ -69,7 +69,7 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<div class="top-share-icon">
-						<a href="vendor/${service_details.service_id}/edit_service.do"><span class="share"><img src="resources/images/icons/edit.png" alt="">Edit</span></a>
+						<a href="vendor/${service_details.service_id}/edit_service"><span class="share"><img src="resources/images/icons/edit.png" alt="">Edit</span></a>
 						<c:choose>
 							<c:when test="${service_details.approval_status == 0}">
 								<span class="share"><img src="resources/images/icons/status.png" alt="">Yet to Submit</span>
@@ -87,7 +87,7 @@
 							</c:otherwise>
 						</c:choose>
 						<span class="share"><img src="resources/images/icons/share.png" alt="">share</span>
-						<a href="vendor/home.do"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
+						<a href="vendor/home"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
 					<p class="contact">	${service_details.addressEntity.address_1} 

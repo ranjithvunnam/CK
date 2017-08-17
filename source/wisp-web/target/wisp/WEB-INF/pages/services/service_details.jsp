@@ -643,7 +643,7 @@
             var rating = $(event.target).find('[name="feedback_rating"]').val();
             var comment_desc = $(event.target).find('[name="feedback_comments"]').val();
 			$.ajax({
-				url : 'submitFeedBack.do',
+				url : 'submitFeedBack',
 				type : 'POST',
 				contentType : 'application/json; charset=utf-8',
 				data : JSON.stringify({
@@ -668,7 +668,7 @@
 		});
 		function toggleFavorite(event, serviceId, status) {
 			$.ajax({
-				url : 'toggleFavorite.do?&service_id='+serviceId+'&status='+status,
+				url : 'toggleFavorite?&service_id='+serviceId+'&status='+status,
 				type : 'GET',
 				contentType : 'application/json; charset=utf-8',
 				success : function(result, msg, xhr) {

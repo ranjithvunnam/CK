@@ -7,31 +7,31 @@
 	http://www.springframework.org/schema/security/spring-security.xsd">
 	
 	<http pattern="/admin/**" auto-config="true" use-expressions="true">
-		<intercept-url pattern="/admin/access.do" access="permitAll" />
-		<intercept-url pattern="/admin/logout.do" access="permitAll" />
+		<intercept-url pattern="/admin/access" access="permitAll" />
+		<intercept-url pattern="/admin/logout" access="permitAll" />
 		<intercept-url pattern="/admin/j_spring_security_check" access="permitAll"/>
 		<intercept-url pattern='/admin/**' access="hasRole('ROLE_SUPERUSER')" />
-		<form-login login-page="/admin/access.do" login-processing-url="/admin/j_spring_security_check" default-target-url="/admin/dashboard.do" 
-			always-use-default-target="true" authentication-failure-url="/admin/access.do?error=true"/>
-        <logout logout-url="/admin/j_spring_security_logout" logout-success-url="/admin/dashboard.do" invalidate-session="true" delete-cookies="JSESSIONID"/>
+		<form-login login-page="/admin/access" login-processing-url="/admin/j_spring_security_check" default-target-url="/admin/dashboard" 
+			always-use-default-target="true" authentication-failure-url="/admin/access?error=true"/>
+        <logout logout-url="/admin/j_spring_security_logout" logout-success-url="/admin/dashboard" invalidate-session="true" delete-cookies="JSESSIONID"/>
 		<!-- Basic authentication security filter -->
 		<http-basic />
 		<remember-me key="uniqueAndSecret" token-validity-seconds="86400" remember-me-parameter="remember-me"/>
 	</http>
 	
 	<http pattern="/vendor/**" auto-config="true" use-expressions="true">
-		<intercept-url pattern="/vendor/login.do" access="permitAll" />
-		<intercept-url pattern="/vendor/logout.do" access="permitAll" />
+		<intercept-url pattern="/vendor/login" access="permitAll" />
+		<intercept-url pattern="/vendor/logout" access="permitAll" />
 		<intercept-url pattern="/vendor/j_spring_security_check" access="permitAll"/>
-		<intercept-url pattern="/vendor/register.do" access="permitAll" />
-		<intercept-url pattern="/vendor/registration.do" access="permitAll" />
-		<intercept-url pattern="/vendor/forgotpassword.do" access="permitAll" />
+		<intercept-url pattern="/vendor/register" access="permitAll" />
+		<intercept-url pattern="/vendor/registration" access="permitAll" />
+		<intercept-url pattern="/vendor/forgotpassword" access="permitAll" />
 		<intercept-url pattern="/vendor/resetpassword/**" access="permitAll" />
-		<intercept-url pattern="/vendor/resetpassword.do" access="permitAll" />
+		<intercept-url pattern="/vendor/resetpassword" access="permitAll" />
 		<intercept-url pattern='/vendor/**' access="hasRole('ROLE_VENDOR')" />
-		<form-login login-page="/vendor/login.do" login-processing-url="/vendor/j_spring_security_check" default-target-url="/vendor/home.do" 
-			always-use-default-target="true" authentication-failure-url="/vendor/login.do?error=true"/>
-        <logout logout-url="/vendor/j_spring_security_logout" logout-success-url="/vendor/home.do" invalidate-session="true" delete-cookies="JSESSIONID"/>
+		<form-login login-page="/vendor/login" login-processing-url="/vendor/j_spring_security_check" default-target-url="/vendor/home" 
+			always-use-default-target="true" authentication-failure-url="/vendor/login?error=true"/>
+        <logout logout-url="/vendor/j_spring_security_logout" logout-success-url="/vendor/home" invalidate-session="true" delete-cookies="JSESSIONID"/>
 		<!-- Basic authentication security filter -->
 		<http-basic />
 		<remember-me key="uniqueAndSecret" token-validity-seconds="86400" remember-me-parameter="remember-me"/>
@@ -40,24 +40,24 @@
 		<!-- Registration of user and forgot password requests are permits all -->
 		<intercept-url pattern="/index.jsp" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" />
-		<intercept-url pattern="/home.do" access="permitAll" />
-		<intercept-url pattern="/login.do" access="permitAll" />
-		<intercept-url pattern="/logout.do" access="permitAll" />
-		<intercept-url pattern="/register.do" access="permitAll" />
-		<intercept-url pattern="/registration.do" access="permitAll" />
-		<intercept-url pattern="/forgotpassword.do" access="permitAll" />
+		<intercept-url pattern="/home" access="permitAll" />
+		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/logout" access="permitAll" />
+		<intercept-url pattern="/register" access="permitAll" />
+		<intercept-url pattern="/registration" access="permitAll" />
+		<intercept-url pattern="/forgotpassword" access="permitAll" />
 		<intercept-url pattern="/resetpassword/**" access="permitAll" />
-		<intercept-url pattern="/resetpassword.do" access="permitAll" />
-		<intercept-url pattern="/simulateSearch.do" access="permitAll" />
-		<intercept-url pattern="/**/**/service_par_listing.do" access="permitAll" />
-		<intercept-url pattern="/**/service_listing.do/" access="permitAll" />
+		<intercept-url pattern="/resetpassword" access="permitAll" />
+		<intercept-url pattern="/simulateSearch" access="permitAll" />
+		<intercept-url pattern="/**/**/service_par_listing" access="permitAll" />
+		<intercept-url pattern="/**/service_listing/" access="permitAll" />
 		<intercept-url pattern="/j_spring_security_check" access="permitAll"/>
 		<intercept-url pattern='/**' access="hasAnyRole('ROLE_CLIENT','ROLE_VENDOR')" />
-		<!-- <form-login login-page="/login.do" login-processing-url="/j_spring_security_check" default-target-url="/home.do" 
-			always-use-default-target="true" authentication-failure-url="/login.do?error=true" authentication-success-handler-ref="myAuthenticationSuccessHandler"/> -->
-        <form-login login-page="/login.do" login-processing-url="/j_spring_security_check" default-target-url="/home.do" 
-			always-use-default-target="true" authentication-failure-url="/login.do?error=true"/>
-        <logout logout-url="/j_spring_security_logout" logout-success-url="/home.do" invalidate-session="true" delete-cookies="JSESSIONID"/>
+		<!-- <form-login login-page="/login" login-processing-url="/j_spring_security_check" default-target-url="/home" 
+			always-use-default-target="true" authentication-failure-url="/login?error=true" authentication-success-handler-ref="myAuthenticationSuccessHandler"/> -->
+        <form-login login-page="/login" login-processing-url="/j_spring_security_check" default-target-url="/home" 
+			always-use-default-target="true" authentication-failure-url="/login?error=true"/>
+        <logout logout-url="/j_spring_security_logout" logout-success-url="/home" invalidate-session="true" delete-cookies="JSESSIONID"/>
 		<!-- Basic authentication security filter -->
 		<http-basic />
 		<remember-me key="uniqueAndSecret" token-validity-seconds="86400" remember-me-parameter="remember-me"/>

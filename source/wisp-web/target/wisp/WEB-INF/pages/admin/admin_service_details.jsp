@@ -295,7 +295,7 @@
 			var conBox = confirm("Are you sure ?");
 			if (conBox) {
 				$.ajax({
-					url : 'admin/update_status.do',
+					url : 'admin/update_status',
 					type : 'DELETE',
 					contentType : 'application/json; charset=utf-8',
 					data : JSON.stringify({
@@ -304,7 +304,7 @@
 					}),
 					success : function(msg) {
 						alert("Status updated successfully.");
-						window.location = 'admin/dashboard.do';
+						window.location = 'admin/dashboard';
 					},
 					error : function(jqXHR, textStatus) {
 						alert(textStatus);
