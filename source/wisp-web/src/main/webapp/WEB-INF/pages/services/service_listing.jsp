@@ -264,26 +264,26 @@
 							<div
 								class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 								<div class="top-share-icon">
-									<c:forEach items="${service.favoritesEntities}"	var="favoritesEntities">
-										<c:choose>
-											<c:when
-												test="${favoritesEntities.user_fav_entity.email == email}">
-												<span class="fav">
-												<img  id="ser_fav${service.service_id}" onclick="toggleFavorite(event, '${service.service_id}','1')" 
-												src="resources/images/icons/favourite.png" alt="">Favourite</span>
-											</c:when>
-											<c:otherwise>
-												<span class="fav"><img
-													src="resources/images/icons/favorite.png" alt=""  id="ser_fav${service.service_id}"
-													onclick="toggleFavorite(event, '${service.service_id}','0')">Favourite</span>
-											</c:otherwise>
-										</c:choose>
+									<c:set var="isFavorite" value="false" />
+									<c:forEach items="${service.favoritesEntities}" var="favoritesEntities">
+										<c:if test="${favoritesEntities.user_fav_entity.email == email}">
+											<c:set var="isFavorite" value="true" />
+										</c:if>
 									</c:forEach>
-									<c:if test="${empty service.favoritesEntities}">
-										<span class="fav" ><img
+									<c:choose>
+										<c:when test="${isFavorite eq true}">
+											<!-- this is user favorite -->
+											<span class="fav">
+														<img  id="ser_fav${service.service_id}" onclick="toggleFavorite(event, '${service.service_id}','1')" 
+														src="resources/images/icons/favourite.png" alt="">Favourite</span>
+										</c:when>
+										<c:otherwise>
+											<!-- this is not user favorite -->
+											<span class="fav" ><img
 													src="resources/images/icons/favorite.png" alt="" id="ser_fav${service.service_id}"
 													onclick="toggleFavorite(event, '${service.service_id}','0')">Favourite</span>
-									</c:if>
+										</c:otherwise>
+									</c:choose>
 									<span class="share"><img src="resources/images/icons/share.png" alt="">share</span>
 								</div>
 									<a href="${service_type}/${service.service_id}/service_details">

@@ -120,26 +120,16 @@
 				<h5 class="service-heading">quick links place holder</h5>
 			</div>
 			<div class="col-md-12 col-sm-12 col-xs-12">
-				<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg"">
+				<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<div class="top-share-icon">
-						<c:set var="feedback_fav_var" value="false"/>
+						<c:set var="isFavorite" value="false" />
 						<c:forEach items="${service_details.favoritesEntities}" var="favoritesEntities">
-							<c:choose>
-								<c:when	test="${favoritesEntities.user_fav_entity.email == email}">
-									<c:set var="feedback_fav_var" value="true"/>
-									
-								</c:when>
-								<c:otherwise>
-									<c:set var="feedback_fav_var" value="false"/>
-									
-								</c:otherwise>
-							</c:choose>
+							<c:if test="${favoritesEntities.user_fav_entity.email == email}">
+								<c:set var="isFavorite" value="true" />
+							</c:if>
 						</c:forEach>
-						<c:if test="${empty service_details.favoritesEntities}">
-							<c:set var="feedback_fav_var" value="false"/>
-						</c:if>
 						<c:choose>
-							<c:when test="${feedback_fav_var}">
+							<c:when test="${isFavorite eq true}">
 								<span class="fav" ><img	src="resources/images/icons/favourite.png" alt="" 
 									id="ser_fav${service_details.service_id}" onclick="toggleFavorite(event, '${service_details.service_id}','1')" >Favourite</span>
 							</c:when>

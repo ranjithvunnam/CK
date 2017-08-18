@@ -174,9 +174,10 @@
 							<div
 								class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 								<div class="top-share-icon">
-									<span class="fav"><img
-										src="resources/images/icons/favorite.png" alt="">Favourite</span><span
-										class="share"><img
+									<span class="fav">
+										<img  id="ser_fav${service.service_fav_list_entity.service_id}" onclick="toggleFavorite(event, '${service.service_fav_list_entity.service_id}','1')" 
+														src="resources/images/icons/favourite.png" alt="">Favourite</span>
+									<span class="share"><img
 										src="resources/images/icons/share.png" alt="">share</span>
 								</div>
 									<a href="${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details">
@@ -286,6 +287,26 @@
 			$("#homex,#estimatesx,#servicesx,#estimatesx,#offersx").removeClass('active');
 			$("#favoritesx").addClass('active');
 		});
+		function toggleFavorite(event, serviceId, status) {
+			$.ajax({
+				url : 'toggleFavorite?&service_id='+serviceId+'&status='+status,
+				type : 'GET',
+				contentType : 'application/json; charset=utf-8',
+				success : function(result, msg, xhr) {
+					var fullPath = $('#'+event.target.id).attr('src');
+					var imageName = fullPath.replace(/^.*[\\\/]/, '');
+					if(imageName == "favourite.png"){
+						$('#'+event.target.id).attr('src',"resources/images/icons/favorite.png");
+					} else {
+						$('#'+event.target.id).attr('src',"resources/images/icons/favourite.png");
+					}
+					window.location.reload();
+				},
+				error : function(jqXHR, textStatus) {
+					alert(textStatus);
+				}
+			});
+		};
 	</script>
 </body>
 </html>
