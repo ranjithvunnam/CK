@@ -148,7 +148,7 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 			String min_date, String max_date) throws WISPDataAccessException {
 		List<Object[]> results = null;
 		String sql = "SELECT DATE_FORMAT(timestamp, '%Y-%m-%d') AS date, COUNT(*) AS count " +
-				"FROM wisp_service_hits WHERE timestamp BETWEEN DATE_FORMAT('"+min_date+"', '%Y-%m-%d') " +
+				"FROM wisp_service_hits WHERE DATE(timestamp) BETWEEN DATE_FORMAT('"+min_date+"', '%Y-%m-%d') " +
 				"AND DATE_FORMAT('"+max_date+"', '%Y-%m-%d') and wisp_services_details_service_id = "+service_id+" GROUP BY date";
 		try {
 			Session session = sessionFactory.getCurrentSession();

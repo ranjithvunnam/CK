@@ -396,41 +396,29 @@
 				<div class="col-xs-12 col-md-5 col-lg-5 date pbot10">
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-							<h5 class="service-heading">Availability</h5>
+							<h5 class="service-heading">Check Availability</h5>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<p class="mTop20">Select Event Date</p>
 						</div>
-						<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 text-center">
+						<!-- <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 text-center">
 
 							<div class="calendar"></div>
 							<button class="btn custom-button mTop10">Enquiry</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-7 col-lg-7 feedback-box">
 					<div class="col-md-12 feedback pbot12">
 						<h5 class="service-heading">Your feedback</h5>
 						<c:set var="feedback_status" value="false"/>
-						<c:choose>
-							<c:when test="${ empty service_details.commentsEntities}">
-								
-							</c:when>
-							<c:otherwise>
-								<c:forEach items="${service_details.commentsEntities}" var="comments">
-									<c:choose>
-										<c:when test="${comments.user_comments_entity.email == email}">
-											<c:set var="feedback_status" value="true"/>
-											<c:set var="feedback_rating" value="${comments.rating}"/>
-											<c:set var="feedback_comment" value="${comments.comment_desc}"/>
-										</c:when>
-										<c:otherwise>
-											<c:set var="feedback_status" value="false"/>
-										</c:otherwise>
-									</c:choose>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
+						<c:forEach items="${service_details.commentsEntities}" var="comments">
+							<c:if test="${comments.user_comments_entity.email == email}">
+								<c:set var="feedback_status" value="true" />
+								<c:set var="feedback_rating" value="${comments.rating}" />
+								<c:set var="feedback_comment" value="${comments.comment_desc}" />
+							</c:if>
+						</c:forEach>
 						<!-- Submitted feedback -->
 						<c:choose>
 							<c:when test="${feedback_status}">
@@ -518,7 +506,67 @@
 		<%@ include file="/WEB-INF/pages/templetes/suggest_temp.jsp"%>
 	</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
-
+	<!-- Modal -->
+					<div class="modal fade" id="myModal" role="dialog">
+						<div class="modal-dialog modal-lg">
+							
+							<!-- Modal content-->
+							<div class="modal-content" style="border-radius: unset;">
+								<div class="modal-header">
+								  <button type="button" class="close" data-dismiss="modal">&times;</button>
+								  <h4 class="modal-title">Send an Enquiry</h4>
+								</div>
+								<div class="modal-body" id="mod_comm" style="overflow-x: scroll;">
+								<section id="contact" style="">
+								<div class="col-md-12">
+									<form name="contactusform" id="contactForm" role="form" action="sendEnquiry" method="POST">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<form:input type="text" name="name" class="form-control"
+														placeholder="Your Name *" id="name" required=""
+														path="contactUs.name"
+														data-validation-required-message="Please enter your name." />
+													<p class="help-block text-danger"></p>
+												</div>
+												<div class="form-group">
+													<form:input type="email" name="email" class="form-control"
+														placeholder="Your Email *" id="email" required=""
+														path="contactUs.email"
+														data-validation-required-message="Please enter your email address." />
+													<p class="help-block text-danger"></p>
+												</div>
+												<div class="form-group">
+													<form:input type="text" maxlength="10" name="mobile"
+														class="form-control" placeholder="Your Phone *" id="phone"
+														required="" path="contactUs.phone"
+														data-validation-required-message="Please enter your phone number." />
+													<p class="help-block text-danger"></p>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<form:textarea class="form-control" name="yourmessage"
+														placeholder="Your Message *" id="message" required=""
+														path="contactUs.message"
+														data-validation-required-message="Please enter a message."></form:textarea>
+													<p class="help-block text-danger"></p>
+												</div>
+												<div style="text-align: right;">
+													<div id="success"></div>
+													<button type="submit" class="btn custom-button">Submit</button>
+													<button type="reset" class="btn custom-button">Reset</button>
+												</div>
+											</div>
+											<div class="clearfix"></div>
+										</div>
+									</form>
+								</div>
+							</section>
+							</div>
+							</div>
+						</div>
+					</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -526,38 +574,10 @@
 	<script type="text/javascript" src="resources/js/moment.latest.min.js"></script>
 	<script type="text/javascript" src="resources/js/pignose.calendar.js"></script>
 	<script type="text/javascript">
-    //<![CDATA[
     $(function() {
         function onClickHandler(date, obj) {
-            /**
-             * @date is an array which be included dates(clicked date at first index)
-             * @obj is an object which stored calendar interal data.
-             * @obj.calendar is an element reference.
-             * @obj.storage.activeDates is all toggled data, If you use toggle type calendar.
-             * @obj.storage.events is all events associated to this date
-             */
-
-            var $calendar = obj.calendar;
-            var $box = $calendar.parent().siblings('.box').show();
-            var text = 'You choose date ';
-
-            if(date[0] !== null) {
-                text += date[0].format('YYYY-MM-DD');
-            }
-
-            if(date[0] !== null && date[1] !== null) {
-                text += ' ~ ';
-            } else if(date[0] === null && date[1] == null) {
-                text += 'nothing';
-            }
-
-            if(date[1] !== null) {
-                text += date[1].format('YYYY-MM-DD');
-            }
-
-            $box.text(text);
-
-            alert("service3.html - you have selected "+ date[0]._i);
+			alert("service3.html - you have selected "+ date[0].format('YYYY-MM-DD'));
+			$('#myModal').modal('show');            
         }
 
         // Default Calendar
@@ -568,8 +588,27 @@
         // This use for DEMO page tab component.
         $('.menu .item').tab();
     });
-    //]]>
     </script>
+    <script type="text/javascript">
+	    var frm = $('#contactForm');
+	    frm.submit(function (e) {
+	        e.preventDefault();
+	        $.ajax({
+	            type: frm.attr('method'),
+	            url: frm.attr('action'),
+	            data: frm.serialize(),
+	            success: function (data) {
+	                console.log('Submission was successful.');
+	                console.log(data);
+	                $('#myModal').modal('hide'); 
+	            },
+	            error: function (data) {
+	                console.log('An error occurred.');
+	                console.log(data);
+	            },
+	        });
+	    });
+	</script>
 	<script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="resources/slick/slick.js" charset="utf-8"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>

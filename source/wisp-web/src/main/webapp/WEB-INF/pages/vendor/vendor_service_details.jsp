@@ -69,6 +69,7 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<div class="top-share-icon">
+						<input type="hidden" value="${service_details.service_id}" id="service_id" name="service_id"/>
 						<c:if test="${service_details.approval_status != 1}">
 							<a href="vendor/${service_details.service_id}/edit_service"><span class="share"><img src="resources/images/icons/edit.png" alt="">Edit</span></a>
 						</c:if>
@@ -366,66 +367,40 @@
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
-	<script type="text/javascript">
-    $(function() {
-        function onClickHandler(date, obj) {
-            /**
-             * @date is an array which be included dates(clicked date at first index)
-             * @obj is an object which stored calendar interal data.
-             * @obj.calendar is an element reference.
-             * @obj.storage.activeDates is all toggled data, If you use toggle type calendar.
-             * @obj.storage.events is all events associated to this date
-             */
-
-            var $calendar = obj.calendar;
-            var $box = $calendar.parent().siblings('.box').show();
-            var text = 'You choose date ';
-
-            if(date[0] !== null) {
-                text += date[0].format('YYYY-MM-DD');
-            }
-
-            if(date[0] !== null && date[1] !== null) {
-                text += ' ~ ';
-            } else if(date[0] === null && date[1] == null) {
-                text += 'nothing';
-            }
-
-            if(date[1] !== null) {
-                text += date[1].format('YYYY-MM-DD');
-            }
-
-            $box.text(text);
-
-            alert("service3.html - you have selected "+ date[0]._i);
-        }
-
-        // Default Calendar
-        $('.calendar').pignoseCalendar({
-            select: onClickHandler
-        });
-
-        // This use for DEMO page tab component.
-        $('.menu .item').tab();
-    });
-    </script>
     <script>
         $(document).ready(function(){
-
+			
+			Date.prototype.yyyymmdd = function() {
+            	  var yyyy = this.getFullYear().toString();
+            	  var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+            	  var dd  = this.getDate().toString();
+            	  return yyyy + "-" + (mm[1]?mm:"0"+mm[0]) + "-" + (dd[1]?dd:"0"+dd[0]); // padding
+            	};
             $('.input-daterange input').each(function() {
+            	$(this).datepicker({
+					format: 'yyyy-mm-dd'
+				 });
                 $(this).datepicker('clearDates', { minDate: 0});
             });
 
             $("#daterange_chart").on("submit", function(e){
-                e.preventDefault();
+            	e.preventDefault();
+            	createChart(id,$("[name='fromDate']").val(),$("[name='toDate']").val());
+                
             });
-            createChart();
-            $(window).resize(function(){
-                google.charts.load('current', {packages: ['corechart', 'line']});
-                google.charts.setOnLoadCallback(drawBasic);
+            	var id = $("#service_id").val();
+            	var date = new Date();
+            	var fromDate = date.yyyymmdd();
+            	var date1 = new Date();
+            	date1.setMonth(date1.getMonth() - 6);
+            	var toDate = date1.yyyymmdd();
+            	createChart(id,toDate,fromDate);
+	            $(window).resize(function(){
+	                google.charts.load('current', {packages: ['corechart', 'line']});
+	                google.charts.setOnLoadCallback(drawBasic);
+	            });
             });
-            });
-        function createChart(){
+        function createChart(id, toDate, fromDate){
         	google.charts.load('current', {packages: ['corechart', 'line']});
             google.charts.setOnLoadCallback(drawBasic);
             function drawBasic() {
@@ -433,11 +408,11 @@
                   data.addColumn('date', 'Date');
                   data.addColumn('number', 'Views');
                   $.ajax({
-                    url: "vendor/getAccessHistory/1/2017-06-17/2017-07-18",
+                    url: "vendor/getAccessHistory/"+id+"/"+toDate+"/"+fromDate+"",
                     /* data: "GET", */
                     success: function(arr){
                        for (var i = 0; i < arr.length; i++) {
-                             data.addRow([new Date(parseInt(arr[i].year), parseInt(arr[i].month),parseInt(arr[i].day)), arr[i].hits_count]);
+                             data.addRow([new Date(parseInt(arr[i].year), parseInt(arr[i].month-1),parseInt(arr[i].day)), arr[i].hits_count]);
                         }
                       var options = {
                         hAxis: {
@@ -460,66 +435,11 @@
                 } // end drawBasis function
         }
     </script>
-	<script>
-        $(document).ready(function(){
-            $('.service-small-slider').slick({
-              dots: true,
-              infinite: false,
-              speed: 300,
-              slidesToShow: 7,
-              slidesToScroll: 4,
-              responsive: [
-                {
-                  breakpoint: 992,
-                  settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: true
-                  }
-                },
-                {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 480,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                  }
-                }
-              ]
-            });
-        });
-    </script>
     <script type="text/javascript">
 		$(document).ready(function(){
 			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#servicesx").addClass('active');
 		});
-		$("#rating").rating({
-                starCaptions: function (val) {
-                    console.log(val);
-					$("#rating").val(val);
-                    if (val < 3) {
-                        return val;
-                    } else {
-                        return 'high';
-                    }
-                },
-                starCaptionClasses: function (val) {
-                    if (val < 3) {
-                        return 'label label-danger';
-                    } else {
-                        return 'label label-success';
-                    }
-                },
-                hoverOnClear: false
-        });
 	</script>
 </body>
 </html>

@@ -225,6 +225,7 @@ public class ApplicationController {
 				vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
 			}
 			model.addAttribute("service_details", service_details);
+			model.addAttribute("contactUs", new ContactUsBean());
 			return "services/service_details";
 		} else {
 			ServiceListEntity service_details = applicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
@@ -244,6 +245,7 @@ public class ApplicationController {
 			vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
 		}
 		model.addAttribute("service_details", service_details);
+		model.addAttribute("contactUs", new ContactUsBean());
 		return "services/service_details";
 	}
 	
@@ -357,6 +359,15 @@ public class ApplicationController {
 		applicationServices.addContactUsDetails(bean);
 		redirectAttributes.addFlashAttribute("success", "ContactUs submitted successfully");
 		return "redirect:/ContactUs";
+	}
+	
+	@RequestMapping(value = "/sendEnquiry", method = RequestMethod.POST)
+	public @ResponseBody void sendEnquiryDetails(@ModelAttribute("contactUs") @Valid ContactUsBean bean,
+			BindingResult result, Errors errors, Model model) throws WISPServiceException{
+		if (result.hasErrors()) {
+			return;
+		}
+		applicationServices.addContactUsDetails(bean);
 	}
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
