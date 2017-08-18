@@ -401,14 +401,15 @@
 									Photos <span class="photos">${service.imagesEntities.size()}</span>
 									videos <span class="videos">${service.videosEntities.size()}</span>
 									comments 
-									<c:choose>
+									<%-- <c:choose>
 									<c:when test="${loggedIn}">
 										<img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#myModal">		
 									</c:when>
 									<c:otherwise>
 										<img src="resources/images/icons/comments.png" alt="">
 									</c:otherwise>
-									</c:choose>
+									</c:choose> --%>
+									<img src="resources/images/icons/comments.png" alt="">
 									<span class="comments">${service.commentsEntities.size()}</span>
 									<div class="rating-readonly">
 			                            <form>
@@ -421,23 +422,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- Modal -->
-					  <div class="modal fade" id="myModal" role="dialog">
-					    <div class="modal-dialog">
-					    
-					      <!-- Modal content-->
-					      <div class="modal-content">
-					        <div class="modal-body" id="mod_comm" style="overflow-x: scroll;">
-									<c:forEach items="${service.commentsEntities}" var="de_comm"
-										varStatus="loop_comm">
-										<p>${de_comm.comment_desc}</p>
-									</c:forEach>
-									
-					        </div>
-					      </div>
-					      
-					    </div>
-					  </div>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
@@ -450,6 +434,7 @@
 		</div>
 
 	</div>
+	
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

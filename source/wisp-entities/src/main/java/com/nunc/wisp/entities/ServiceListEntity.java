@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import com.nunc.wisp.beans.enums.ServiceType;
@@ -83,6 +84,7 @@ public class ServiceListEntity implements Serializable{
 	private Set<ServiceVideosEntity> videosEntities;
 	
 	@OneToMany(mappedBy ="service_comments_list_entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OrderBy("comment_created DESC")
 	private Set<ServiceCommentsEntity> commentsEntities;
 	
 	@OneToMany(mappedBy = "service_fav_list_entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

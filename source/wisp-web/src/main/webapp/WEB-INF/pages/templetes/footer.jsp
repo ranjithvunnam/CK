@@ -17,7 +17,7 @@
                     <div class="col-xs-6 col-sm-2 col-md-2">
                         <p><a href="login" style="color: white;">Signin</a></p>
                         <p><a href="vendor/home" style="color: white;">Vendor</a></p>
-                        <p>Contact Us</p>
+                        <p><a href="ContactUs" style="color: white;">Contact Us</a></p>
                         <p>About Us</p>
                         <p>Became a Partner</p>
                         <p>How to Works</p>

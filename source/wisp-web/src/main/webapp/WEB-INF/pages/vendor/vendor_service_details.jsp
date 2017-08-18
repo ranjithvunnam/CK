@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="tag" uri="/WEB-INF/taglibs/customTaglib.tld"%>
 <html lang="en">
 <head>
@@ -69,7 +69,9 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<div class="top-share-icon">
-						<a href="vendor/${service_details.service_id}/edit_service"><span class="share"><img src="resources/images/icons/edit.png" alt="">Edit</span></a>
+						<c:if test="${service_details.approval_status != 1}">
+							<a href="vendor/${service_details.service_id}/edit_service"><span class="share"><img src="resources/images/icons/edit.png" alt="">Edit</span></a>
+						</c:if>
 						<c:choose>
 							<c:when test="${service_details.approval_status == 0}">
 								<span class="share"><img src="resources/images/icons/status.png" alt="">Yet to Submit</span>
@@ -311,6 +313,41 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+		<div class="col-xs-12 col-md-12 mTop10">
+			<c:forEach items="${service_details.commentsEntities}" var="comment">
+				<div class="panel panel-white post panel-shadow">
+					<div class="post-heading">
+						<div class="pull-left image">
+							<img
+								src="http://images.clipartpanda.com/user-clipart-dagobert83_female_user_icon.png"
+								class="img-circle avatar" alt="user profile image">
+						</div>
+						<div class="pull-left meta">
+							<div class="title h5">
+								<a href="#"><b>${comment.user_comments_entity.first_name}</b></a>
+								made a post.
+								<div class="rating-readonly">
+									<form>
+										<input id="" value="${comment.rating}" type="text"
+											class="rating" data-min=0 data-max=5 data-step=0.2
+											data-size="xs" title="" disabled>
+									</form>
+								</div>
+							</div>
+							<h6 class="text-muted time">
+								<fmt:formatDate type="both" dateStyle="medium"
+									timeStyle="medium" value="${comment.comment_created}" />
+							</h6>
+						</div>
+					</div>
+					<div class="post-description">
+						<p>${comment.comment_desc}</p>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
 	</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
 

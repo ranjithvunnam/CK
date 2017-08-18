@@ -5,6 +5,7 @@ com\nunc\wisp\beans\ServiceListBean.class
 com\nunc\wisp\beans\SearchResultsResponseBean.class
 com\nunc\wisp\beans\ForgotPasswordBeans.class
 com\nunc\wisp\beans\custom\validators\ScriptAssertFieldError$List.class
+com\nunc\wisp\beans\ContactUsBean.class
 com\nunc\wisp\beans\vendor\ServiceAccessHitsResponseBean.class
 com\nunc\wisp\beans\UserRegistrationBean.class
 com\nunc\wisp\beans\ResetPasswordBeans.class

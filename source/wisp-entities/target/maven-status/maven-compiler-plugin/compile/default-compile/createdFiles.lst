@@ -10,3 +10,4 @@ com\nunc\wisp\entities\ServiceImagesEntity.class
 com\nunc\wisp\entities\UserEntity.class
 com\nunc\wisp\entities\ServicesAddressEntity.class
 com\nunc\wisp\entities\ServiceAmenitiyEntity.class
+com\nunc\wisp\entities\ContactUsEntity.class

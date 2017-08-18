@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nunc.wisp.beans.ChangePasswordBean;
+import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
@@ -23,6 +24,7 @@ import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.ContactUsEntity;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
 import com.nunc.wisp.entities.ServiceCommentsEntity;
@@ -391,5 +393,27 @@ public class ApplicationServicesImpl implements ApplicationServices {
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
 		}
 		return results;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = WISPServiceException.class)
+	public void addContactUsDetails(ContactUsBean bean)	throws WISPServiceException {
+		try {
+			applicationRepository.addContactUsDetails(createContactUsEntity(bean));
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+		
+	}
+
+	private ContactUsEntity createContactUsEntity(ContactUsBean bean) {
+		ContactUsEntity entity = new ContactUsEntity();
+		entity.setName(bean.getName());
+		entity.setEmail(bean.getEmail());
+		entity.setPhone(bean.getPhone());
+		entity.setDescription(bean.getMessage());
+		entity.setCreated_date(new Date());
+		return entity;
 	}
 }

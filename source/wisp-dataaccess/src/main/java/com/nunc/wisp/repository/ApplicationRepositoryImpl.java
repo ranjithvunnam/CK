@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.ContactUsEntity;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
 import com.nunc.wisp.entities.ServiceCommentsEntity;
@@ -536,6 +537,23 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
 		}
 		return result;
+	}
+
+	@Override
+	@Transactional
+	public void addContactUsDetails(ContactUsEntity createContactUsEntity)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.save(createContactUsEntity);
+		} catch (HibernateException e) {
+			LOG_R.error(
+					"Exception occured while saving the user into inventory db",
+					e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
 	}
 
 }

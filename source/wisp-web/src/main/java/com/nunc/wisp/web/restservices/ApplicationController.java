@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nunc.wisp.beans.ChangePasswordBean;
+import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ForgotPasswordBeans;
 import com.nunc.wisp.beans.ResetPasswordBeans;
@@ -336,6 +337,26 @@ public class ApplicationController {
 		UserRegistrationBean userBean = new UserRegistrationBean();
 		model.addAttribute("bean", userBean);
 		return "register";
+	}
+	
+	@RequestMapping(value = "/ContactUs", method = RequestMethod.GET)
+	public String showContactUspage(Model model) throws WISPServiceException{
+		
+		model.addAttribute("contactUs", new ContactUsBean());
+		return "contactus";
+	}
+	
+	@RequestMapping(value = "/ContactUs", method = RequestMethod.POST)
+	public String showContactUspage(@ModelAttribute("contactUs") @Valid ContactUsBean bean,
+			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes) throws WISPServiceException{
+		if (result.hasErrors()) {
+			model.addAttribute("error", "Please provide all the mandatory fields.");
+			model.addAttribute("contactUs", bean);
+			return "contactus";
+		}
+		applicationServices.addContactUsDetails(bean);
+		redirectAttributes.addFlashAttribute("success", "ContactUs submitted successfully");
+		return "redirect:/ContactUs";
 	}
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)

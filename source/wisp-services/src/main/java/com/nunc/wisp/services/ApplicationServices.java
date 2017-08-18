@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.nunc.wisp.beans.ChangePasswordBean;
+import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
@@ -57,4 +58,6 @@ public interface ApplicationServices {
 	public List<SearchResultsResponseBean> simulateSearchResult(String tagName) throws WISPServiceException;
 
 	public List<String> getListOfCities() throws WISPServiceException;
+
+	public void addContactUsDetails(ContactUsBean bean) throws WISPServiceException;
 }

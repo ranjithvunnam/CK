@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.ContactUsEntity;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
 import com.nunc.wisp.entities.ServiceCommentsEntity;
@@ -63,4 +64,6 @@ public interface ApplicationRepository {
 	public List<ServiceListEntity> simulateSearchResult(String searchQuery) throws WISPDataAccessException;
 
 	public List<String> getListOfCities() throws WISPDataAccessException;
+
+	public void addContactUsDetails(ContactUsEntity createContactUsEntity) throws WISPDataAccessException;
 }
