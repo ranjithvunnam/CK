@@ -1,9 +1,0 @@
-com\nunc\wisp\repository\ApplicationRepositoryImpl.class
-com\nunc\wisp\repository\exception\WISPDataAccessException.class
-com\nunc\wisp\repository\VendorAppRepositoryImpl.class
-com\nunc\wisp\repository\AdminApplicationRepository.class
-com\nunc\wisp\repository\VendorAppRepository.class
-com\nunc\wisp\repository\UserRepository.class
-com\nunc\wisp\repository\AdminApplicationRepositoryImpl.class
-com\nunc\wisp\repository\UserRepositoryImpl.class
-com\nunc\wisp\repository\ApplicationRepository.class
