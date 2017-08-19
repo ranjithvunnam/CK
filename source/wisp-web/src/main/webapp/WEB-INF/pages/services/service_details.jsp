@@ -140,6 +140,7 @@
 							</c:otherwise>
 						</c:choose>
 						<span class="share"><img src="resources/images/icons/share.png" alt="">share</span>
+						<a href="goPrevious"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
 					<p class="contact">	${service_details.addressEntity.address_1} 
@@ -269,9 +270,22 @@
 					class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<h5 class="service-heading"></h5>
 					<p class="address">${service_details.service_description}</p>
+					<%-- <div class="ratings">
+						Photos <span class="photos">${service_details.imagesEntities.size()}</span> videos <span class="videos">${service_details.videosEntities.size()}</span>
+						comments <img src="resources/images/icons/comments.png" alt="" > <span
+							class="comments">${service_details.commentsEntities.size()}</span>
+							<div class="rating-readonly">
+								<form>
+									<input id="" value="${service_details.service_avg_rating}" type="text"
+										class="rating" data-min=0 data-max=5 data-step=1
+										data-size="xs" title="" disabled captio="none">
+								</form>
+							</div>
+							<span class="comments">(${service_details.commentsEntities.size()})</span>
+					</div> --%>
 					<div class="ratings">
 						Photos <span class="photos">${service_details.imagesEntities.size()}</span> videos <span class="videos">${service_details.videosEntities.size()}</span>
-						comments <img src="resources/images/icons/comments.png" alt=""> <span
+						comments <img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#comments_modal"> <span
 							class="comments">${service_details.commentsEntities.size()}</span>
 							<div class="rating-readonly">
 								<form>
@@ -401,11 +415,11 @@
 						<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 							<p class="mTop20">Select Event Date</p>
 						</div>
-						<!-- <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 text-center">
+						<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 text-center">
 
 							<div class="calendar"></div>
-							<button class="btn custom-button mTop10">Enquiry</button>
-						</div> -->
+						<!--	<button class="btn custom-button mTop10">Enquiry</button> -->
+						</div>
 					</div>
 				</div>
 				<div class="col-xs-12 col-md-7 col-lg-7 feedback-box">
@@ -428,7 +442,7 @@
 										<div class="col-sm-10">
 											<div class="rating-readonly">
 												<input id="" value="${feedback_rating}" type="text"
-													class="rating" data-min=0 data-max=5 data-step=0.2
+													class="rating" data-min=0 data-max=5 data-step=1
 													data-size="xs" title="" disabled captio="none">
 											</div>
 										</div>
@@ -450,7 +464,7 @@
 										<div class="col-sm-10">
 											<input id="rating" value="0" type="text"
 												name="feedback_rating" class="rating" data-min=0 data-max=5
-												data-step=0.2 data-size="xs" title="">
+												data-step=1 data-size="xs" title="">
 										</div>
 									</div>
 									<div class="form-group">
@@ -472,7 +486,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row">
+		<%-- <div class="row">
 			<div class="col-xs-12 col-md-12 mTop10">
 				<c:forEach items="${service_details.commentsEntities}" var="comment">
 					<div class="panel panel-white post panel-shadow">
@@ -487,7 +501,7 @@
 									<div class="rating-readonly">
 										<form>
 											<input id="" value="${comment.rating}" type="text" class="rating" data-min=0
-												data-max=5 data-step=0.2 data-size="xs" title="" disabled>
+												data-max=5 data-step=1 data-size="xs" title="" disabled>
 										</form>
 									</div>
 								</div>
@@ -502,71 +516,123 @@
 					</div>
 				</c:forEach>
 			</div>
-		</div>
+		</div> --%>
 		<%@ include file="/WEB-INF/pages/templetes/suggest_temp.jsp"%>
 	</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
-	<!-- Modal -->
-					<div class="modal fade" id="myModal" role="dialog">
-						<div class="modal-dialog modal-lg">
-							
-							<!-- Modal content-->
-							<div class="modal-content" style="border-radius: unset;">
-								<div class="modal-header">
-								  <button type="button" class="close" data-dismiss="modal">&times;</button>
-								  <h4 class="modal-title">Send an Enquiry</h4>
-								</div>
-								<div class="modal-body" id="mod_comm" style="overflow-x: scroll;">
-								<section id="contact" style="">
-								<div class="col-md-12">
-									<form name="contactusform" id="contactForm" role="form" action="sendEnquiry" method="POST">
-										<div class="row">
-											<div class="col-md-6">
-												<div class="form-group">
-													<form:input type="text" name="name" class="form-control"
-														placeholder="Your Name *" id="name" required=""
-														path="contactUs.name"
-														data-validation-required-message="Please enter your name." />
-													<p class="help-block text-danger"></p>
-												</div>
-												<div class="form-group">
-													<form:input type="email" name="email" class="form-control"
-														placeholder="Your Email *" id="email" required=""
-														path="contactUs.email"
-														data-validation-required-message="Please enter your email address." />
-													<p class="help-block text-danger"></p>
-												</div>
-												<div class="form-group">
-													<form:input type="text" maxlength="10" name="mobile"
-														class="form-control" placeholder="Your Phone *" id="phone"
-														required="" path="contactUs.phone"
-														data-validation-required-message="Please enter your phone number." />
-													<p class="help-block text-danger"></p>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<div class="form-group">
-													<form:textarea class="form-control" name="yourmessage"
-														placeholder="Your Message *" id="message" required=""
-														path="contactUs.message"
-														data-validation-required-message="Please enter a message."></form:textarea>
-													<p class="help-block text-danger"></p>
-												</div>
-												<div style="text-align: right;">
-													<div id="success"></div>
-													<button type="submit" class="btn custom-button">Submit</button>
-													<button type="reset" class="btn custom-button">Reset</button>
-												</div>
-											</div>
-											<div class="clearfix"></div>
-										</div>
-									</form>
-								</div>
-							</section>
+	<!-- Comments Model -->
+	<c:if test="${not empty service_details.commentsEntities}">
+	<div class="modal fade" id="comments_modal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" style="border-radius: unset;">
+				<div class="modal-body" id="mod_comm" style="overflow-x: auto;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<!-- <h4 class="modal-title">Send an Enquiry</h4> -->
+					</div>
+					<c:forEach items="${service_details.commentsEntities}" var="comment">
+					<div class="panel panel-white post panel-shadow">
+						<div class="post-heading">
+							<div class="pull-left image">
+								<img src="http://images.clipartpanda.com/user-clipart-dagobert83_female_user_icon.png"
+									class="img-circle avatar" alt="user profile image">
 							</div>
+							<div class="pull-left meta">
+								<div class="title h5">
+									<a href="#"><b>${comment.user_comments_entity.first_name}</b></a> made a post.
+									<div class="rating-readonly">
+										<form>
+											<input id="" value="${comment.rating}" type="text" class="rating" data-min=0
+												data-max=5 data-step=1 data-size="xs" title="" disabled>
+										</form>
+									</div>
+								</div>
+								<h6 class="text-muted time">
+									<fmt:formatDate type="both" dateStyle="medium" timeStyle="medium" value="${comment.comment_created}" />
+								</h6>
 							</div>
 						</div>
+						<div class="post-description">
+							<p>${comment.comment_desc}</p>
+						</div>
 					</div>
+				</c:forEach>
+				</div>
+			</div>
+		</div>
+	</div>
+	</c:if>
+	<!-- Enquiry Modal -->
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content" style="border-radius: unset;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Send an Enquiry</h4>
+				</div>
+				<div class="modal-body" id="mod_comm" style="overflow-x: scroll;">
+					<section id="contact" style="">
+						<div class="col-md-12">
+							<div id="thanks">
+							</div>
+							<form name="enquiryform" id="enquiryForm" role="form"
+								action="sendEnquiry" method="POST">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<form:input type="text" name="name" class="form-control"
+												placeholder="Your Name *" id="name" required=""
+												path="enquiryBean.name"
+												data-validation-required-message="Please enter your name." />
+											<p class="help-block text-danger"></p>
+										</div>
+										<div class="form-group">
+											<form:input type="email" name="email" class="form-control"
+												placeholder="Your Email *" id="email" required=""
+												path="enquiryBean.email"
+												data-validation-required-message="Please enter your email address." />
+											<p class="help-block text-danger"></p>
+										</div>
+										<div class="form-group">
+											<form:input type="text" maxlength="10" name="mobile"
+												class="form-control" placeholder="Your Phone *" id="phone"
+												required="" path="enquiryBean.phone"
+												data-validation-required-message="Please enter your phone number." />
+											<p class="help-block text-danger"></p>
+										</div>
+										<form:hidden path="enquiryBean.service_id" value="${service_details.service_id}"/>
+										<div class="form-group">
+											<form:input type="text" name="enquiry_date" 
+												class="form-control" id="enquiry_date"
+												required="" path="enquiryBean.enquiry_date"
+												data-validation-required-message="Please enter date." readonly="true"/>
+											<p class="help-block text-danger"></p>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<form:textarea class="form-control" name="message"
+												placeholder="Your Message *" id="message" required=""
+												path="enquiryBean.description"
+												data-validation-required-message="Please enter a message."></form:textarea>
+											<p class="help-block text-danger"></p>
+										</div>
+										<div style="text-align: right;">
+											<div id="success"></div>
+											<input name="submit" type="submit" value="Submit" class="btn custom-button" />
+											<!-- <button type="reset" class="btn custom-button">Reset</button> -->
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</form>
+						</div>
+					</section>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -576,7 +642,7 @@
 	<script type="text/javascript">
     $(function() {
         function onClickHandler(date, obj) {
-			alert("service3.html - you have selected "+ date[0].format('YYYY-MM-DD'));
+        	$('input[name="enquiry_date"]').val(date[0].format('YYYY-MM-DD'));
 			$('#myModal').modal('show');            
         }
 
@@ -590,20 +656,20 @@
     });
     </script>
     <script type="text/javascript">
-	    var frm = $('#contactForm');
+	    var frm = $('#enquiryForm');
 	    frm.submit(function (e) {
 	        e.preventDefault();
+	        console.log(frm.serialize());
 	        $.ajax({
 	            type: frm.attr('method'),
 	            url: frm.attr('action'),
 	            data: frm.serialize(),
 	            success: function (data) {
-	                console.log('Submission was successful.');
-	                console.log(data);
-	                $('#myModal').modal('hide'); 
+	                //$("#thanks").html('Submission was successful.')
+	                //$('#myModal').modal('hide');
+	                $('#enquiryForm')[0].reset();
 	            },
 	            error: function (data) {
-	                console.log('An error occurred.');
 	                console.log(data);
 	            },
 	        });
@@ -616,6 +682,9 @@
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+	<script src="resources/js/validations.js"></script>
 	<script>
         $(document).ready(function(){
             $('.service-small-slider').slick({
@@ -700,7 +769,7 @@
 					$("#feedback_form").empty();
 					$("#feedback_form").append('<div class="form-group rating-user">'+'<label for="inputEmail3" class="col-sm-2 control-label">Rate</label>'
 							+'<div class="col-sm-10"><div class="rating-readonly"><input id="" value="'+rating+'" type="text" '
-							+'class="rating" data-min=0 data-max=5 data-step=0.2 data-size="xs" title="" disabled captio="none"></div></div>'
+							+'class="rating" data-min=0 data-max=5 data-step=1 data-size="xs" title="" disabled captio="none"></div></div>'
 							+'</div><div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">Comments</label>'
 							+'<div class="col-sm-10"><p class="form-control">'+comment_desc+'</p></div></div>');
 				},

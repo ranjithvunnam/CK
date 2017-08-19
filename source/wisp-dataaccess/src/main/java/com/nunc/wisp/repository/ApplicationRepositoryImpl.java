@@ -29,6 +29,7 @@ import com.nunc.wisp.entities.ContactUsEntity;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
 import com.nunc.wisp.entities.ServiceCommentsEntity;
+import com.nunc.wisp.entities.ServiceEnquiryDetailsEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.ServicesAddressEntity;
 import com.nunc.wisp.entities.UserEntity;
@@ -554,6 +555,25 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void addEnquiryDetails(
+			ServiceEnquiryDetailsEntity createServiceEnquiryEntity)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.save(createServiceEnquiryEntity);
+		} catch (HibernateException e) {
+			LOG_R.error(
+					"Exception occured while saving the user into inventory db",
+					e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		
 	}
 
 }

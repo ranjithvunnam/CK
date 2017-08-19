@@ -2,7 +2,7 @@
         <div class="row">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-6 col-sm-4 col-md-4">
+                    <div class="col-xs-6 col-sm-4 col-md-4 hidden-xs">
                         <img class="footer-logo" width="200px" src="resources/images/logo.svg" alt="">
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point.</p>
                     </div>
@@ -29,7 +29,7 @@
                         <img src="resources/images/social.png" alt="">
                     </div>
                     <div class="col-xs-6 col-sm-2 col-md-2 social-icon">
-                        <img src="resources/images/google-play.png" alt="">
+                       <img src="resources/images/google-play.png" alt="">
                         <img src="resources/images/appstore.png" alt="">
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-12 bottom-line text-center">

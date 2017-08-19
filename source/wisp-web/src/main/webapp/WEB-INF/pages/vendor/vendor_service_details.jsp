@@ -178,7 +178,7 @@
 					<p class="address">${service_details.service_description}</p>
 					<div class="ratings">
 						Photos <span class="photos">${service_details.imagesEntities.size()}</span> videos <span class="videos">${service_details.videosEntities.size()}</span>
-						comments <img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#myModal"> <span
+						comments <img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#comments_modal"> <span
 							class="comments">${service_details.commentsEntities.size()}</span>
 							<div class="rating-readonly">
 								<form>
@@ -314,7 +314,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <%-- <div class="row">
 		<div class="col-xs-12 col-md-12 mTop10">
 			<c:forEach items="${service_details.commentsEntities}" var="comment">
 				<div class="panel panel-white post panel-shadow">
@@ -348,10 +348,51 @@
 				</div>
 			</c:forEach>
 		</div>
-	</div>
+	</div> --%>
 	</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
-
+	<!-- Comments Model -->
+	<c:if test="${not empty service_details.commentsEntities}">
+	<div class="modal fade" id="comments_modal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" style="border-radius: unset;">
+				<div class="modal-body" id="mod_comm" style="overflow-x: auto;">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<!-- <h4 class="modal-title">Send an Enquiry</h4> -->
+					</div>
+					<c:forEach items="${service_details.commentsEntities}" var="comment">
+					<div class="panel panel-white post panel-shadow">
+						<div class="post-heading">
+							<div class="pull-left image">
+								<img src="http://images.clipartpanda.com/user-clipart-dagobert83_female_user_icon.png"
+									class="img-circle avatar" alt="user profile image">
+							</div>
+							<div class="pull-left meta">
+								<div class="title h5">
+									<a href="#"><b>${comment.user_comments_entity.first_name}</b></a> made a post.
+									<div class="rating-readonly">
+										<form>
+											<input id="" value="${comment.rating}" type="text" class="rating" data-min=0
+												data-max=5 data-step=0.2 data-size="xs" title="" disabled>
+										</form>
+									</div>
+								</div>
+								<h6 class="text-muted time">
+									<fmt:formatDate type="both" dateStyle="medium" timeStyle="medium" value="${comment.comment_created}" />
+								</h6>
+							</div>
+						</div>
+						<div class="post-description">
+							<p>${comment.comment_desc}</p>
+						</div>
+					</div>
+				</c:forEach>
+				</div>
+			</div>
+		</div>
+	</div>
+	</c:if>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -10,6 +10,7 @@ import com.nunc.wisp.entities.ContactUsEntity;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
 import com.nunc.wisp.entities.ServiceCommentsEntity;
+import com.nunc.wisp.entities.ServiceEnquiryDetailsEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.UserEntity;
 import com.nunc.wisp.entities.UserFavoritesEntity;
@@ -66,4 +67,6 @@ public interface ApplicationRepository {
 	public List<String> getListOfCities() throws WISPDataAccessException;
 
 	public void addContactUsDetails(ContactUsEntity createContactUsEntity) throws WISPDataAccessException;
+
+	public void addEnquiryDetails(ServiceEnquiryDetailsEntity createServiceEnquiryEntity) throws WISPDataAccessException;
 }

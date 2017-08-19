@@ -65,7 +65,7 @@
 												<p class="help-block text-danger"></p>
 											</div>
 											<div class="form-group">
-												<form:input type="text" maxlength="10" name="mobile"
+												<form:input type="text" maxlength="10" name="phone"
 													class="form-control" placeholder="Your Phone *" id="phone"
 													required="" path="contactUs.phone"
 													data-validation-required-message="Please enter your phone number." />
@@ -74,7 +74,7 @@
 										</div>
 										<div class="col-md-6">
 											<div class="form-group">
-												<form:textarea class="form-control" name="yourmessage"
+												<form:textarea class="form-control" name="message"
 													placeholder="Your Message *" id="message" required=""
 													path="contactUs.message"
 													data-validation-required-message="Please enter a message."></form:textarea>

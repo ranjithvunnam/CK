@@ -1,5 +1,7 @@
 package com.nunc.wisp.web.restservices;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +43,7 @@ import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ForgotPasswordBeans;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
+import com.nunc.wisp.beans.ServiceEnquiryBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
@@ -90,6 +96,13 @@ public class ApplicationController {
 	public String Accessforbidden() {
 		throw new MethodNotAllowedException();
 	}
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+    }
 	
 	@RequestMapping(value = "/updateLocation", method = RequestMethod.GET)  
     public String updateLocation(@RequestParam("location") String location, HttpSession session, Model model){
@@ -245,7 +258,11 @@ public class ApplicationController {
 			vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
 		}
 		model.addAttribute("service_details", service_details);
-		model.addAttribute("contactUs", new ContactUsBean());
+		model.addAttribute("enquiryBean", new ServiceEnquiryBean());
+		String referrer = request.getHeader("Referer");
+		if (referrer != null) {
+			request.getSession().setAttribute("previous_page", referrer);
+		}
 		return "services/service_details";
 	}
 	
@@ -362,12 +379,13 @@ public class ApplicationController {
 	}
 	
 	@RequestMapping(value = "/sendEnquiry", method = RequestMethod.POST)
-	public @ResponseBody void sendEnquiryDetails(@ModelAttribute("contactUs") @Valid ContactUsBean bean,
+	public @ResponseBody void sendEnquiryDetails(@ModelAttribute("enquiryBean") @Valid ServiceEnquiryBean bean,
 			BindingResult result, Errors errors, Model model) throws WISPServiceException{
-		if (result.hasErrors()) {
-			return;
-		}
-		applicationServices.addContactUsDetails(bean);
+		/*if (result.hasErrors()) {
+			return "Please fill all the mandatory fields.";
+		}*/
+		LOG_R.info(bean.getEnquiry_date());
+		applicationServices.addEnquiryDetails(bean);
 	}
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -497,5 +515,15 @@ public class ApplicationController {
 	@RequestMapping(value = "/simulateSearch", method = RequestMethod.GET)
 	public @ResponseBody List<SearchResultsResponseBean> simulateSearch(@RequestParam("term") String tagName)  throws WISPServiceException {
 		return applicationServices.simulateSearchResult(tagName);
+	}
+	
+	@RequestMapping(value = "/goPrevious", method = RequestMethod.GET)
+	public String goPrevious(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		String targetUrl = "/home";
+		if (session != null) {
+			targetUrl = (String) request.getSession().getAttribute("previous_page");
+		}
+	    return "redirect:"+ targetUrl;
 	}
 }

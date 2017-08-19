@@ -9,6 +9,7 @@ import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
+import com.nunc.wisp.beans.ServiceEnquiryBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
@@ -60,4 +61,6 @@ public interface ApplicationServices {
 	public List<String> getListOfCities() throws WISPServiceException;
 
 	public void addContactUsDetails(ContactUsBean bean) throws WISPServiceException;
+
+	public void addEnquiryDetails(ServiceEnquiryBean bean) throws WISPServiceException;
 }

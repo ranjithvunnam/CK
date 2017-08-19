@@ -401,15 +401,15 @@
 									Photos <span class="photos">${service.imagesEntities.size()}</span>
 									videos <span class="videos">${service.videosEntities.size()}</span>
 									comments 
-									<%-- <c:choose>
+									<c:choose>
 									<c:when test="${loggedIn}">
-										<img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#myModal">		
+										<img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#comments_modal${service.service_id}">		
 									</c:when>
 									<c:otherwise>
 										<img src="resources/images/icons/comments.png" alt="">
 									</c:otherwise>
-									</c:choose> --%>
-									<img src="resources/images/icons/comments.png" alt="">
+									</c:choose>
+									<!-- <img src="resources/images/icons/comments.png" alt=""> -->
 									<span class="comments">${service.commentsEntities.size()}</span>
 									<div class="rating-readonly">
 			                            <form>
@@ -422,6 +422,48 @@
 							</div>
 						</div>
 					</div>
+					<c:if test="${loggedIn && not empty service.commentsEntities}">
+					<!-- Comments Model -->
+					<div class="modal fade" id="comments_modal${service.service_id}" role="dialog">
+						<div class="modal-dialog modal-lg">
+							<div class="modal-content" style="border-radius: unset;">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<!-- <h4 class="modal-title">Send an Enquiry</h4> -->
+								</div>
+								<div class="modal-body" id="mod_comm" style="overflow-x: auto;">
+									<c:forEach items="${service.commentsEntities}" var="comment">
+									<div class="panel panel-white post panel-shadow">
+										<div class="post-heading">
+											<div class="pull-left image">
+												<img src="http://images.clipartpanda.com/user-clipart-dagobert83_female_user_icon.png"
+													class="img-circle avatar" alt="user profile image">
+											</div>
+											<div class="pull-left meta">
+												<div class="title h5">
+													<a href="#"><b>${comment.user_comments_entity.first_name}</b></a> made a post.
+													<div class="rating-readonly">
+														<form>
+															<input id="" value="${comment.rating}" type="text" class="rating" data-min=0
+																data-max=5 data-step=0.2 data-size="xs" title="" disabled>
+														</form>
+													</div>
+												</div>
+												<h6 class="text-muted time">
+													<fmt:formatDate type="both" dateStyle="medium" timeStyle="medium" value="${comment.comment_created}" />
+												</h6>
+											</div>
+										</div>
+										<div class="post-description">
+											<p>${comment.comment_desc}</p>
+										</div>
+									</div>
+								</c:forEach>
+								</div>
+							</div>
+						</div>
+					</div>
+					</c:if>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
@@ -436,7 +478,6 @@
 	</div>
 	
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
-
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -548,7 +548,7 @@ body {
 	padding-right: 2px;
 }
 
-.service-box-right .icons-div .specifications:not (:last-child ) {
+.service-box-right .icons-div .specifications:not(:last-child ) {
 	margin-right: 1.5%;
 }
 

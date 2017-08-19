@@ -20,6 +20,7 @@ import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
+import com.nunc.wisp.beans.ServiceEnquiryBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
@@ -28,6 +29,7 @@ import com.nunc.wisp.entities.ContactUsEntity;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.PasswordResetTokenEntity;
 import com.nunc.wisp.entities.ServiceCommentsEntity;
+import com.nunc.wisp.entities.ServiceEnquiryDetailsEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.UserEntity;
 import com.nunc.wisp.entities.UserFavoritesEntity;
@@ -413,6 +415,31 @@ public class ApplicationServicesImpl implements ApplicationServices {
 		entity.setEmail(bean.getEmail());
 		entity.setPhone(bean.getPhone());
 		entity.setDescription(bean.getMessage());
+		entity.setCreated_date(new Date());
+		return entity;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = WISPServiceException.class)
+	public void addEnquiryDetails(ServiceEnquiryBean bean)
+			throws WISPServiceException {
+		try {
+			applicationRepository.addEnquiryDetails(createServiceEnquiryEntity(bean));
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+		
+	}
+
+	private ServiceEnquiryDetailsEntity createServiceEnquiryEntity(ServiceEnquiryBean bean) {
+		ServiceEnquiryDetailsEntity entity = new ServiceEnquiryDetailsEntity();
+		entity.setName(bean.getName());
+		entity.setEmail(bean.getEmail());
+		entity.setPhone(bean.getPhone());
+		entity.setDescription(bean.getDescription());
+		entity.setService_id(bean.getService_id());
+		entity.setEnquiry_date(bean.getEnquiry_date());
 		entity.setCreated_date(new Date());
 		return entity;
 	}
