@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.nunc.wisp.beans.ChangePasswordBean;
 import com.nunc.wisp.beans.ContactUsBean;
-import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
 import com.nunc.wisp.beans.ServiceEnquiryBean;
@@ -52,9 +51,7 @@ public interface ApplicationServices {
 	
 	public ServiceCommentsEntity addServiceFeedBack(ServiceFeedBackBean feedbackBean) throws WISPServiceException;
 
-	public void removeFromFavorite(Long service_id, String username) throws WISPServiceException;
-
-	public CustomErrorMessageBan addToFavorite(Long service_id, String username) throws WISPServiceException;
+	public void toggleFavorite(Long service_id, String username) throws WISPServiceException;
 
 	public List<SearchResultsResponseBean> simulateSearchResult(String tagName) throws WISPServiceException;
 

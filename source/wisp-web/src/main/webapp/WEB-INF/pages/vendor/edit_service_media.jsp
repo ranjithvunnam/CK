@@ -8,7 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WISP</title>
+<title>CelebrateKaro</title>
+<link rel="shortcut icon" href="resources/images/logo.ico" type="image/x-icon">
 <base
 	href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
 <!-- Bootstrap -->

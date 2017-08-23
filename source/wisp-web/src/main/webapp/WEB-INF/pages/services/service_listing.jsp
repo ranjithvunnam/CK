@@ -10,7 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WISP</title>
+<title>CelebrateKaro</title>
+<link rel="shortcut icon" href="resources/images/logo.ico" type="image/x-icon">
 <base
 	href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
 <!-- Bootstrap -->
@@ -273,14 +274,14 @@
 										<c:when test="${isFavorite eq true}">
 											<!-- this is user favorite -->
 											<span class="fav">
-														<img  id="ser_fav${service.service_id}" onclick="toggleFavorite(event, '${service.service_id}','1')" 
+														<img  id="ser_fav${service.service_id}" onclick="toggleFavorite(event, '${service.service_id}')" 
 														src="resources/images/icons/favourite.png" alt="">Favourite</span>
 										</c:when>
 										<c:otherwise>
 											<!-- this is not user favorite -->
 											<span class="fav" ><img
 													src="resources/images/icons/favorite.png" alt="" id="ser_fav${service.service_id}"
-													onclick="toggleFavorite(event, '${service.service_id}','0')">Favourite</span>
+													onclick="toggleFavorite(event, '${service.service_id}')">Favourite</span>
 										</c:otherwise>
 									</c:choose>
 									<span class="share" id="fb_share"><img src="resources/images/icons/share.png" alt="">share</span>
@@ -491,47 +492,10 @@
 		$(document).ready(function(){
 			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#servicesx").addClass('active');
-			/* $(".top-share-icon .fav").on("click", function(){
-				var fullPath = $(this).find('img').attr('src');
-				console.log(fullPath)
-				var imageName = fullPath.replace(/^.*[\\\/]/, '');
-				if(imageName == "favourite.png"){
-					$(this).find('img').attr("src", "resources/images/icons/favorite.png");
-				}
-				else{
-					$(this).find('img').attr("src", "resources/images/icons/favourite.png");
-				}
-			}); */
 		});
-		/* function removeFavorite(event, serviceId) {
+		function toggleFavorite(event, serviceId) {
 			$.ajax({
-				url : 'removeFavorite?&service_id='+serviceId,
-				type : 'DELETE',
-				contentType : 'application/json; charset=utf-8',
-				success : function(msg) {
-					alert(msg);
-				},
-				error : function(jqXHR, textStatus) {
-					alert(textStatus);
-				}
-			});
-		};
-		function addFavorite(event, serviceId) {
-			$.ajax({
-				url : 'addFavorite?&service_id='+serviceId,
-				type : 'GET',
-				contentType : 'application/json; charset=utf-8',
-				success : function(msg) {
-					alert(msg);
-				},
-				error : function(jqXHR, textStatus) {
-					alert(textStatus);
-				}
-			});
-		}; */
-		function toggleFavorite(event, serviceId, status) {
-			$.ajax({
-				url : 'toggleFavorite?&service_id='+serviceId+'&status='+status,
+				url : 'rest/toggleFavorite?&service_id='+serviceId,
 				type : 'GET',
 				contentType : 'application/json; charset=utf-8',
 				success : function(result, msg, xhr) {
@@ -545,7 +509,11 @@
 					
 				},
 				error : function(jqXHR, textStatus) {
-					alert(textStatus);
+					if (jqXHR.status === 401) { // HTTP Status 401: Unauthorized
+			            window.location = 'login';
+			        } else {
+			        	alert(textStatus);
+			        }
 				}
 			});
 		};

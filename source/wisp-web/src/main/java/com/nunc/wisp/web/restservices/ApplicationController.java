@@ -42,7 +42,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nunc.wisp.beans.ChangePasswordBean;
 import com.nunc.wisp.beans.ContactUsBean;
-import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ForgotPasswordBeans;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
@@ -307,44 +306,14 @@ public class ApplicationController {
 		return feedbackBean;
 	}
 	
-	@RequestMapping(value = "/removeFavorite", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/rest/toggleFavorite", method = RequestMethod.GET)
 	@ResponseStatus(value = HttpStatus.OK)
-	public void removeFavorite(@RequestParam(value = "service_id") Long service_id) throws WISPServiceException {
+	public @ResponseBody void toggleFavorite(@RequestParam(value = "service_id") Long service_id) throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			applicationServices.removeFromFavorite(service_id, userDetails.getUsername());
-		}else {
-			
+			applicationServices.toggleFavorite(service_id, userDetails.getUsername());
 		}
-	}
-	
-	@RequestMapping(value = "/toggleFavorite", method = RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody CustomErrorMessageBan toggleFavorite(@RequestParam(value = "service_id") Long service_id, @RequestParam(value = "status") Integer status) throws WISPServiceException {
-		CustomErrorMessageBan result= null;
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			if(status == 1) {
-				applicationServices.removeFromFavorite(service_id, userDetails.getUsername());
-			} else if(status == 0){
-				result = applicationServices.addToFavorite(service_id, userDetails.getUsername());
-			}
-		}
-		return result;
-	}
-	
-	@RequestMapping(value = "/addFavorite", method = RequestMethod.GET)
-	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody  CustomErrorMessageBan addToFavorite(@RequestParam(value = "service_id") Long service_id) throws WISPServiceException {
-		CustomErrorMessageBan result= null;
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			result = applicationServices.addToFavorite(service_id, userDetails.getUsername());
-		}
-		return result;
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)

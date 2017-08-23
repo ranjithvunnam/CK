@@ -9,7 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WISP</title>
+<title>CelebrateKaro</title>
+<link rel="shortcut icon" href="resources/images/logo.ico" type="image/x-icon">
 <base
 	href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
 <!-- Bootstrap -->
@@ -245,8 +246,8 @@
 					class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<div class="top-share-icon">
 						<span class="share"><img src="resources/images/icons/share.png" alt="">share</span>
-						<span class="fav"><img src="resources/images/icons/favorite.png"
-									alt="">Favourite</span>
+						<span class="fav" ><img	src="resources/images/icons/favorite.png" alt="" id="ser_fav${service.service_id}"
+													onclick="toggleFavorite(event, '${service.service_id}')">Favourite</span>
 					</div>
 					<p class="name">${service_details.service_name}</p>
 					<input type="hidden" name="service_id" value="${service_details.service_id}" />
@@ -395,6 +396,30 @@
 			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#servicesx").addClass('active');
 		});
+		function toggleFavorite(event, serviceId) {
+			$.ajax({
+				url : 'rest/toggleFavorite?&service_id='+serviceId,
+				type : 'GET',
+				contentType : 'application/json; charset=utf-8',
+				success : function(result, msg, xhr) {
+					var fullPath = $('#'+event.target.id).attr('src');
+					var imageName = fullPath.replace(/^.*[\\\/]/, '');
+					if(imageName == "favourite.png"){
+						$('#'+event.target.id).attr('src',"resources/images/icons/favorite.png");
+					} else {
+						$('#'+event.target.id).attr('src',"resources/images/icons/favourite.png");
+					}
+					
+				},
+				error : function(jqXHR, textStatus) {
+					if (jqXHR.status === 401) { // HTTP Status 401: Unauthorized
+			            window.location = 'login';
+			        } else {
+			        	alert(textStatus);
+			        }
+				}
+			});
+		};
 	</script>
 </body>
 </html>

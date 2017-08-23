@@ -7,7 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <base
 	href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
-<title>WISP - Forgot Password</title>
+<title>CelebrateKaro</title>
+<link rel="shortcut icon" href="resources/images/logo.ico" type="image/x-icon">
 <!-- Bootstrap -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="resources/slick/slick.css">

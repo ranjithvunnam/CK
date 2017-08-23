@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nunc.wisp.beans.ChangePasswordBean;
 import com.nunc.wisp.beans.ContactUsBean;
-import com.nunc.wisp.beans.CustomErrorMessageBan;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
 import com.nunc.wisp.beans.ServiceEnquiryBean;
@@ -331,39 +330,19 @@ public class ApplicationServicesImpl implements ApplicationServices {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = WISPServiceException.class)
-	public void removeFromFavorite(Long service_id, String email)
+	public void toggleFavorite(Long service_id, String email)
 			throws WISPServiceException {
 		try {
 			UserEntity user= applicationRepository.getUserByUserEmail(email);
-			if(user == null){
-				throw new WISPServiceException("User don't exists.", 4000);
-			}
-			applicationRepository.removeFromFavorite(service_id, user.getId());
-		} catch (WISPDataAccessException e) {
-			LOG_R.error("Exception occured ::: ", e);
-			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
-		}
-		
-	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = WISPServiceException.class)
-	public CustomErrorMessageBan addToFavorite(Long service_id, String email)
-			throws WISPServiceException {
-		try {
-			UserEntity user= applicationRepository.getUserByUserEmail(email);
-			if(user == null){
-				return new CustomErrorMessageBan("User don't exists.", 4000);
-			}
 			if(applicationRepository.checkUserFavouriteStatus(service_id, user.getId())) {
-				return new CustomErrorMessageBan("This is your favourite.", 4001);
+				applicationRepository.removeFromFavorite(service_id, user.getId());
+			} else {
+				applicationRepository.addToFavorite(service_id, user.getId());
 			}
-			applicationRepository.addToFavorite(service_id, user.getId());
 		} catch (WISPDataAccessException e) {
 			LOG_R.error("Exception occured ::: ", e);
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
 		}
-		return new CustomErrorMessageBan("Success", 200);
 	}
 
 	@Override

@@ -10,7 +10,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>WISP</title>
+<title>CelebrateKaro</title>
+<link rel="shortcut icon" href="resources/images/logo.ico" type="image/x-icon">
 <base
 	href="${pageContext.request.scheme}://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/" />
 <!-- Bootstrap -->
@@ -175,7 +176,7 @@
 								class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 								<div class="top-share-icon">
 									<span class="fav">
-										<img  id="ser_fav${service.service_fav_list_entity.service_id}" onclick="toggleFavorite(event, '${service.service_fav_list_entity.service_id}','1')" 
+										<img  id="ser_fav${service.service_fav_list_entity.service_id}" onclick="toggleFavorite(event, '${service.service_fav_list_entity.service_id}')" 
 														src="resources/images/icons/favourite.png" alt="">Favourite</span>
 									<span class="share"><img
 										src="resources/images/icons/share.png" alt="">share</span>
@@ -390,9 +391,9 @@
 			$("#homex,#estimatesx,#servicesx,#estimatesx,#offersx").removeClass('active');
 			$("#favoritesx").addClass('active');
 		});
-		function toggleFavorite(event, serviceId, status) {
+		function toggleFavorite(event, serviceId) {
 			$.ajax({
-				url : 'toggleFavorite?&service_id='+serviceId+'&status='+status,
+				url : 'rest/toggleFavorite?&service_id='+serviceId,
 				type : 'GET',
 				contentType : 'application/json; charset=utf-8',
 				success : function(result, msg, xhr) {
@@ -406,7 +407,11 @@
 					window.location.reload();
 				},
 				error : function(jqXHR, textStatus) {
-					alert(textStatus);
+					if (jqXHR.status === 401) { // HTTP Status 401: Unauthorized
+			            window.location = 'login';
+			        } else {
+			        	alert(textStatus);
+			        }
 				}
 			});
 		};
