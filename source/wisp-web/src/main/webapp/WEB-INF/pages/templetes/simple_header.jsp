@@ -34,7 +34,7 @@
 					<li id="offersx"><a href="offers">Offers</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown"><a href="#" class="dropdown-toggle"
+					<%-- <li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false"><i class="fa fa-map-marker"
 							aria-hidden="true"></i>
@@ -45,7 +45,7 @@
 								<li><a href="updateLocation?location=${city}">${city}</a></li>
 							</c:forEach>
 						</ul>
-					</li>
+					</li> --%>
 					<c:choose>
 					    <c:when test="${loggedIn}">
 					        <li class="dropdown"><a href="#" class="dropdown-toggle"

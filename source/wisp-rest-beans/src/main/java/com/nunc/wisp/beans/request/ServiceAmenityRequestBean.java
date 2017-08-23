@@ -15,13 +15,13 @@ public class ServiceAmenityRequestBean implements Serializable{
 	
 	private Float price;
 	
-	private boolean parking = false;
+	private boolean parking = true;
 	
-	private boolean liquor = false;
+	private boolean liquor = true;
 	
-	private boolean air_condition = false;
+	private boolean air_condition = true;
 	
-	private boolean wifi = false;
+	private boolean wifi = true;
 	
 	private String type;
 	

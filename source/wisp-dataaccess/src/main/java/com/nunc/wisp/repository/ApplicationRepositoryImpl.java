@@ -275,10 +275,38 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(ServiceListEntity.class, "service_list");
 			criteria.createAlias("service_list.addressEntity", "address");
+			criteria.createAlias("service_list.amenitiyEntity", "aminity");
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			criteria.add(Restrictions.eq("service_type", bean.getService_type()));
-			if(bean.getLocation() != null && !bean.getLocation().isEmpty()) {
+			if(isNotNull(bean.getLocation())){
 				criteria.add(Restrictions.eq("address.city", bean.getLocation()));
+			}
+			if(bean.getAmenityBean() != null) {
+				if(isNotNull(bean.getAmenityBean().getCapacity())){
+					criteria.add(Restrictions.eq("aminity.capacity", bean.getAmenityBean().getCapacity()));
+				}
+				if(bean.getAmenityBean().getRooms() != null && bean.getAmenityBean().getRooms() > 0){
+					criteria.add(Restrictions.eq("aminity.rooms", bean.getAmenityBean().getRooms()));
+				}
+				if(bean.getAmenityBean().isAir_condition()){
+					criteria.add(Restrictions.eq("aminity.air_condition", bean.getAmenityBean().isAir_condition()));
+				}
+				if(bean.getAmenityBean().isParking()){
+					criteria.add(Restrictions.eq("aminity.parking", bean.getAmenityBean().isParking()));
+				}
+				if(bean.getAmenityBean().isLiquor()){
+					criteria.add(Restrictions.eq("aminity.liquor", bean.getAmenityBean().isLiquor()));
+				}
+				if(bean.getAmenityBean().isWifi()){
+					criteria.add(Restrictions.eq("aminity.wifi", bean.getAmenityBean().isWifi()));
+				}
+			}
+			if(isNotNull(bean.getSearchTerm())){
+				Criterion name_condition = Restrictions.ilike("service_list.service_name", bean.getSearchTerm(), MatchMode.ANYWHERE);
+				Criterion description_condition = Restrictions.ilike("service_list.service_description", bean.getSearchTerm(), MatchMode.ANYWHERE);
+				Criterion completeCondition = Restrictions.disjunction().add(name_condition)
+                        .add(description_condition);
+				criteria.add(completeCondition);
 			}
 			criteria.add(Restrictions.eq("approval_status", 2));
 			criteria.setFirstResult(offset!=null?offset:DEFAULT_OFFSET).setMaxResults(maxResults!=null?maxResults:MAX_ROWS_FOR_USER_SEARCH);
@@ -295,6 +323,10 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		return result;
 	}
 
+	private boolean isNotNull(String string) {
+		return string != null && !string.isEmpty();
+	}
+	
 	@Override
 	@Transactional
 	public Long getServiceListCount(ServiceFilterRequestBean bean) throws WISPDataAccessException {
@@ -309,10 +341,38 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(ServiceListEntity.class, "service_list");
 			criteria.createAlias("service_list.addressEntity", "address");
+			criteria.createAlias("service_list.amenitiyEntity", "aminity");
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			criteria.add(Restrictions.eq("service_type", bean.getService_type()));
-			if(bean.getLocation() != null && !bean.getLocation().isEmpty()) {
+			if(isNotNull(bean.getLocation())){
 				criteria.add(Restrictions.eq("address.city", bean.getLocation()));
+			}
+			if(bean.getAmenityBean() != null) {
+				if(isNotNull(bean.getAmenityBean().getCapacity())){
+					criteria.add(Restrictions.eq("aminity.capacity", bean.getAmenityBean().getCapacity()));
+				}
+				if(bean.getAmenityBean().getRooms() != null && bean.getAmenityBean().getRooms() > 0){
+					criteria.add(Restrictions.eq("aminity.rooms", bean.getAmenityBean().getRooms()));
+				}
+				if(bean.getAmenityBean().isAir_condition()){
+					criteria.add(Restrictions.eq("aminity.air_condition", bean.getAmenityBean().isAir_condition()));
+				}
+				if(bean.getAmenityBean().isParking()){
+					criteria.add(Restrictions.eq("aminity.parking", bean.getAmenityBean().isParking()));
+				}
+				if(bean.getAmenityBean().isLiquor()){
+					criteria.add(Restrictions.eq("aminity.liquor", bean.getAmenityBean().isLiquor()));
+				}
+				if(bean.getAmenityBean().isWifi()){
+					criteria.add(Restrictions.eq("aminity.wifi", bean.getAmenityBean().isWifi()));
+				}
+			}
+			if(isNotNull(bean.getSearchTerm())){
+				Criterion name_condition = Restrictions.ilike("service_list.service_name", bean.getSearchTerm(), MatchMode.ANYWHERE);
+				Criterion description_condition = Restrictions.ilike("service_list.service_description", bean.getSearchTerm(), MatchMode.ANYWHERE);
+				Criterion completeCondition = Restrictions.disjunction().add(name_condition)
+                        .add(description_condition);
+				criteria.add(completeCondition);
 			}
 			criteria.add(Restrictions.eq("approval_status", 2));
 			criteria.setProjection(Projections.rowCount());

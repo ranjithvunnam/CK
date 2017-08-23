@@ -15,7 +15,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -48,6 +51,7 @@ import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
 import com.nunc.wisp.beans.UserRegistrationBean;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.beans.enums.SocialLoginProviders;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.UserEntity;
@@ -76,6 +80,10 @@ public class ApplicationController {
 	@Autowired
 	@Qualifier("VendorAppServices")
 	private VendorAppServices vendorAppServices;
+	
+	@Autowired
+	@Qualifier("authenticationManager")
+	AuthenticationManager authenticationManager;
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public String handleResourceNotFoundException() {
@@ -191,7 +199,7 @@ public class ApplicationController {
 			model.addAttribute("service_list", ServiceType.values());
 			List<String> city_list = applicationServices.getListOfCities();
 			model.addAttribute("city_list", city_list);
-			model.addAttribute("serviceFilterBean", new ServiceFilterRequestBean());
+			model.addAttribute("serviceFilterBean", bean);
 			return "services/service_listing";
 		}
 	}
@@ -239,12 +247,16 @@ public class ApplicationController {
 			}
 			model.addAttribute("service_details", service_details);
 			model.addAttribute("contactUs", new ContactUsBean());
+			List<String> city_list = applicationServices.getListOfCities();
+			model.addAttribute("city_list", city_list);
 			return "services/service_details";
 		} else {
 			ServiceListEntity service_details = applicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
 			if(service_details != null) {
 				vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
 			}
+			List<String> city_list = applicationServices.getListOfCities();
+			model.addAttribute("city_list", city_list);
 			model.addAttribute("service_details", service_details);
 			model.addAttribute("service_type", token);
 			return "services/service_par_listing";
@@ -257,6 +269,8 @@ public class ApplicationController {
 		if(service_details != null) {
 			vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
 		}
+		List<String> city_list = applicationServices.getListOfCities();
+		model.addAttribute("city_list", city_list);
 		model.addAttribute("service_details", service_details);
 		model.addAttribute("enquiryBean", new ServiceEnquiryBean());
 		String referrer = request.getHeader("Referer");
@@ -275,6 +289,8 @@ public class ApplicationController {
 			model.addAttribute("offset", offset);
 			List<UserFavoritesEntity> services= applicationServices.getUserFavoriteServices(userDetails.getUsername(), offset, maxResults);
 			model.addAttribute("services", services);
+			List<String> city_list = applicationServices.getListOfCities();
+			model.addAttribute("city_list", city_list);
 		}
 		return "services/service_favorites";
 	}
@@ -349,6 +365,50 @@ public class ApplicationController {
 			request.getSession().setAttribute("url_prior_login", referrer);
 		}
 		return "login";
+	}
+	
+	@RequestMapping(value = "/faceBookLogin", method = RequestMethod.POST)
+	public String faceBookLogin(@RequestBody UserRegistrationBean bean, 
+			Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) throws WISPServiceException {
+		UserEntity user = applicationServices.getUserByUserEmail(bean.getEmail());
+		if(user != null) {
+			if(bean.getProvider() != null && bean.getProvider().equals(SocialLoginProviders.FACEBOOK.name())) {
+				if(bean.getFb_login_id() != null) {
+					if(bean.getFb_login_id().equals(user.getFb_login_id())) {
+						autoLogin(user, request);
+					    return "redirect:home";
+					}else {
+						redirectAttributes.addAttribute("errors", "Not register with any social sites.");
+						return "redirect:login";
+					}
+				} else {
+					applicationServices.updateUser(bean);
+					autoLogin(user, request);
+					return "redirect:home";
+				}
+			} else if (bean.getProvider() != null && bean.getProvider().equals(SocialLoginProviders.GOOGLE.name())) {
+				if(bean.getGoogle_id() != null) {
+					if(bean.getGoogle_id().equals(user.getGoogle_id())) {
+						autoLogin(user, request);
+					    return "redirect:home";
+					} else {
+						redirectAttributes.addAttribute("errors", "Not register with any social sites.");
+						return "redirect:login";
+					}
+				} else {
+					applicationServices.updateUser(bean);
+					autoLogin(user, request);
+					return "redirect:home";
+				}
+			}else {
+				redirectAttributes.addAttribute("errors", "wrong provider");
+				return "redirect:login";
+			}
+			
+		} else {
+			applicationServices.registerNewUserAccount(bean);
+			return "redirect:login";
+		}
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -525,5 +585,30 @@ public class ApplicationController {
 			targetUrl = (String) request.getSession().getAttribute("previous_page");
 		}
 	    return "redirect:"+ targetUrl;
+	}
+	
+	private void autoLogin(UserEntity user, HttpServletRequest request) {
+		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword());
+	    // Authenticate the user
+	    Authentication authentication = authenticationManager.authenticate(authRequest);
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    securityContext.setAuthentication(authentication);
+	    // Create a new session and add the security context.
+	    HttpSession session = request.getSession(true);
+	    session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+	}
+	
+	@RequestMapping(value = "/estimates", method = RequestMethod.GET)
+	public String showEstimatesPage(Model model) throws WISPServiceException {
+		List<String> city_list = applicationServices.getListOfCities();
+		model.addAttribute("city_list", city_list);
+		return "estimates";
+	}
+	
+	@RequestMapping(value = "/offers", method = RequestMethod.GET)
+	public String showOffersPage(Model model) throws WISPServiceException {
+		List<String> city_list = applicationServices.getListOfCities();
+		model.addAttribute("city_list", city_list);
+		return "offers";
 	}
 }

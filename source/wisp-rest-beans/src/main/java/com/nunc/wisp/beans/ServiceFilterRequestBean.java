@@ -21,6 +21,8 @@ public class ServiceFilterRequestBean implements Serializable{
 	private String location;
 	
 	private ServiceAmenityRequestBean amenityBean;
+	
+	private String searchTerm = null;
 
 	public ServiceType getService_type() {
 		return service_type;
@@ -44,5 +46,13 @@ public class ServiceFilterRequestBean implements Serializable{
 
 	public void setAmenityBean(ServiceAmenityRequestBean amenityBean) {
 		this.amenityBean = amenityBean;
+	}
+
+	public String getSearchTerm() {
+		return searchTerm;
+	}
+
+	public void setSearchTerm(String searchTerm) {
+		this.searchTerm = searchTerm;
 	}
 }

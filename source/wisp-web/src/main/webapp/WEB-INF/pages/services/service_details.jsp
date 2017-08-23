@@ -659,7 +659,6 @@
 	    var frm = $('#enquiryForm');
 	    frm.submit(function (e) {
 	        e.preventDefault();
-	        console.log(frm.serialize());
 	        $.ajax({
 	            type: frm.attr('method'),
 	            url: frm.attr('action'),

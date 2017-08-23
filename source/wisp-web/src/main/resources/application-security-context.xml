@@ -51,7 +51,12 @@
 		<intercept-url pattern="/resetpassword/**" access="permitAll" />
 		<intercept-url pattern="/resetpassword" access="permitAll" />
 		<intercept-url pattern="/filterServices" access="permitAll" />
+		<intercept-url pattern="/facebooklogin" access="permitAll" />
+		<intercept-url pattern="/ContactUs" access="permitAll" />
+		<intercept-url pattern="/estimates" access="permitAll" />
+		<intercept-url pattern="/offers" access="permitAll" />
 		<intercept-url pattern="/simulateSearch" access="permitAll" />
+		<!-- <intercept-url pattern="/auth/*" access="permitAll" /> -->
 		<intercept-url pattern="/**/**/service_par_listing" access="permitAll" />
 		<intercept-url pattern="/**/service_listing/" access="permitAll" />
 		<intercept-url pattern="/j_spring_security_check" access="permitAll"/>
@@ -64,16 +69,91 @@
 		<!-- Basic authentication security filter -->
 		<http-basic />
 		<remember-me key="uniqueAndSecret" token-validity-seconds="86400" remember-me-parameter="remember-me"/>
+		
+		<!-- Adds social authentication filter to the Spring Security filter chain. -->
+        <!-- <custom-filter before="PRE_AUTH_FILTER" ref="socialAuthenticationFilter"/> -->
+        <!-- <custom-filter position="FORM_LOGIN_FILTER" ref="SecurityAuthFilter"/> -->
+        <!-- <custom-filter position="LOGOUT_FILTER" ref="logoutFilter"/> -->
 	</http>
+	<!-- <beans:bean class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" id="SecurityAuthFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="authenticationSuccessHandler" ref="successHandler"/>
+        <beans:property name="authenticationFailureHandler" ref="failureHandler"/>
+        <beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+        <beans:property name="rememberMeServices" ref="rememberMeServices"/>
+    </beans:bean>
+    <beans:bean id="rememberMeServices"
+          class="org.springframework.security.web.authentication.NullRememberMeServices"/>
+    <beans:bean id="successHandler" class="com.spring.security.social.login.example.handler.AppSuccessHandler"/>
+    <beans:bean id="failureHandler"
+          class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+        <beans:constructor-arg name="defaultFailureUrl" value="/services/accessdenied"/>
+    </beans:bean>
+    <beans:bean id="logoutSuccessHandler" class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler"/>
+	 social login filter which is a pre authentication filter and works for /auth service url
+    <beans:bean id="socialAuthenticationFilter" class="org.springframework.social.security.SocialAuthenticationFilter">
+        <beans:constructor-arg name="authManager" ref="authenticationManager"/>
+        <beans:constructor-arg name="userIdSource" ref="userIdSource"/>
+        <beans:constructor-arg name="usersConnectionRepository" ref="inMemoryUsersConnectionRepository"/>
+        <beans:constructor-arg name="authServiceLocator" ref="appSocialAuthenticationServiceRegistry"/>
+        <beans:property name="authenticationSuccessHandler" ref="successHandler"/>
+    </beans:bean> -->
 	<beans:bean id="myAuthenticationSuccessHandler"  class="com.nunc.wisp.services.handlers.WISPAuthenticationSuccessHandler" />
-	<authentication-manager erase-credentials="false">
+	<authentication-manager erase-credentials="false" alias="authenticationManager">
+		<!-- <authentication-provider ref="socialAuthenticationProvider"/> -->
 		<authentication-provider user-service-ref="UserAuthService">
 			<password-encoder ref="encoder" />
 		</authentication-provider>
+		<authentication-provider user-service-ref="UserAuthService"/>
 	</authentication-manager>
+	
+	<!-- <beans:bean id="socialAuthenticationProvider" class="org.springframework.social.security.SocialAuthenticationProvider">
+        <beans:constructor-arg ref="inMemoryUsersConnectionRepository"/>
+        <beans:constructor-arg ref="socialUserDetailService"/>
+    </beans:bean> -->
 	
 	<beans:bean id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
 		<beans:constructor-arg name="strength" value="11" />
 	</beans:bean>
+	
+	<!-- inmemory connection repository which holds connection repository per local user -->
+    <!-- <beans:bean id="inMemoryUsersConnectionRepository"
+          class="org.springframework.social.connect.mem.InMemoryUsersConnectionRepository">
+        <beans:constructor-arg name="connectionFactoryLocator" ref="appSocialAuthenticationServiceRegistry"/>
+        <beans:property name="connectionSignUp" ref="connectionSignUp"/>
+    </beans:bean> -->
+    
+    <!-- service registry will holds connection factory of each social provider -->
+    <!-- <beans:bean id="appSocialAuthenticationServiceRegistry"
+          class="com.nunc.wisp.services.user.socialauth.AppSocialAuthenticationServiceRegistry">
+        <beans:constructor-arg>
+            <beans:list>
+                <beans:ref bean="facebookAuthenticationService"/>
+                <beans:ref bean="googleAuthenticationService"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean>
+     <beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <beans:constructor-arg name="logoutSuccessHandler" ref="logoutSuccessHandler"/>
+        <beans:constructor-arg name="handlers">
+            <beans:list>
+                <beans:bean name="securityContextLogoutHandler" class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+            </beans:list>
+        </beans:constructor-arg>
+    </beans:bean> -->
+    <!-- <beans:bean id="facebookAuthenticationService"
+          class="org.springframework.social.facebook.security.FacebookAuthenticationService">
+        <beans:constructor-arg name="apiKey" value="${facebook.api.key}"/>
+        <beans:constructor-arg name="appSecret" value="${facebook.api.secret}"/>
+    </beans:bean> -->
+
+    <!-- <beans:bean id="googleAuthenticationService"
+          class="org.springframework.social.google.security.GoogleAuthenticationService">
+        <beans:constructor-arg name="apiKey" value="${google.api.key}"/>
+        <beans:constructor-arg name="appSecret" value="${google.api.secret}"/>
+    </beans:bean> -->
+    
+    <!-- If no local user is associated to a social connection then connection sign up will create a new local user and map it to social user -->
+    <!-- <beans:bean id="connectionSignUp" class="com.nunc.wisp.services.user.socialauth.AppConnectionSignUp"/> -->
 </beans:beans>

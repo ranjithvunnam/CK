@@ -18,7 +18,7 @@
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-	<%@ include file="templetes/header.jsp"%>
+	<%@ include file="templetes/simple_header.jsp"%>
 	<div class="container-fluid" id="contact-us">
 		<div class="row">
 			<div class="col-md-12">

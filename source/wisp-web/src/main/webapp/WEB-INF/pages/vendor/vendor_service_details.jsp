@@ -307,7 +307,7 @@
                             <div class="input-group-addon">to</div>
                             <input name="toDate"  placeholder="To Date" type="text" class="form-control" value="2012-04-19">
                         </div>
-                        <button type="submit" class="btn custom-button more">Get Data</button>
+                        <button type="submit" class="btn custom-button more">Refresh</button>
                         <button onclick="createChart()" class="btn custom-button more">Get Details</button>
                     </form>
                     <div id="chart_div"></div>

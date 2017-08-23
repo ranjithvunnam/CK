@@ -106,6 +106,8 @@ public class ApplicationServicesImpl implements ApplicationServices {
 		entity.setPhone_primary(bean.getPhone_primary());
 		entity.setPhone_secondary(bean.getPhone_secondary());
 		entity.setUpdatedDate(new Date());
+		entity.setFb_login_id(bean.getFb_login_id());
+		entity.setGoogle_id(bean.getGoogle_id());
 		return entity;
 	}
 
@@ -442,5 +444,23 @@ public class ApplicationServicesImpl implements ApplicationServices {
 		entity.setEnquiry_date(bean.getEnquiry_date());
 		entity.setCreated_date(new Date());
 		return entity;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = WISPServiceException.class)
+	public void updateUser(UserRegistrationBean bean)
+			throws WISPServiceException {
+		try {
+			UserEntity user = applicationRepository.getUserByUserEmail(bean.getEmail());
+			if(user != null) {
+				user.setFb_login_id(bean.getFb_login_id());
+				user.setGoogle_id(bean.getGoogle_id());
+				applicationRepository.updateUserCredentials(user);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+		
 	}
 }

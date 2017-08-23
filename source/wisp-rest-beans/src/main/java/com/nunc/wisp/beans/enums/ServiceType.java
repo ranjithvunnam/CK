@@ -4,11 +4,11 @@ package com.nunc.wisp.beans.enums;
 public enum ServiceType {
 
 	SER_VENUE("Venue"), SER_CATERERS("Caterers"), SER_PHOTOGRAPHY("Photography"), SER_EVENT_PLANNERS(
-			"event_planners"), SER_EVENT_DESIGNERS("event_designers"),SER_FLORIST("florists"), SER_PANDITS(
-			"pandits"), SER_BAARAAT("baaraat"), SER_DJ("dj"), SER_ENTERTAINERS(
-			"entertainers"), SER_CARDS("cards"), SER_BEAUTICIANS("beauticians"), SER_MEHANDI(
-			"mehandi"), SER_MUSICIANS("musicians"), SER_CHOREOGRAPHERS(
-			"choreographers"), SER_TRAVEL("travel");
+			"EventPlanners"), SER_EVENT_DESIGNERS("EventDesigners"),SER_FLORIST("Florists"), SER_PANDITS(
+			"Pandits"), SER_BAARAAT("Baaraat"), SER_DJ("D.J"), SER_ENTERTAINERS(
+			"Entertainers"), SER_CARDS("CardDesigners"), SER_BEAUTICIANS("MakeupArtists"), SER_MEHANDI(
+			"MehendiArtists"), SER_MUSICIANS("Musicians"), SER_CHOREOGRAPHERS(
+			"Choreographer"), SER_TRAVEL("TravelAgency");
 
 	private String description;
 	

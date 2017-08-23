@@ -9,8 +9,8 @@
                     <div class="col-xs-6 col-sm-2 col-md-2">
                         <p><a href="Venue/service_listing" style="color: white;">Services</a></p>
                         <p><a href="favorites" style="color: white;">Favourites</a></p>
-                        <p>Estimate</p>
-                        <p>Offers</p>
+                        <p><a href="estimates" style="color: white;">Estimate</a></p>
+                        <p><a href="offers" style="color: white;">Offers</a></p>
                         <p>Testimonials</p>
                         <p>Blog</p>
                     </div>

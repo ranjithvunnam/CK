@@ -63,4 +63,6 @@ public interface ApplicationServices {
 	public void addContactUsDetails(ContactUsBean bean) throws WISPServiceException;
 
 	public void addEnquiryDetails(ServiceEnquiryBean bean) throws WISPServiceException;
+
+	public void updateUser(UserRegistrationBean bean) throws WISPServiceException;
 }

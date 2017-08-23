@@ -53,6 +53,12 @@ public class UserEntity implements Serializable {
 	@Column(name = "updated_date", updatable = true, nullable = false)
 	private Date updatedDate;
 	
+	@Column(name = "fb_login_id", updatable = true, nullable = true)
+	private String fb_login_id;
+	
+	@Column(name = "google_id", updatable = true, nullable = true)
+	private String google_id;
+	
 	@OneToMany(mappedBy = "user_comments_entity", cascade =CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ServiceCommentsEntity> serviceCommentsEntity;
 	
@@ -136,6 +142,22 @@ public class UserEntity implements Serializable {
 
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
+	}
+	
+	public String getFb_login_id() {
+		return fb_login_id;
+	}
+
+	public void setFb_login_id(String fb_login_id) {
+		this.fb_login_id = fb_login_id;
+	}
+
+	public String getGoogle_id() {
+		return google_id;
+	}
+
+	public void setGoogle_id(String google_id) {
+		this.google_id = google_id;
 	}
 
 	public Set<UserFavoritesEntity> getFavoritesEntities() {

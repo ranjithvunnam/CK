@@ -248,79 +248,79 @@
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="event_planners/service_listing">
+                	<a href="EventPlanners/service_listing">
                     <img src="resources/images/icons/event-planer.png" alt="">
                     <p>Event Planners</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="event_designers/service_listing">
+                	<a href="EventDesigners/service_listing">
                     <img src="resources/images/icons/event-desinger.png" alt="">
                     <p>Event Designers</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="florists/service_listing">
+                	<a href="Florists/service_listing">
                     <img src="resources/images/icons/florists.png" alt="">
                     <p>Florists</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="pandits/service_listing">
+                	<a href="Pandits/service_listing">
                     <img src="resources/images/icons/pandits.png" alt="">
                     <p>Pandits</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="baaraat/service_listing">
+                	<a href="Baaraat/service_listing">
                     <img src="resources/images/icons/baarat.png" alt="">
                     <p>Baaraat</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="dj/service_listing">
+                	<a href="D.J/service_listing">
                     <img src="resources/images/icons/dj.png" alt="">
                     <p>D.J</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="entertainers/service_listing">
+                	<a href="Entertainers/service_listing">
                     <img src="resources/images/icons/entertainers.png" alt="">
                     <p>Entertainers</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="cards/service_listing">
+                	<a href="CardDesigners/service_listing">
                     <img src="resources/images/icons/cards.png" alt="">
                     <p>Card Designers</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="beauticians/service_listing">
+                	<a href="MakeupArtists/service_listing">
                     <img src="resources/images/icons/beauticians.png" alt="">
                     <p>Makeup Artists</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="mehandi/service_listing">
+                	<a href="MehendiArtists/service_listing">
                     <img src="resources/images/icons/mehandi.png" alt="">
                     <p>Mehendi Artists</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="musicians/service_listing">
+                	<a href="Musicians/service_listing">
                     <img src="resources/images/icons/musicians.png" alt="">
                     <p>Musicians</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="choreographers/service_listing">
+                	<a href="Choreographer/service_listing">
                     <img src="resources/images/icons/choreographers.png" alt="">
                     <p>Choreographer</p>
                      </a>
                 </div>
                 <div class="icon">
-                	<a href="travel/service_listing">
+                	<a href="TravelAgency/service_listing">
                     <img src="resources/images/icons/travel.png" alt="">
                     <p>Travel Agency</p>
                      </a>
@@ -534,6 +534,7 @@ $('#tagQuery').click(function() {
 			$("#servicesx,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#homex").addClass('active');
 		});
+		
 	</script>
 </body>
 </html>

@@ -10,21 +10,9 @@
 <title>WISP - Reset Password</title>
 <!-- Bootstrap -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="resources/slick/slick.css">
-<link rel="stylesheet" type="text/css" href="resources/slick/slick-theme.css">
 <link href="resources/css/custom.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="resources/css/rating.css">
-<link rel="stylesheet" href="resources/css/jssor.css">
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 </head>
 <body>
 
@@ -95,8 +83,5 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
-	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
-	<script type="text/javascript" src="resources/js/jssor.js"></script>
 </body>
 </html>

@@ -193,49 +193,102 @@
 									<p class="phone">Phone : ${service.service_fav_list_entity.service_phone}</p>
 									<p class="web">Website : ${service.service_fav_list_entity.service_website}</p>
 								<div class="icons-div">
-									<div class="specifications">
-										<img src="resources/images/icons/capacity.png" alt="">
-										<p>Capacity</p>
-										<p>1200-1500</p>
-									</div>
-									<div class="specifications">
-										<img src="resources/images/icons/rooms.png" alt="">
-										<p>Rooms</p>
-										<p>8</p>
-									</div>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_VENUE' || service.service_fav_list_entity.service_type eq 'SER_CATERERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/capacity.png" alt="">
+											<p>Capacity</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.capacity}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_VENUE'}">
+										<div class="specifications">
+											<img src="resources/images/icons/rooms.png" alt="">
+											<p>Rooms</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.rooms}</p>
+										</div>
+									</c:if>
 									<div class="specifications">
 										<img src="resources/images/icons/price.png" alt="">
-										<p>Price</p>
-										<p>20000</p>
+											<p>Price</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.price}</p>
 									</div>
-									<div class="specifications">
-										<img src="resources/images/icons/car.png" alt="">
-										<p>Parking</p>
-										<p>
-											<a class="active">Yes</a><a>No</a>
-										</p>
-									</div>
-									<div class="specifications">
-										<img src="resources/images/icons/liquor.png" alt="">
-										<p>Liquor</p>
-										<p>
-											<a class="active">Yes</a><a>No</a>
-										</p>
-									</div>
-									<div class="specifications">
-										<img src="resources/images/icons/ac.png" alt="">
-										<p>Ac</p>
-										<p>
-											<a class="active">Yes</a><a>No</a>
-										</p>
-									</div>
-									<div class="specifications">
-										<img src="resources/images/icons/wifi.png" alt="">
-										<p>Wifi</p>
-										<p>
-											<a class="active">Yes</a><a>No</a>
-										</p>
-									</div>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_VENUE'}">
+										<div class="specifications">
+											<img src="resources/images/icons/car.png" alt="">
+											<p>Parking</p>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.parking ? 'active' : ''}">Yes</a>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.parking ? '' : 'active'}">No</a>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_VENUE'}">
+										<div class="specifications">
+											<img src="resources/images/icons/liquor.png" alt="">
+											<p>Liquor</p>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.liquor ? 'active' : ''}">Yes</a>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.liquor ? '' : 'active'}">No</a>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_VENUE'}">
+										<div class="specifications">
+											<img src="resources/images/icons/ac.png" alt="">
+											<p>Ac</p>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.air_condition ? 'active' : ''}">Yes</a>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.air_condition ? '' : 'active'}">No</a>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_VENUE'}">
+										<div class="specifications">
+											<img src="resources/images/icons/wifi.png" alt="">
+											<p>Wifi</p>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.wifi ? 'active' : ''}">Yes</a>
+											<a class="${service.service_fav_list_entity.amenitiyEntity.wifi ? '' : 'active'}">No</a>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_CATERERS' || service.service_fav_list_entity.service_type eq 'SER_PHOTOGRAPHY' 
+										|| service.service_fav_list_entity.service_type eq 'SER_ENTERTAINERS' || service.service_fav_list_entity.service_type eq 'SER_BEAUTICIANS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/rooms.png" alt="">
+											<p>Type</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.type}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_CATERERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/rooms.png" alt="">
+											<p>Cusine</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.cusine}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_CATERERS' || service.service_fav_list_entity.service_type eq 'SER_EVENT_PLANNERS'
+										|| service.service_fav_list_entity.service_type eq 'SER_EVENT_DESIGNERS' || service.service_fav_list_entity.service_type eq 'SER_PANDITS'
+										|| service.service_fav_list_entity.service_type eq 'SER_CHOREOGRAPHERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/rooms.png" alt="">
+											<p>Occasion</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.occasion}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_BEAUTICIANS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/rooms.png" alt="">
+											<p>Gender</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.gender}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_CHOREOGRAPHERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/rooms.png" alt="">
+											<p>Dance Style</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.dance_style}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_TRAVEL'}">
+										<div class="specifications">
+											<img src="resources/images/icons/rooms.png" alt="">
+											<p>Fleet</p>
+											<p>${service.service_fav_list_entity.amenitiyEntity.fleet}</p>
+										</div>
+									</c:if>
 								</div>
 								<div class="ratings">
 									Photos <span class="photos">${service.service_fav_list_entity.imagesEntities.size()}</span>

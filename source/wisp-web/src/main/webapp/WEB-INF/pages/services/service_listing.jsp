@@ -43,8 +43,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-12">
 			<form id="filter_search_form" role="form" action="filterServices" method="POST">
 				<div class="col-sm-12 col-sm-12 col-xs-12 filter-area">
-						<form:select class="" name=""
-							path="serviceFilterBean.service_type">
+						<form:select class="" name="" path="serviceFilterBean.service_type">
 							<form:options items="${service_list}" itemLabel="description" />
 						</form:select>
 						<form:select class="" name="" path="serviceFilterBean.location">
@@ -108,15 +107,15 @@
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_BEAUTICIANS'}">
-							<select class="" name="" path="serviceFilterBean.amenityBean.gender">
-								<option value="">Select Gender</option>
-								<option value="Women">Women</option>
-								<option value="Men">Men</option>
-								<option value="Unisex">Unisex</option>
-							</select>
+							<form:select class="" name="" path="serviceFilterBean.amenityBean.gender">
+								<form:option value="">Select Gender</form:option>
+								<form:option value="Women">Women</form:option>
+								<form:option value="Men">Men</form:option>
+								<form:option value="Unisex">Unisex</form:option>
+							</form:select>
 						</c:if>
 						<div class="filter-search-div">
-						<input type="text" class="form-control" placeholder="Search">
+						<form:input type="text" class="form-control" placeholder="Search" name="" path="serviceFilterBean.searchTerm" />
 						<div class="input-group">
 							<button type="submit">
 								<span class="glyphicon glyphicon-search"></span>
@@ -284,7 +283,7 @@
 													onclick="toggleFavorite(event, '${service.service_id}','0')">Favourite</span>
 										</c:otherwise>
 									</c:choose>
-									<span class="share"><img src="resources/images/icons/share.png" alt="">share</span>
+									<span class="share" id="fb_share"><img src="resources/images/icons/share.png" alt="">share</span>
 								</div>
 									<a href="${service_type}/${service.service_id}/service_details">
 										<p class="name">${service.service_name}</p>
@@ -298,7 +297,6 @@
 								</p>
 								<p class="phone">Phone : ${service.service_phone}</p>
 								<p class="web">Website : ${service.service_website}</p>
-
 								<div class="icons-div">
 									<c:if test="${service.service_type eq 'SER_VENUE' || service.service_type eq 'SER_CATERERS'}">
 										<div class="specifications">
@@ -551,6 +549,42 @@
 				}
 			});
 		};
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId : '119347835388438',
+				cookie : true,
+				xfbml : true,
+				version : 'v2.0',
+				status : true
+			});
+		};
+
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {
+				return;
+			}
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		var FB = window.FB;
+		$('#fb_share')
+				.click(
+						function(e) {
+							e.preventDefault();
+							FB
+									.ui({
+										method : 'feed',
+										name : 'This is the content of the "name" field.',
+										link : 'www.google.com',
+										picture : 'http://localhost:8080/wisp/resources/images/logo.svg',
+										caption : 'Top 3 reasons why you should care about your finance',
+										description : "What happens when you don't take care of your finances? Just look at our country -- you spend irresponsibly, get in debt up to your eyeballs, and stress about how you're going to make ends meet. The difference is that you don't have a glut of taxpayers…",
+										message : ""
+									});
+						});
 	</script>
 </body>
 </html>

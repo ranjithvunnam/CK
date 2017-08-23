@@ -28,7 +28,7 @@
 </head>
 <body>
 
-	<%@ include file="templetes/header.jsp"%>
+	<%@ include file="templetes/simple_header.jsp"%>
 	<div class="container">
 		<div id="loginbox" style="margin-top: 50px;"
 			class="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">
