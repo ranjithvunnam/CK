@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.nunc.wisp.beans.AjaxResponseBean;
 import com.nunc.wisp.beans.ChangePasswordBean;
 import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.ForgotPasswordBeans;
@@ -319,7 +320,8 @@ public class ApplicationController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
 			Model model, HttpServletRequest request) {
-		
+		UserRegistrationBean userBean = new UserRegistrationBean();
+		model.addAttribute("bean", userBean);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 		    return "redirect:home";
@@ -337,47 +339,53 @@ public class ApplicationController {
 	}
 	
 	@RequestMapping(value = "/faceBookLogin", method = RequestMethod.POST)
-	public String faceBookLogin(@RequestBody UserRegistrationBean bean, 
+	public @ResponseBody AjaxResponseBean faceBookLogin(@RequestBody UserRegistrationBean bean, 
 			Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) throws WISPServiceException {
 		UserEntity user = applicationServices.getUserByUserEmail(bean.getEmail());
+		AjaxResponseBean responseBean = new AjaxResponseBean();
 		if(user != null) {
-			if(bean.getProvider() != null && bean.getProvider().equals(SocialLoginProviders.FACEBOOK.name())) {
-				if(bean.getFb_login_id() != null) {
+			if(bean.getFb_login_id() != null 
+					&& bean.getProvider() != null 
+					&& bean.getProvider().equals(SocialLoginProviders.FACEBOOK.name())) {
+				if(user.getFb_login_id() != null && !user.getFb_login_id().isEmpty()) {
 					if(bean.getFb_login_id().equals(user.getFb_login_id())) {
 						autoLogin(user, request);
-					    return "redirect:home";
+						responseBean.setRedirectUrl("home");
 					}else {
 						redirectAttributes.addAttribute("errors", "Not register with any social sites.");
-						return "redirect:login";
+						responseBean.setRedirectUrl("login");
 					}
 				} else {
 					applicationServices.updateUser(bean);
 					autoLogin(user, request);
-					return "redirect:home";
+					responseBean.setRedirectUrl("home");
 				}
-			} else if (bean.getProvider() != null && bean.getProvider().equals(SocialLoginProviders.GOOGLE.name())) {
-				if(bean.getGoogle_id() != null) {
+			} else if (bean.getGoogle_id() != null 
+					&& bean.getProvider() != null 
+					&& bean.getProvider().equals(SocialLoginProviders.GOOGLE.name())) {
+				if(user.getGoogle_id() != null && !user.getGoogle_id().isEmpty()) {
 					if(bean.getGoogle_id().equals(user.getGoogle_id())) {
 						autoLogin(user, request);
-					    return "redirect:home";
+						responseBean.setRedirectUrl("home");
 					} else {
 						redirectAttributes.addAttribute("errors", "Not register with any social sites.");
-						return "redirect:login";
+						responseBean.setRedirectUrl("login");
 					}
 				} else {
 					applicationServices.updateUser(bean);
 					autoLogin(user, request);
-					return "redirect:home";
+					responseBean.setRedirectUrl("home");
 				}
 			}else {
 				redirectAttributes.addAttribute("errors", "wrong provider");
-				return "redirect:login";
+				responseBean.setRedirectUrl("login");
 			}
 			
 		} else {
-			applicationServices.registerNewUserAccount(bean);
-			return "redirect:login";
+			responseBean.setBean(bean);
+			responseBean.setRedirectUrl(null);
 		}
+		return responseBean;
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -407,13 +415,21 @@ public class ApplicationController {
 		return "redirect:/ContactUs";
 	}
 	
-	@RequestMapping(value = "/sendEnquiry", method = RequestMethod.POST)
-	public @ResponseBody void sendEnquiryDetails(@ModelAttribute("enquiryBean") @Valid ServiceEnquiryBean bean,
-			BindingResult result, Errors errors, Model model) throws WISPServiceException{
-		/*if (result.hasErrors()) {
-			return "Please fill all the mandatory fields.";
-		}*/
-		LOG_R.info(bean.getEnquiry_date());
+	@RequestMapping(value = "/rest/sendEnquiry", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody void sendEnquiryDetails(@RequestParam(value = "service_id") Long service_id,
+			@RequestParam(value = "name") String name,
+			@RequestParam(value = "email") String email,
+			@RequestParam(value = "phone") String phone,
+			@RequestParam(value = "description") String description,
+			@RequestParam(value = "enquiry_date") Date enquiry_date) throws WISPServiceException{
+		ServiceEnquiryBean bean = new ServiceEnquiryBean();
+		bean.setName(name);
+		bean.setEmail(email);
+		bean.setPhone(phone);
+		bean.setDescription(description);
+		bean.setService_id(service_id);
+		bean.setEnquiry_date(enquiry_date);
 		applicationServices.addEnquiryDetails(bean);
 	}
 	
@@ -432,6 +448,36 @@ public class ApplicationController {
 			applicationServices.registerNewUserAccount(bean);
 			redirectAttributes.addFlashAttribute("success","Registration completed successfully.");
 			return "redirect:/login";
+		} catch (WISPServiceException e) {
+			if(e.getErrorCode() == 1000){
+				model.addAttribute("error", e.getMessage());
+			} else {
+				model.addAttribute("error", "Problem communicating with servers..try again");
+			}
+			bean.setEmail("");
+			bean.setPassword("");
+			bean.setConfirm_password("");
+			model.addAttribute("bean", bean);
+			return "register";
+		}
+	}
+	
+	@RequestMapping(value = "/socialregistration", method = RequestMethod.POST)
+	public String registerUserAccountWithSocialAccount(@ModelAttribute("user") @Valid UserRegistrationBean bean,
+			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request){
+		if (result.hasErrors()) {
+			model.addAttribute("error", "Your form contains errors");
+			bean.setPassword("");
+			bean.setConfirm_password("");
+			model.addAttribute("bean", bean);
+			return "register";
+		}
+		try {
+			bean.setRole(1L);
+			applicationServices.registerNewUserAccount(bean);
+			UserEntity user = applicationServices.getUserByUserEmail(bean.getEmail());
+			autoLogin(user, request);
+			return "redirect:/home";
 		} catch (WISPServiceException e) {
 			if(e.getErrorCode() == 1000){
 				model.addAttribute("error", e.getMessage());

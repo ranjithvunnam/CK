@@ -42,12 +42,12 @@
 								<div class="social-icons">
 									<p>
 										<a class="btn btn-primary social-login-btn social-facebook"
-											href="#">Continue with &nbsp;&nbsp;<i
+											onclick="facebookLogin()">Continue with &nbsp;&nbsp;<i
 											class="fa fa-facebook"></i></a>
 									</p>
 									<p>
 										<a class="btn btn-primary social-login-btn social-google"
-											href="#">Continue with &nbsp;&nbsp;<i
+											onclick="auth()">Continue with &nbsp;&nbsp;<i
 											class="fa fa-google-plus"></i></a>
 									</p>
 									<!-- <a class="btn btn-primary social-login-btn social-twitter" href="/auth/twitter"><i class="fa fa-twitter"></i></a> -->
@@ -103,12 +103,260 @@
 			</div>
 		</div>
 	</div>
-
+	<!-- Social registration complete Modal -->
+	<div class="modal fade" id="registration_modal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content" style="border-radius: unset;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Send an Enquiry</h4>
+				</div>
+				<div class="modal-body" id="mod_comm" style="overflow-x: scroll;">
+					<div class="col-md-12">
+						<form id="signupform" class="form-horizontal" role="form"
+							action="vendor/socialregistration" method="POST">
+							<div class="form-group">
+								<label for="firstname" class="col-md-3 control-label">First
+									Name</label>
+								<div class="col-md-9">
+									<form:input class="form-control" path="bean.first_name"
+										name="first_name" placeholder="First Name" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-3 control-label">Last
+									Name</label>
+								<div class="col-md-9">
+									<form:input path="bean.last_name" class="form-control"
+										name="last_name" placeholder="Last Name" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="phone" class="col-md-3 control-label">Phone
+									Number</label>
+								<div class="col-md-9">
+									<form:input path="bean.phone_primary" class="form-control"
+										name="phone_primary" placeholder="Phone Number" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="email" class="col-md-3 control-label">Email</label>
+								<div class="col-md-9">
+									<form:input path="bean.email" class="form-control" name="email"
+										placeholder="Email Address" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="password" class="col-md-3 control-label">Password</label>
+								<div class="col-md-9">
+									<form:input path="bean.password" type="password"
+										class="form-control" name="password" placeholder="Password" />
+								</div>
+							</div>
+							<form:hidden path="bean.google_id" name="google_id"/>
+							<form:hidden path="bean.fb_login_id" name="fb_login_id"/>
+							<div class="form-group">
+								<label for="icode" class="col-md-3 control-label">Confirm
+									Password</label>
+								<div class="col-md-9">
+									<form:input path="bean.confirm_password" type="password"
+										class="form-control" name="confirm_password"
+										placeholder="Confirm Password" />
+								</div>
+							</div>
+							<div class="form-group" style="text-align: right;">
+								<!-- Button -->
+								<div class="col-md-offset-3 col-md-9">
+									<input name="submit" type="submit" value="Sign Up"
+										id="btn-signup" class="btn custom-button" />
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
+	<script src="resources/js/custom.js" type="text/javascript"></script>
+	<script
+		src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+	<script src="resources/js/validations.js"></script>
+	<script type="text/javascript">
+	//Facebook
+	window.fbAsyncInit = function() {
+		FB.init({
+			appId : '119347835388438',
+			cookie : true,
+			xfbml : true,
+			version : 'v2.0',
+			status : true
+		});
+	};
+
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {
+			return;
+		}
+		js = d.createElement(s);
+		js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+
+	function facebookLogin() {
+		var FB = window.FB;
+		FB.getLoginStatus(function(response) {
+			statusChangeCallback(response);
+		});
+	}
+
+	function statusChangeCallback(response) {
+		console.log('statusChangeCallback');
+		console.log(response);
+		// The response object is returned with a status field that lets the
+		// app know the current login status of the person.
+		// Full docs on the response object can be found in the documentation
+		// for FB.getLoginStatus().
+		if (response.status === 'connected') {
+			// Logged intconnectedo your app and Facebook.
+			console.log('connected');
+			FB.api('/me', {
+				fields : 'first_name,last_name,email'
+			}, function(response) {
+				console.log(JSON.stringify(response));
+				$
+						.ajax({
+							url : 'vendor/faceBookLogin',
+							type : 'POST',
+							contentType : 'application/json; charset=utf-8',
+							data : JSON.stringify({
+								first_name : response.first_name,
+								last_name : response.last_name,
+								email : response.email,
+								fb_login_id : response.id,
+								provider : 'FACEBOOK'
+							}),
+							success : function(data) {
+								if (data.redirectUrl == null && data.bean != null) {
+									$('input[name="first_name"]').val(
+											data.bean.first_name);
+									$('input[name="last_name"]').val(
+											data.bean.last_name);
+									$('input[name="email"]').val(data.bean.email);
+									$('input[name="phone_primary"]').val(
+											data.bean.phone_primary);
+									$('input[name="google_id"]').val(
+											data.bean.google_id);
+									$('input[name="fb_login_id"]').val(
+											data.bean.fb_login_id);
+									$("#registration_modal").modal('show');
+								}
+								if (data.redirectUrl != null && data.bean == null) {
+									window.location = data.redirectUrl;
+								}
+							},
+							error : function(jqXHR, textStatus) {
+								console.log('Error : ' + textStatus);
+							}
+						});
+			});
+		} else {
+			console.log('Not connected');
+			FB.login();
+		}
+	}
+
+	//Google
+	
+	(function() {
+	    var po = document.createElement('script');
+	    po.type = 'text/javascript'; po.async = true;
+	    po.src = 'https://plus.google.com/js/client:plusone.js';
+	    var s = document.getElementsByTagName('script')[0];
+	    s.parentNode.insertBefore(po, s);
+	  })();
+	
+	var accessToken = null;
+	var config = {
+	    'client_id': '676581082318-gmqf9jp5njrmjp6064qe9j15f3g6j052.apps.googleusercontent.com',
+	    'scope': 'https://www.googleapis.com/auth/userinfo.profile',
+	}; 
+
+	function auth() {
+	 
+	    gapi.auth.authorize(config, function() {
+	        accessToken = gapi.auth.getToken().access_token;
+	        console.log('We have got our token....');
+	        console.log(accessToken);
+	        console.log('We are now going to validate our token....');
+	        validateToken();
+	               
+	    });
+	}
+	 
+	function validateToken() {
+	    $.ajax({
+	        url: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + accessToken,
+	        data: null,
+	        success: function(response){  
+	            console.log('Our token is valid....');
+	            console.log('We now want to get info about the user using our token....');
+	            getUserInfo();
+	        },  
+	        error: function(error) {
+	            console.log('Our token is not valid....');
+	        },
+	        dataType: "jsonp" 
+	    });
+	}
+	 
+	function getUserInfo() {
+	    $.ajax({
+	        url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + accessToken,
+	        data: null,
+	        success: function(response) {
+				console.log(response);
+	            $.ajax({
+					url : 'vendor/faceBookLogin',
+					type : 'POST',
+					contentType : 'application/json; charset=utf-8',
+					data : JSON.stringify({
+						first_name : response.given_name,
+						last_name : response.family_name,
+						email : response.email,
+						google_id : response.id,
+						provider : 'GOOGLE'
+					}),
+					success : function(data, textStatus, xhr) {
+						if (data.redirectUrl == null && data.bean != null){
+							$('input[name="first_name"]').val(data.bean.first_name);
+							$('input[name="last_name"]').val(data.bean.last_name);
+							$('input[name="email"]').val(data.bean.email);
+							$('input[name="phone_primary"]').val(data.bean.phone_primary);
+							$('input[name="google_id"]').val(data.bean.google_id);
+							$('input[name="fb_login_id"]').val(data.bean.fb_login_id);
+							$("#registration_modal").modal('show');
+						}
+						if (data.redirectUrl != null && data.bean == null) {
+							window.location = data.redirectUrl;
+						}
+					},
+					error : function(jqXHR, textStatus) {
+						console.log('Error : '+textStatus);
+					}
+				});
+	        },
+	        dataType: "jsonp"
+	    });
+	}
+	</script>
 </body>
 </html>

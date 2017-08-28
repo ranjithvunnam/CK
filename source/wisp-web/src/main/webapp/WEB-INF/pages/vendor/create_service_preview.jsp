@@ -80,9 +80,15 @@
 						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
-								<p class="name">${service_creation_bean.service_name}</p>
-								<p class="contact">${service_creation_bean.service_address1} ${service_creation_bean.service_address2} ${service_creation_bean.service_phone}</p>
-								<p class="web">${service_creation_bean.service_website}</p>
+								<p class="contact">${service_creation_bean.service_address1}</p>
+								<p class="contact">${service_creation_bean.service_address2}</p>
+								<p class="contact">${service_creation_bean.service_city}</p>
+								<p class="contact">${service_creation_bean.service_state}</p>
+								<p class="contact">${service_creation_bean.service_country}</p>
+								<p class="contact">${service_creation_bean.service_pin}</p>
+								<p class="contact">Phone : ${service_creation_bean.service_phone}</p>
+								<p class="web">WebSite : ${service_creation_bean.service_website}</p>
+								<p class="web">Email : ${service_creation_bean.service_email}</p>
 							</div>
 						</div>
 					</div>

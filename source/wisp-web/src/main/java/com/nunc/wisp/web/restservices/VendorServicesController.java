@@ -27,7 +27,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -37,6 +40,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,12 +51,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
+import com.nunc.wisp.beans.AjaxResponseBean;
 import com.nunc.wisp.beans.ChangePasswordBean;
 import com.nunc.wisp.beans.ForgotPasswordBeans;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.UserRegistrationBean;
 import com.nunc.wisp.beans.custom.validators.ServiceDemoghraphicDetailsValidator;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.beans.enums.SocialLoginProviders;
 import com.nunc.wisp.beans.request.ServiceAmenityRequestBean;
 import com.nunc.wisp.beans.request.ServiceCreationRequestBean;
 import com.nunc.wisp.beans.request.ServiceImagesRequestBean;
@@ -89,6 +95,10 @@ public class VendorServicesController {
 	private FileUploadService fileUploadService;
 
 	private ServiceDemoghraphicDetailsValidator validator;
+	
+	@Autowired
+	@Qualifier("authenticationManager")
+	AuthenticationManager authenticationManager;
 	
 	private String UPLOAD_TEMP_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_images";
 	private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://202.53.86.11/wisp/service_temp_images/";
@@ -648,7 +658,8 @@ public class VendorServicesController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
 			Model model, HttpServletRequest request) {
-		
+		UserRegistrationBean userBean = new UserRegistrationBean();
+		model.addAttribute("bean", userBean);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 		    return "redirect:/vendor/home";
@@ -663,6 +674,86 @@ public class VendorServicesController {
 			request.getSession().setAttribute("url_prior_login", referrer);
 		}
 		return "vendor/login";
+	}
+	
+	@RequestMapping(value = "/faceBookLogin", method = RequestMethod.POST)
+	public @ResponseBody AjaxResponseBean faceBookLogin(@RequestBody UserRegistrationBean bean, 
+			Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) throws WISPServiceException {
+		UserEntity user = applicationServices.getUserByUserEmail(bean.getEmail());
+		AjaxResponseBean responseBean = new AjaxResponseBean();
+		if(user != null) {
+			if(bean.getFb_login_id() != null 
+					&& bean.getProvider() != null 
+					&& bean.getProvider().equals(SocialLoginProviders.FACEBOOK.name())) {
+				if(user.getFb_login_id() != null && !user.getFb_login_id().isEmpty()) {
+					if(bean.getFb_login_id().equals(user.getFb_login_id())) {
+						autoLogin(user, request);
+						responseBean.setRedirectUrl("vendor/home");
+					}else {
+						redirectAttributes.addAttribute("errors", "Not register with any social sites.");
+						responseBean.setRedirectUrl("vendor/login");
+					}
+				} else {
+					applicationServices.updateUser(bean);
+					autoLogin(user, request);
+					responseBean.setRedirectUrl("vendor/home");
+				}
+			} else if (bean.getGoogle_id() != null 
+					&& bean.getProvider() != null 
+					&& bean.getProvider().equals(SocialLoginProviders.GOOGLE.name())) {
+				if(user.getGoogle_id() != null && !user.getGoogle_id().isEmpty()) {
+					if(bean.getGoogle_id().equals(user.getGoogle_id())) {
+						autoLogin(user, request);
+						responseBean.setRedirectUrl("vendor/home");
+					} else {
+						redirectAttributes.addAttribute("errors", "Not register with any social sites.");
+						responseBean.setRedirectUrl("vendor/login");
+					}
+				} else {
+					applicationServices.updateUser(bean);
+					autoLogin(user, request);
+					responseBean.setRedirectUrl("vendor/home");
+				}
+			}else {
+				redirectAttributes.addAttribute("errors", "wrong provider");
+				responseBean.setRedirectUrl("vendor/login");
+			}
+			
+		} else {
+			responseBean.setBean(bean);
+			responseBean.setRedirectUrl(null);
+		}
+		return responseBean;
+	}
+	
+	@RequestMapping(value = "/socialregistration", method = RequestMethod.POST)
+	public String registerUserAccountWithSocialAccount(@ModelAttribute("user") @Valid UserRegistrationBean bean,
+			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request){
+		if (result.hasErrors()) {
+			model.addAttribute("error", "Your form contains errors");
+			bean.setPassword("");
+			bean.setConfirm_password("");
+			model.addAttribute("bean", bean);
+			return "vendor/register";
+		}
+		try {
+			bean.setRole(2L);
+			applicationServices.registerNewUserAccount(bean);
+			UserEntity user = applicationServices.getUserByUserEmail(bean.getEmail());
+			autoLogin(user, request);
+			return "redirect:/vendor/home";
+		} catch (WISPServiceException e) {
+			if(e.getErrorCode() == 1000){
+				model.addAttribute("error", e.getMessage());
+			} else {
+				model.addAttribute("error", "Problem communicating with servers..try again");
+			}
+			bean.setEmail("");
+			bean.setPassword("");
+			bean.setConfirm_password("");
+			model.addAttribute("bean", bean);
+			return "vendor/register";
+		}
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -813,5 +904,16 @@ public class VendorServicesController {
 	
 	private boolean userClickedPrevious(int currentPage, int targetPage) {
 		return targetPage < currentPage;
+	}
+	
+	private void autoLogin(UserEntity user, HttpServletRequest request) {
+		UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(user.getEmail(),user.getPassword());
+	    // Authenticate the user
+	    Authentication authentication = authenticationManager.authenticate(authRequest);
+	    SecurityContext securityContext = SecurityContextHolder.getContext();
+	    securityContext.setAuthentication(authentication);
+	    // Create a new session and add the security context.
+	    HttpSession session = request.getSession(true);
+	    session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 	}
 }

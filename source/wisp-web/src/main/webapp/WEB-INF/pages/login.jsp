@@ -14,21 +14,6 @@
 <link href="resources/css/custom.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-	<script type="text/javascript">
-  (function() {
-    var po = document.createElement('script');
-    po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://plus.google.com/js/client:plusone.js';
-    var s = document.getElementsByTagName('script')[0];
-    s.parentNode.insertBefore(po, s);
-  })();
-  </script>
 </head>
 <body>
 	<%@ include file="templetes/simple_header.jsp"%>
@@ -104,7 +89,81 @@
 			</div>
 		</div>
 	</div>
-
+	<!-- Social registration complete Modal -->
+	<div class="modal fade" id="registration_modal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content" style="border-radius: unset;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Send an Enquiry</h4>
+				</div>
+				<div class="modal-body" id="mod_comm" style="overflow-x: scroll;">
+					<div class="col-md-12">
+						<form id="signupform" class="form-horizontal" role="form"
+							action="socialregistration" method="POST">
+							<div class="form-group">
+								<label for="firstname" class="col-md-3 control-label">First
+									Name</label>
+								<div class="col-md-9">
+									<form:input class="form-control" path="bean.first_name"
+										name="first_name" placeholder="First Name" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="lastname" class="col-md-3 control-label">Last
+									Name</label>
+								<div class="col-md-9">
+									<form:input path="bean.last_name" class="form-control"
+										name="last_name" placeholder="Last Name" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="phone" class="col-md-3 control-label">Phone
+									Number</label>
+								<div class="col-md-9">
+									<form:input path="bean.phone_primary" class="form-control"
+										name="phone_primary" placeholder="Phone Number" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="email" class="col-md-3 control-label">Email</label>
+								<div class="col-md-9">
+									<form:input path="bean.email" class="form-control" name="email"
+										placeholder="Email Address" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="password" class="col-md-3 control-label">Password</label>
+								<div class="col-md-9">
+									<form:input path="bean.password" type="password"
+										class="form-control" name="password" placeholder="Password" />
+								</div>
+							</div>
+							<form:hidden path="bean.google_id" name="google_id"/>
+							<form:hidden path="bean.fb_login_id" name="fb_login_id"/>
+							<div class="form-group">
+								<label for="icode" class="col-md-3 control-label">Confirm
+									Password</label>
+								<div class="col-md-9">
+									<form:input path="bean.confirm_password" type="password"
+										class="form-control" name="confirm_password"
+										placeholder="Confirm Password" />
+								</div>
+							</div>
+							<div class="form-group" style="text-align: right;">
+								<!-- Button -->
+								<div class="col-md-offset-3 col-md-9">
+									<input name="submit" type="submit" value="Sign Up"
+										id="btn-signup" class="btn custom-button" />
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<%@ include file="templetes/footer.jsp"%>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
@@ -112,201 +171,9 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/js/custom.js" type="text/javascript"></script>
-	<script type="text/javascript">
-	
-		function facebookLogin() {
-			var FB = window.FB;
-			FB.getLoginStatus(function(response) {
-				statusChangeCallback(response);
-			});
-		}
-
-		function statusChangeCallback(response) {
-			console.log('statusChangeCallback');
-			console.log(response);
-			// The response object is returned with a status field that lets the
-			// app know the current login status of the person.
-			// Full docs on the response object can be found in the documentation
-			// for FB.getLoginStatus().
-			if (response.status === 'connected') {
-				// Logged intconnectedo your app and Facebook.
-				console.log('connected');
-				FB.api('/me', {fields : 'first_name,last_name,email'}, function(response) {
-					console.log(JSON.stringify(response));
-					$.ajax({
-						url : 'faceBookLogin',
-						type : 'POST',
-						contentType : 'application/json; charset=utf-8',
-						data : JSON.stringify({
-							first_name : response.first_name,
-							last_name : response.last_name,
-							email : response.email,
-							fb_login_id : response.id,
-							provider : 'FACEBOOK'
-						}),
-						success : function(msg) {
-							alert("sucess");
-							window.location.reload();
-						},
-						error : function(jqXHR, textStatus) {
-							alert(textStatus);
-						}
-					});
-				});
-			} else {
-				console.log('Not connected');
-				FB.login();
-			}
-		}
-
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId : '119347835388438',
-				cookie : true,
-				xfbml : true,
-				version : 'v2.0',
-				status : true
-			});
-		};
-
-		(function(d, s, id) {
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {
-				return;
-			}
-			js = d.createElement(s);
-			js.id = id;
-			js.src = "//connect.facebook.net/en_US/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));
-	</script>
-	<!-- <script type="text/javascript">
-	var gpclass = (function(){
-	
-	//Defining Class Variables here
-	var response = undefined;
-	return {
-		//Class functions / Objects
-		
-		mycoddeSignIn:function(response){
-			// The user is signed in
-			if (response['access_token']) {
-				console.log(response);
-				//Get User Info from Google Plus API
-				gapi.client.load('plus','v1',this.getUserInformation);
-				
-			} else if (response['error']) {
-				// There was an error, which means the user is not signed in.
-				//alert('There was an error: ' + authResult['error']);
-			}
-		},
-		
-		getUserInformation: function(){
-			var request = gapi.client.plus.people.get( {'userId' : 'me'} );
-			request.execute( function(profile) {
-				var email = profile['emails'].filter(function(v) {
-					return v.type === 'account'; // Filter out the primary email
-				})[0].value;
-				console.log(JSON.stringify(profile));
-				console.log("email "+email);
-				console.log("first name "+profile["name"].givenName);
-				console.log("last name "+profile["name"].familyName);
-				console.log("id "+profile.id);
-				$.ajax({
-					url : 'faceBookLogin',
-					type : 'POST',
-					contentType : 'application/json; charset=utf-8',
-					data : JSON.stringify({
-						first_name : profile["name"].givenName,
-						last_name : profile["name"].familyName,
-						email : email,
-						login_id : profile.id,
-						provider : 'GOOGLE'
-					}),
-					success : function(msg) {
-						alert("sucess");
-						window.location.reload();
-					},
-					error : function(jqXHR, textStatus) {
-						alert(textStatus);
-					}
-				});
-			});
-		}
-	
-	}; //End of Return
-	})();
-	
-	function mycoddeSignIn(gpSignInResponse){
-		gpclass.mycoddeSignIn(gpSignInResponse);
-	}
-	</script> -->
-	<script type="text/javascript">
-		var accessToken;
-		var config = {
-		    'client_id': '676581082318-gmqf9jp5njrmjp6064qe9j15f3g6j052.apps.googleusercontent.com',
-		    'scope': 'https://www.googleapis.com/auth/userinfo.profile',
-		};    
-		 
-		function auth() {
-		 
-		    gapi.auth.authorize(config, function() {
-		        accessToken = gapi.auth.getToken().access_token;
-		        console.log('We have got our token....');
-		        console.log(accessToken);
-		        console.log('We are now going to validate our token....');
-		        validateToken();
-		               
-		    });
-		}
-		 
-		function validateToken() {
-		    $.ajax({
-		        url: 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + accessToken,
-		        data: null,
-		        success: function(response){  
-		            console.log('Our token is valid....');
-		            console.log('We now want to get info about the user using our token....');
-		            getUserInfo();
-		        },  
-		        error: function(error) {
-		            console.log('Our token is not valid....');
-		        },
-		        dataType: "jsonp" 
-		    });
-		}
-		 
-		function getUserInfo() {
-		    $.ajax({
-		        url: 'https://www.googleapis.com/oauth2/v1/userinfo?access_token=' + accessToken,
-		        data: null,
-		        success: function(response) {
-		            console.log('We have gotten info back....');
-		            console.log(response);
-		            //$('#user').html(response.name);
-		            $.ajax({
-						url : 'faceBookLogin',
-						type : 'POST',
-						contentType : 'application/json; charset=utf-8',
-						data : JSON.stringify({
-							first_name : response.given_name,
-							last_name : response.family_name,
-							email : response.email,
-							google_id : response.id,
-							provider : 'GOOGLE'
-						}),
-						success : function(msg) {
-							alert("sucess");
-							window.location.reload();
-						},
-						error : function(jqXHR, textStatus) {
-							alert(textStatus);
-						}
-					});
-		        },
-		        dataType: "jsonp"
-		    });
-		}          
-	</script>
+	<script
+		src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+	<script src="resources/js/validations.js"></script>
+	<script src="resources/js/socialauth.js"></script>
 </body>
 </html>

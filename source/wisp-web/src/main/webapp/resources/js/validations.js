@@ -129,38 +129,45 @@
                     	form.submit();
                     }
                 });
-             // enquiry form
-                $("form[name='enquiryform']").validate({
+             // registration form
+                $("form[name='signupform']").validate({
                     // Specify validation rules
                     rules: {
                         // The key name on the left side is the name attribute
                         // of an input field. Validation rules are defined
                         // on the right side
-                        name: "required",
-                        message: "required",
-                        enquiry_date:"required",
-                        email: {
+                    	first_name: "required",
+                    	last_name: "required",
+                    	email: {
                             required: true,
                             email: true
                         },
-                        phone: {
+                        phone_primary: {
                             required: true,
                             minlength: 10,
                             number: true
+                        },
+                        password : {
+                        	required: true
+                        },
+                        confirm_password: {
+                        	required: true,
+                        	equalTo : "[name='password']"
                         }
                     },
                     // Specify validation error messages
                     messages: {
-                        name: "Please enter your name",
-                        message: "Please enter your event details",
-                        phone: "Please enter 10 digit number",
-                        email: "Please enter a valid email address",
-                        enquiry_date:"Please enter event date"
-                    }/*,
+                    	first_name: "Please enter first name",
+                    	last_name: "Please enter last name",
+                    	phone_primary: "Please enter 10 digit number",
+                    	email: "Please enter a valid email address",
+                    	password:"Please enter password",
+                    	confirm_password:"Please enter valid confirm password"
+                    },
                     // Make sure the form is submitted to the destination defined
                     // in the "action" attribute of the form when valid
                     submitHandler: function(form, event) {
                     	form.submit();
-                    }*/
+                    }
                 });
         });

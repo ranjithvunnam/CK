@@ -432,8 +432,11 @@ public class ApplicationServicesImpl implements ApplicationServices {
 		try {
 			UserEntity user = applicationRepository.getUserByUserEmail(bean.getEmail());
 			if(user != null) {
-				user.setFb_login_id(bean.getFb_login_id());
-				user.setGoogle_id(bean.getGoogle_id());
+				if(bean.getFb_login_id() != null && !bean.getFb_login_id().isEmpty()) {
+					user.setFb_login_id(bean.getFb_login_id());
+				}else if(bean.getGoogle_id() != null && !bean.getGoogle_id().isEmpty()){
+					user.setGoogle_id(bean.getGoogle_id());
+				}
 				applicationRepository.updateUserCredentials(user);
 			}
 		} catch (WISPDataAccessException e) {

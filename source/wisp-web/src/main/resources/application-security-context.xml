@@ -27,6 +27,8 @@
 		<intercept-url pattern="/vendor/forgotpassword" access="permitAll" />
 		<intercept-url pattern="/vendor/resetpassword/**" access="permitAll" />
 		<intercept-url pattern="/vendor/resetpassword" access="permitAll" />
+		<intercept-url pattern="/vendor/facebooklogin" access="permitAll" />
+		<intercept-url pattern="/vendor/socialregistration" access="permitAll" />
 		<intercept-url pattern='/vendor/**' access="hasRole('ROLE_VENDOR')" />
 		<form-login login-page="/vendor/login" login-processing-url="/vendor/j_spring_security_check" default-target-url="/vendor/home" 
 			always-use-default-target="true" authentication-failure-url="/vendor/login?error=true"/>
@@ -62,6 +64,7 @@
 		<intercept-url pattern="/resetpassword" access="permitAll" />
 		<intercept-url pattern="/filterServices" access="permitAll" />
 		<intercept-url pattern="/facebooklogin" access="permitAll" />
+		<intercept-url pattern="/socialregistration" access="permitAll" />
 		<intercept-url pattern="/ContactUs" access="permitAll" />
 		<intercept-url pattern="/estimates" access="permitAll" />
 		<intercept-url pattern="/offers" access="permitAll" />

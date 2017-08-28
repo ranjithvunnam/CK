@@ -131,16 +131,29 @@
 						</c:forEach>
 						<c:choose>
 							<c:when test="${isFavorite eq true}">
-								<span class="fav" ><img	src="resources/images/icons/favourite.png" alt="" 
-									id="ser_fav${service_details.service_id}" onclick="toggleFavorite(event, '${service_details.service_id}')" >Favourite</span>
+								<span class="fav"  id="${service_details.service_id}">
+								<img src="resources/images/icons/favourite.png" alt="" >Favourite</span>
 							</c:when>
 							<c:otherwise>
-								<span class="fav" ><img
-										src="resources/images/icons/favorite.png" alt="" 
-										id="ser_fav${service_details.service_id}" onclick="toggleFavorite(event, '${service_details.service_id}')" >Favourite</span>
+								<span class="fav"  id="${service_details.service_id}">
+								<img src="resources/images/icons/favorite.png" alt="" >Favourite</span>
 							</c:otherwise>
 						</c:choose>
-						<span class="share"><img src="resources/images/icons/share.png" alt="">share</span>
+						<span class="share"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
+	                        <div class="social-networks">
+	                          <ul>
+	                            <li class="social-twitter">
+	                              <a href="#" onClick="MyWindow=window.open('https://twitter.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-twitter"></i></a>
+	                            </li>
+	                            <li class="social-facebook">
+	                              <a href="#" onClick="MyWindow=window.open('https://www.facebook.com/sharer.php?u=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-facebook"></i></a>
+	                            </li>
+	                            <li class="social-gplus">
+	                              <a href="#" onClick="MyWindow=window.open('https://plus.google.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-google-plus"></i></a>
+	                            </li>
+	                          </ul>
+	                        </div>
+	                    </span>
 						<a href="goPrevious"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
@@ -577,52 +590,48 @@
 						<div class="col-md-12">
 							<div id="thanks">
 							</div>
-							<form name="enquiryform" id="enquiryForm" role="form"
-								action="sendEnquiry" method="POST">
+							<form name="enquiryform" id="enquiryForm" method="POST">
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<form:input type="text" name="name" class="form-control"
+											<input type="text" name="name" class="form-control"
 												placeholder="Your Name *" id="name" required=""
-												path="enquiryBean.name"
-												data-validation-required-message="Please enter your name." />
+												data-validation-required-message="Please enter your name." maxlength="45"/>
 											<p class="help-block text-danger"></p>
 										</div>
 										<div class="form-group">
-											<form:input type="email" name="email" class="form-control"
+											<input type="email" name="email" class="form-control"
 												placeholder="Your Email *" id="email" required=""
-												path="enquiryBean.email"
-												data-validation-required-message="Please enter your email address." />
+												data-validation-required-message="Please enter your email address." maxlength="45"/>
 											<p class="help-block text-danger"></p>
 										</div>
 										<div class="form-group">
-											<form:input type="text" maxlength="10" name="mobile"
+											<input type="text" maxlength="10" name="phone"
 												class="form-control" placeholder="Your Phone *" id="phone"
-												required="" path="enquiryBean.phone"
-												data-validation-required-message="Please enter your phone number." />
+												required=""
+												data-validation-required-message="Please enter your phone number." maxlength="45"/>
 											<p class="help-block text-danger"></p>
 										</div>
-										<form:hidden path="enquiryBean.service_id" value="${service_details.service_id}"/>
+										<input type="hidden" name="service_id" value="${service_details.service_id}"/>
 										<div class="form-group">
-											<form:input type="text" name="enquiry_date" 
+											<input type="text" name="enquiry_date" 
 												class="form-control" id="enquiry_date"
-												required="" path="enquiryBean.enquiry_date"
+												required=""
 												data-validation-required-message="Please enter date." readonly="true"/>
 											<p class="help-block text-danger"></p>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<form:textarea class="form-control" name="message"
+											<textarea class="form-control" name="description"
 												placeholder="Your Message *" id="message" required=""
-												path="enquiryBean.description"
-												data-validation-required-message="Please enter a message."></form:textarea>
+												data-validation-required-message="Please enter a message." maxlength="1024"></textarea>
 											<p class="help-block text-danger"></p>
 										</div>
 										<div style="text-align: right;">
 											<div id="success"></div>
-											<input name="submit" type="submit" value="Submit" class="btn custom-button" />
-											<!-- <button type="reset" class="btn custom-button">Reset</button> -->
+											<button type="submit" class="btn custom-button">Submit</button>
+											<!-- <input name="submit" type="submit" value="Submit" class="btn custom-button" /> -->
 										</div>
 									</div>
 									<div class="clearfix"></div>
@@ -657,17 +666,19 @@
     });
     </script>
     <script type="text/javascript">
-	    var frm = $('#enquiryForm');
+	   var frm = $('#enquiryForm');
 	    frm.submit(function (e) {
 	        e.preventDefault();
-	        $.ajax({
-	            type: frm.attr('method'),
-	            url: frm.attr('action'),
-	            data: frm.serialize(),
+	        var $form = $(this);
+            if(! $form.valid()) return false;
+        	$.ajax({
+	            url: 'rest/sendEnquiry',
+	            type: 'GET',
+	            contentType : 'application/json; charset=utf-8',
+				data : $('#enquiryForm').serialize(),
 	            success: function (data) {
-	                //$("#thanks").html('Submission was successful.')
-	                //$('#myModal').modal('hide');
 	                $('#enquiryForm')[0].reset();
+	                $('#myModal').modal('hide');
 	            },
 	            error: function (data) {
 	                console.log(data);
@@ -778,18 +789,26 @@
 				}
 			});
 		});
-		function toggleFavorite(event, serviceId) {
+		// toggle favourite icon
+		$(".top-share-icon .fav").on("click", function(){
+			var serviceId = $(this).attr('id');
+			var fullPath = $(this).find('img').attr('src');
+			console.log(fullPath);
+			var currentImage = $(this).find('img');
 			$.ajax({
 				url : 'rest/toggleFavorite?&service_id='+serviceId,
 				type : 'GET',
 				contentType : 'application/json; charset=utf-8',
 				success : function(result, msg, xhr) {
-					var fullPath = $('#'+event.target.id).attr('src');
 					var imageName = fullPath.replace(/^.*[\\\/]/, '');
+					console.log(imageName);
 					if(imageName == "favourite.png"){
-						$('#'+event.target.id).attr('src',"resources/images/icons/favorite.png");
-					} else {
-						$('#'+event.target.id).attr('src',"resources/images/icons/favourite.png");
+						console.log($(this));
+						currentImage.attr("src", "resources/images/icons/favorite.png");
+					}
+					else{
+						console.log(false);
+						currentImage.attr("src", "resources/images/icons/favourite.png")
 					}
 					
 				},
@@ -801,7 +820,7 @@
 			        }
 				}
 			});
-		};
+		});
 	</script>
 
 </body>

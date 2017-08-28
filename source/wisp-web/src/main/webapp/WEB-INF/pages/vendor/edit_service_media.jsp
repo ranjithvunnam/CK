@@ -379,7 +379,6 @@
 						processData: false, 
 	                    contentType:false,
 						success : function(msg) {
-							alert("FeedBack submitted.."+msg);
 							var createImageContainer = '<div class="thumb-images"><img src="'+msg+'" alt="">'+
 			                '<div class="thumb-close"><i class="fa fa-times" aria-hidden="true"></i></div></div>';
 			                $(".uploaded-container").append(createImageContainer);
@@ -417,6 +416,7 @@
 							_this.parent().remove();
 						},
 						error : function(jqXHR, textStatus) {
+							console.log(textStatus);
 							alert(textStatus);
 						}
 					});

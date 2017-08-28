@@ -292,6 +292,7 @@
 						},
 						error : function(jqXHR, textStatus) {
 							alert(textStatus);
+							console.log(textStatus);
 						}
 					});
 				});

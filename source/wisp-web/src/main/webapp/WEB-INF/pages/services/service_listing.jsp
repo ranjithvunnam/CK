@@ -273,18 +273,31 @@
 									<c:choose>
 										<c:when test="${isFavorite eq true}">
 											<!-- this is user favorite -->
-											<span class="fav">
-														<img  id="ser_fav${service.service_id}" onclick="toggleFavorite(event, '${service.service_id}')" 
-														src="resources/images/icons/favourite.png" alt="">Favourite</span>
+											<span class="fav" id="${service.service_id}">
+												<img src="resources/images/icons/favourite.png" alt="">Favourite</span>
 										</c:when>
 										<c:otherwise>
 											<!-- this is not user favorite -->
-											<span class="fav" ><img
-													src="resources/images/icons/favorite.png" alt="" id="ser_fav${service.service_id}"
-													onclick="toggleFavorite(event, '${service.service_id}')">Favourite</span>
+											<span class="fav" id="${service.service_id}">
+												<img src="resources/images/icons/favorite.png" alt="" >Favourite</span>
 										</c:otherwise>
 									</c:choose>
-									<span class="share" id="fb_share"><img src="resources/images/icons/share.png" alt="">share</span>
+									<!-- <span class="share" id="fb_share"><img src="resources/images/icons/share.png" alt="">share</span> -->
+									<span class="share"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
+			                        <div class="social-networks">
+			                          <ul>
+			                            <li class="social-twitter">
+			                              <a href="#" onClick="MyWindow=window.open('https://twitter.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-twitter"></i></a>
+			                            </li>
+			                            <li class="social-facebook">
+			                              <a href="#" onClick="MyWindow=window.open('https://www.facebook.com/sharer.php?u=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-facebook"></i></a>
+			                            </li>
+			                            <li class="social-gplus">
+			                              <a href="#" onClick="MyWindow=window.open('https://plus.google.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-google-plus"></i></a>
+			                            </li>
+			                          </ul>
+			                        </div>
+			                    </span>
 								</div>
 									<a href="${service_type}/${service.service_id}/service_details">
 										<p class="name">${service.service_name}</p>
@@ -485,6 +498,7 @@
 	<!-- <script src="slick/slick.js" type="text/javascript" charset="utf-8"></script> -->
 	<script src="resources/js/custom.js" type="text/javascript"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
+	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
@@ -493,18 +507,26 @@
 			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#servicesx").addClass('active');
 		});
-		function toggleFavorite(event, serviceId) {
+		// toggle favourite icon
+		$(".top-share-icon .fav").on("click", function(){
+			var serviceId = $(this).attr('id');
+			var fullPath = $(this).find('img').attr('src');
+			console.log(fullPath);
+			var currentImage = $(this).find('img');
 			$.ajax({
 				url : 'rest/toggleFavorite?&service_id='+serviceId,
 				type : 'GET',
 				contentType : 'application/json; charset=utf-8',
 				success : function(result, msg, xhr) {
-					var fullPath = $('#'+event.target.id).attr('src');
 					var imageName = fullPath.replace(/^.*[\\\/]/, '');
+					console.log(imageName);
 					if(imageName == "favourite.png"){
-						$('#'+event.target.id).attr('src',"resources/images/icons/favorite.png");
-					} else {
-						$('#'+event.target.id).attr('src',"resources/images/icons/favourite.png");
+						console.log($(this));
+						currentImage.attr("src", "resources/images/icons/favorite.png");
+					}
+					else{
+						console.log(false);
+						currentImage.attr("src", "resources/images/icons/favourite.png")
 					}
 					
 				},
@@ -516,7 +538,7 @@
 			        }
 				}
 			});
-		};
+		});
 		window.fbAsyncInit = function() {
 			FB.init({
 				appId : '119347835388438',
@@ -542,8 +564,7 @@
 				.click(
 						function(e) {
 							e.preventDefault();
-							FB
-									.ui({
+							FB.ui({
 										method : 'feed',
 										name : 'This is the content of the "name" field.',
 										link : 'www.google.com',

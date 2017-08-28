@@ -1,4 +1,10 @@
     $(document).on('ready', function() {
+    	// share icons
+        $(".top-share-icon .share").on("click", function(){
+            $(".social-networks").slideToggle( "fast", function() {
+                // Animation complete.
+              });
+        });
         // get ratings
         $(".rating input").on("click", function() {
             alert("you have given - custom.js " + $(this).val()); // delete this after u get 

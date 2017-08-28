@@ -1,3 +1,7 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
 body {
 	background: url('../images/bg.jpg');
 	background-repeat: repeat;
@@ -447,11 +451,16 @@ body {
     display: block;
 }*/
 .footer {
-	background-color: #444444;
-	border-top: 3px solid #f9d36d;
-	color: #fff;
-	padding-top: 20px;
-	padding-bottom: 20px;
+    background-color: #444444;
+    border-top: 3px solid #f9d36d;
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;    
+    /*position: absolute;*/
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    overflow:hidden;
 }
 
 .footer p {
@@ -1103,6 +1112,120 @@ section#contact .text-danger {
 	height: 200px;
 	width: 100%;
 }
+.service_slider{
+    /* display: none; */
+}
+
+
+/*share css*/
+
+.social-gplus {
+  background: #e34429;
+}
+
+.social-twitter {
+  background: #6cdfea;
+}
+
+.social-networks.open-menu, .no-js .social-networks {
+  -webkit-transform: scale(1) translateY(-90px);
+  transform: scale(1) translateY(-90px);
+  opacity:1;
+}
+
+.social-networks{
+    display: none;
+    position: absolute;
+}
+.social-networks ul {
+  position:relative;
+  top:5px;
+  left:0;
+  /*width: 180px;*/
+  /*height: 40px;*/
+  color: #fff;
+  background: #3b5998;
+  margin: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.social-networks ul:after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+}
+
+.social-networks.open-menu ul:after, .no-js .social-networks ul:after {
+  margin: 35px auto;
+  border-top: 12px solid #3b5998;
+}
+  
+.social-networks li {
+  font-size: 120%;
+  width: 58px;
+  margin: 0;
+  text-align: center;
+  /*float: left;*/
+  display: block;
+  height: 40px;
+  line-height:40px;
+  position: relative;
+  z-index: 2;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  transition: all .3s ease;
+}
+
+.share-button a {
+  text-decoration:none;
+}
+
+.social-networks a {
+  display:block;
+  color:white;
+}
+
+.social-networks a:hover {
+  color:#222;
+  background-color: #d1d1d1;
+}
+
+/*social button share css*/
+
+.top-share-icon .share{
+    cursor: pointer;
+}
+
+.top-share-icon .fav{
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*media query*/
 @media screen and (min-width: 320px) {
