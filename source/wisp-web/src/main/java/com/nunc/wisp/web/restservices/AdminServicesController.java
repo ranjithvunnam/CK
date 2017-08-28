@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,10 @@ public class AdminServicesController {
 	@Autowired
 	@Qualifier("AdminApplicationServices")
 	private AdminApplicationServices adminApplicationServices;
+	
+	@Autowired
+	@Qualifier("sessionRegistry")
+	private SessionRegistry sessionRegistry;
 	
 	@RequestMapping(value = "/access", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
@@ -64,6 +69,7 @@ public class AdminServicesController {
 		List<ServiceListEntity>  vendor_service_list = adminApplicationServices.getListOfServicesToVerify(offset, maxResults);
 		model.addAttribute("count", count);
 		model.addAttribute("services", vendor_service_list);
+		model.addAttribute("sessionCount",sessionRegistry.getAllPrincipals().size());
 		return "admin/admin_service_list";
 	}
 	

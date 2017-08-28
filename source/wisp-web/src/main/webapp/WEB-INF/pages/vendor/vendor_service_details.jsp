@@ -117,6 +117,7 @@
 								</p>
 								<p class="phone">Phone : ${service_details.service_phone}</p>
 								<p class="web">Website : ${service_details.service_website}</p>
+								<p class="web">Email : ${service_details.service_email}</p>
 				</div>
 			</div>
 		</div>
@@ -323,7 +324,7 @@
                             <input name="toDate"  placeholder="To Date" type="text" class="form-control" value="2012-04-19">
                         </div>
                         <button type="submit" class="btn custom-button more">Refresh</button>
-                        <button onclick="createChart()" class="btn custom-button more">Get Details</button>
+                        <button type="submit" class="btn custom-button more">Get Details</button>
                     </form>
                     <div id="chart_div"></div>
                 </div>
@@ -438,13 +439,13 @@
 				 });
                 $(this).datepicker('clearDates', { minDate: 0});
             });
-
+			var id = $("#service_id").val();
             $("#daterange_chart").on("submit", function(e){
             	e.preventDefault();
             	createChart(id,$("[name='fromDate']").val(),$("[name='toDate']").val());
                 
             });
-            	var id = $("#service_id").val();
+            	
             	var date = new Date();
             	var fromDate = date.yyyymmdd();
             	var date1 = new Date();
@@ -457,6 +458,7 @@
 	            });
             });
         function createChart(id, toDate, fromDate){
+        	console.log(id);
         	google.charts.load('current', {packages: ['corechart', 'line']});
             google.charts.setOnLoadCallback(drawBasic);
             function drawBasic() {

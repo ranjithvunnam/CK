@@ -175,8 +175,8 @@
 							<div
 								class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 								<div class="top-share-icon">
-									<span class="fav">
-										<img id="${service.service_fav_list_entity.service_id}" src="resources/images/icons/favourite.png" alt="">Favourite</span>
+									<span class="fav" id="${service.service_fav_list_entity.service_id}">
+										<img src="resources/images/icons/favourite.png" alt="">Favourite</span>
 									<span class="share"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
 			                        <div class="social-networks">
 			                          <ul>
@@ -408,7 +408,7 @@
 		$(".top-share-icon .fav").on("click", function(){
 			var serviceId = $(this).attr('id');
 			var fullPath = $(this).find('img').attr('src');
-			console.log(fullPath);
+			console.log(serviceId);
 			var currentImage = $(this).find('img');
 			$.ajax({
 				url : 'rest/toggleFavorite?&service_id='+serviceId,
@@ -425,7 +425,7 @@
 						console.log(false);
 						currentImage.attr("src", "resources/images/icons/favourite.png")
 					}
-					
+					window.location.reload();
 				},
 				error : function(jqXHR, textStatus) {
 					if (jqXHR.status === 401) { // HTTP Status 401: Unauthorized

@@ -32,6 +32,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -93,6 +94,10 @@ public class VendorServicesController {
 	
 	@Autowired
 	private FileUploadService fileUploadService;
+	
+	@Autowired
+	@Qualifier("sessionRegistry")
+	private SessionRegistry sessionRegistry;
 
 	private ServiceDemoghraphicDetailsValidator validator;
 	
@@ -912,6 +917,7 @@ public class VendorServicesController {
 	    Authentication authentication = authenticationManager.authenticate(authRequest);
 	    SecurityContext securityContext = SecurityContextHolder.getContext();
 	    securityContext.setAuthentication(authentication);
+	    sessionRegistry.registerNewSession(request.getSession().getId(), authentication.getPrincipal());
 	    // Create a new session and add the security context.
 	    HttpSession session = request.getSession(true);
 	    session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);

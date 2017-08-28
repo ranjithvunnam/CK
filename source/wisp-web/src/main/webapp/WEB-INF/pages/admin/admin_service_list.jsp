@@ -34,7 +34,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
-					quick links place holder
+					Total Live Users : ${sessionCount}
 					<div class="pull-right">
 						Total Items: <span>${count}</span>
 					</div>

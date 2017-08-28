@@ -139,11 +139,12 @@
 								<img src="resources/images/icons/favorite.png" alt="" >Favourite</span>
 							</c:otherwise>
 						</c:choose>
+						
 						<span class="share"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
 	                        <div class="social-networks">
 	                          <ul>
 	                            <li class="social-twitter">
-	                              <a href="#" onClick="MyWindow=window.open('https://twitter.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-twitter"></i></a>
+	                              <a href="#" onClick="MyWindow=window.open('https://twitter.com/share?url="+${service_details.service_id}+",'MyWindow',width=600,height=300); return false;"><i class="fa fa-twitter"></i></a>
 	                            </li>
 	                            <li class="social-facebook">
 	                              <a href="#" onClick="MyWindow=window.open('https://www.facebook.com/sharer.php?u=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-facebook"></i></a>
