@@ -181,13 +181,13 @@
 			                        <div class="social-networks">
 			                          <ul>
 			                            <li class="social-twitter">
-			                              <a href="#" onClick="MyWindow=window.open('https://twitter.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-twitter"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details" id="twitterShare"><i class="fa fa-twitter"></i></a>
 			                            </li>
 			                            <li class="social-facebook">
-			                              <a href="#" onClick="MyWindow=window.open('https://www.facebook.com/sharer.php?u=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-facebook"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details" id="facebookShare"><i class="fa fa-facebook"></i></a>
 			                            </li>
 			                            <li class="social-gplus">
-			                              <a href="#" onClick="MyWindow=window.open('https://plus.google.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-google-plus"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details" id="googleShare"><i class="fa fa-google-plus"></i></a>
 			                            </li>
 			                          </ul>
 			                        </div>
@@ -399,6 +399,7 @@
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
+	<script src="resources/js/socialauth.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#homex,#estimatesx,#servicesx,#estimatesx,#offersx").removeClass('active');

@@ -166,8 +166,21 @@
 							<div
 								class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 								<div class="top-share-icon">
-									<span class="share"><img
-										src="resources/images/icons/share.png" alt="">share</span>
+									<span class="share"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
+				                        <div class="social-networks">
+											<ul>
+												<li class="social-twitter"><a
+													data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details"
+													id="twitterShare"><i class="fa fa-twitter"></i></a></li>
+												<li class="social-facebook"><a
+													data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details"
+													id="facebookShare"><i class="fa fa-facebook"></i></a></li>
+												<li class="social-gplus"><a
+													data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details"
+													id="googleShare"><i class="fa fa-google-plus"></i></a></li>
+											</ul>
+										</div>
+				                    </span>
 								</div>
 								<a href="vendor/${service.service_type.description}/${service.service_id}/service_details">
 									<p class="name">${service.service_name}</p>
@@ -478,8 +491,6 @@
 			});
 		});
 	</script>
-	<script type="text/javascript">
-		
-	</script>
+	<script src="resources/js/socialauth.js"></script>
 </body>
 </html>

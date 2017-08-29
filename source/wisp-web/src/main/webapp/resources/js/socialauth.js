@@ -92,7 +92,7 @@
 	    var s = document.getElementsByTagName('script')[0];
 	    s.parentNode.insertBefore(po, s);
 	  })();
-	
+
 	var accessToken = null;
 	var config = {
 	    'client_id': '676581082318-gmqf9jp5njrmjp6064qe9j15f3g6j052.apps.googleusercontent.com',
@@ -166,3 +166,43 @@
 	        dataType: "jsonp"
 	    });
 	}
+	
+
+	$('#twitterShare').on('click', function(e) {
+		e.preventDefault();
+		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+		var twitterWindow = window.open('https://twitter.com/share?url='
+				+ full+$(this).data('js'), 'twitter-popup', 'height=350,width=600');
+		if (twitterWindow.focus) {
+			twitterWindow.focus();
+		}
+		return false;
+	});
+	
+	$('#facebookShare').on('click', function(e) {
+		e.preventDefault();
+		 /*var FB = window.FB;*/
+		 var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+		/* FB.ui({
+				method : 'share',
+				display : 'popup',
+				href : 'https://developers.facebook.com/docs/',
+			}, function(response) {
+			});*/
+		 var facebookWindow = window.open('https://www.facebook.com/dialog/share?app_id=119347835388438&display=popup&href='
+					+ full+$(this).data('js'), 'twitter-popup', 'height=350,width=600');
+			if (facebookWindow.focus) {
+				facebookWindow.focus();
+			}
+			return false;
+	});
+	
+	$('#googleShare').on('click', function(e) {
+		e.preventDefault();
+		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+		var googleWindow = window.open('https://plus.google.com/share?url='+ full+$(this).data('js'), 'google-popup', 'height=600,width=350');
+		if (googleWindow.focus) {
+			googleWindow.focus();
+		}
+		return false;
+	});
