@@ -275,6 +275,7 @@
 					</p>
 					<p class="phone">Phone : ${service_details.service_phone}</p>
 					<p class="web">Website : ${service_details.service_website}</p>
+					<p class="web">Email : ${service_details.service_email}</p>
 
 					<div class="icons-div">
 									<c:if test="${service_details.service_type eq 'SER_VENUE' || service_details.service_type eq 'SER_CATERERS'}">
@@ -377,7 +378,7 @@
 					<div class="ratings">
 						Photos <span class="photos">${service_details.imagesEntities.size()}</span>
 						videos <span class="videos">${service_details.videosEntities.size()}</span>
-						comments <img src="resources/images/icons/comments.png" alt="">
+						<span class="fav" data-serviceid="${service_details.service_id}">comments <img src="resources/images/icons/comments.png" alt="">
 						<span class="comments">${service_details.commentsEntities.size()}</span>
 							<div class="rating-readonly">
 								<form>
@@ -386,6 +387,8 @@
 										data-size="xs" title="" disabled captio="none">
 								</form>
 							</div>
+						<span class="comments">(${service.commentsEntities.size()})</span>
+			            </span>
 					</div>
 				</div>
 			</div>
@@ -393,7 +396,19 @@
 	</div>
 
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
-
+	<!-- Comments Model -->
+	<div class="modal fade" id="comments_modal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content" style="border-radius: unset;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body" id="mod_comm" style="overflow-x: auto;">
+					
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

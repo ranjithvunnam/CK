@@ -167,6 +167,7 @@
 					</p>
 					<p class="phone">Phone : ${service_details.service_phone}</p>
 					<p class="web">Website : ${service_details.service_website}</p>
+					<p class="web">Email : ${service_details.service_email}</p>
 				</div>
 			</div>
 		</div>
@@ -285,22 +286,9 @@
 					class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<h5 class="service-heading"></h5>
 					<p class="address">${service_details.service_description}</p>
-					<%-- <div class="ratings">
-						Photos <span class="photos">${service_details.imagesEntities.size()}</span> videos <span class="videos">${service_details.videosEntities.size()}</span>
-						comments <img src="resources/images/icons/comments.png" alt="" > <span
-							class="comments">${service_details.commentsEntities.size()}</span>
-							<div class="rating-readonly">
-								<form>
-									<input id="" value="${service_details.service_avg_rating}" type="text"
-										class="rating" data-min=0 data-max=5 data-step=1
-										data-size="xs" title="" disabled captio="none">
-								</form>
-							</div>
-							<span class="comments">(${service_details.commentsEntities.size()})</span>
-					</div> --%>
 					<div class="ratings">
 						Photos <span class="photos">${service_details.imagesEntities.size()}</span> videos <span class="videos">${service_details.videosEntities.size()}</span>
-						comments <img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#comments_modal"> <span
+						<span class="fav" data-serviceid="${service_details.service_id}">comments <img src="resources/images/icons/comments.png" alt="" data-toggle="modal" data-target="#comments_modal"> <span
 							class="comments">${service_details.commentsEntities.size()}</span>
 							<div class="rating-readonly">
 								<form>
@@ -310,6 +298,7 @@
 								</form>
 							</div>
 							<span class="comments">(${service_details.commentsEntities.size()})</span>
+							</span>
 					</div>
 				</div>
 			</div>
@@ -485,7 +474,7 @@
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
 										<div class="col-sm-10">
-											<textarea class="form-control" rows="3"
+											<textarea class="form-control" rows="3" maxlength="1024"
 												name="feedback_comments"></textarea>
 										</div>
 									</div>
@@ -501,82 +490,22 @@
 				</div>
 			</div>
 		</div>
-		<%-- <div class="row">
-			<div class="col-xs-12 col-md-12 mTop10">
-				<c:forEach items="${service_details.commentsEntities}" var="comment">
-					<div class="panel panel-white post panel-shadow">
-						<div class="post-heading">
-							<div class="pull-left image">
-								<img src="http://images.clipartpanda.com/user-clipart-dagobert83_female_user_icon.png"
-									class="img-circle avatar" alt="user profile image">
-							</div>
-							<div class="pull-left meta">
-								<div class="title h5">
-									<a href="#"><b>${comment.user_comments_entity.first_name}</b></a> made a post.
-									<div class="rating-readonly">
-										<form>
-											<input id="" value="${comment.rating}" type="text" class="rating" data-min=0
-												data-max=5 data-step=1 data-size="xs" title="" disabled>
-										</form>
-									</div>
-								</div>
-								<h6 class="text-muted time">
-									<fmt:formatDate type="both" dateStyle="medium" timeStyle="medium" value="${comment.comment_created}" />
-								</h6>
-							</div>
-						</div>
-						<div class="post-description">
-							<p>${comment.comment_desc}</p>
-						</div>
-					</div>
-				</c:forEach>
-			</div>
-		</div> --%>
 		<%@ include file="/WEB-INF/pages/templetes/suggest_temp.jsp"%>
 	</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
 	<!-- Comments Model -->
-	<c:if test="${not empty service_details.commentsEntities}">
 	<div class="modal fade" id="comments_modal" role="dialog">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content" style="border-radius: unset;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
 				<div class="modal-body" id="mod_comm" style="overflow-x: auto;">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<!-- <h4 class="modal-title">Send an Enquiry</h4> -->
-					</div>
-					<c:forEach items="${service_details.commentsEntities}" var="comment">
-					<div class="panel panel-white post panel-shadow">
-						<div class="post-heading">
-							<div class="pull-left image">
-								<img src="http://images.clipartpanda.com/user-clipart-dagobert83_female_user_icon.png"
-									class="img-circle avatar" alt="user profile image">
-							</div>
-							<div class="pull-left meta">
-								<div class="title h5">
-									<a href="#"><b>${comment.user_comments_entity.first_name}</b></a> made a post.
-									<div class="rating-readonly">
-										<form>
-											<input id="" value="${comment.rating}" type="text" class="rating" data-min=0
-												data-max=5 data-step=1 data-size="xs" title="" disabled>
-										</form>
-									</div>
-								</div>
-								<h6 class="text-muted time">
-									<fmt:formatDate type="both" dateStyle="medium" timeStyle="medium" value="${comment.comment_created}" />
-								</h6>
-							</div>
-						</div>
-						<div class="post-description">
-							<p>${comment.comment_desc}</p>
-						</div>
-					</div>
-				</c:forEach>
+					
 				</div>
 			</div>
 		</div>
 	</div>
-	</c:if>
 	<!-- Enquiry Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog modal-lg">

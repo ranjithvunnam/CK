@@ -136,6 +136,7 @@
 								</p>
 								<p class="phone">Phone : ${service.service_phone}</p>
 								<p class="web">Website : ${service.service_website}</p>
+								<p class="web">Email : ${service.service_email}</p>
 								<div class="icons-div">
 									<c:if test="${service.service_type eq 'SER_VENUE' || service.service_type eq 'SER_CATERERS'}">
 										<div class="specifications">

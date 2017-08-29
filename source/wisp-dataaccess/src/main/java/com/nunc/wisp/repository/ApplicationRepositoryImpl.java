@@ -636,4 +636,27 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		
 	}
 
+	@Override
+	@Transactional
+	public List<ServiceCommentsEntity> getServiceComments(Long service_id)
+			throws WISPDataAccessException {
+		List<ServiceCommentsEntity> result = new ArrayList<>();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(ServiceCommentsEntity.class,"comments");
+			criteria.createAlias("comments.service_comments_list_entity", "service");
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			criteria.add(Restrictions.eq("service.service_id", service_id));
+			result = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error(
+					"Exception occured while updating the user into inventory db",
+					e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return result;
+	}
+
 }

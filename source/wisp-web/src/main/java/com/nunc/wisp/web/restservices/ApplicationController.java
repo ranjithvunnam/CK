@@ -47,6 +47,7 @@ import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.ForgotPasswordBeans;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
+import com.nunc.wisp.beans.ServiceCommentsResponseBeans;
 import com.nunc.wisp.beans.ServiceEnquiryBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
@@ -320,6 +321,12 @@ public class ApplicationController {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			applicationServices.toggleFavorite(service_id, userDetails.getUsername());
 		}
+	}
+	
+	@RequestMapping(value = "/rest/getAllComments", method = RequestMethod.GET)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody List<ServiceCommentsResponseBeans> getAllComments(@RequestParam(value = "service_id") Long service_id) throws WISPServiceException {
+		return applicationServices.getServiceComments(service_id);
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)

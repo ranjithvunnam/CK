@@ -48,7 +48,7 @@
 							<label for="file-upload" class="custom-file-upload mTop10">
 								<i class="fa fa-cloud-upload"></i> Custom Upload
 							</label> 
-							<input id="file-upload" type="file" name="images" multiple="multiple" path="service_creation_bean.images"/>
+							<input id="file-upload" type="file" name="images" accept="image/*"  accept="video/*" path="service_creation_bean.images"/>
 					</div>
 					<form id="media_form" role="form" action="vendor/create_service" enctype="multipart/form-data" method="POST">
 					<div class="col-xs-12 col-md-8">
@@ -243,6 +243,10 @@
 			$("#step_reg,#step_demograph,#step_preview").removeClass('active');
 			$("#step_media").addClass('active');
 			$('#file-upload').change(function(e){
+					if (this.files[0].size > 5242880){
+	                   alert("File size must under 5mb!");
+	                   return;
+	               }
 	        	   var oMyForm = new FormData();
 	               oMyForm.append("file", this.files[0]);
 	               $.ajax({

@@ -85,6 +85,7 @@
 					</p>
 					<p class="phone">Phone : ${service_details.service_phone}</p>
 					<p class="web">Website : ${service_details.service_website}</p>
+					<p class="web">Email : ${service.service_email}</p>
 				</div>
 			</div>
 		</div>

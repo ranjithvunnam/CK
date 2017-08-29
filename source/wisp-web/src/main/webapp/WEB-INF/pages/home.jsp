@@ -159,7 +159,7 @@
 								    </a>
 						    </c:when>
 						    <c:otherwise>
-								    <a href="caterer/${caterer.service_id}/service_par_listing">
+								    <a href="Caterers/${caterer.service_id}/service_par_listing">
 								    <c:choose>
 								    	<c:when test="${not empty caterer.imagesEntities}">
 								    		<img src="${caterer.imagesEntities.iterator().next().image_url}">

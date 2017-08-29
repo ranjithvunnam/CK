@@ -19,6 +19,7 @@ import com.nunc.wisp.beans.ChangePasswordBean;
 import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
+import com.nunc.wisp.beans.ServiceCommentsResponseBeans;
 import com.nunc.wisp.beans.ServiceEnquiryBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
@@ -444,5 +445,33 @@ public class ApplicationServicesImpl implements ApplicationServices {
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
 		}
 		
+	}
+
+	@Override
+	@Transactional
+	public List<ServiceCommentsResponseBeans> getServiceComments(Long service_id)
+			throws WISPServiceException {
+		List<ServiceCommentsResponseBeans> comments = new ArrayList<>();
+		try {
+			List<ServiceCommentsEntity> commentsEntity = applicationRepository.getServiceComments(service_id);
+			for(ServiceCommentsEntity commentEntity : commentsEntity) {
+				ServiceCommentsResponseBeans comment = createServiceCommentsResponseBeans(commentEntity);
+				comments.add(comment);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+		return comments;
+	}
+
+	private ServiceCommentsResponseBeans createServiceCommentsResponseBeans(
+			ServiceCommentsEntity commentEntity) {
+		ServiceCommentsResponseBeans bean = new ServiceCommentsResponseBeans();
+		bean.setRating(commentEntity.getRating());
+		bean.setComment_desc(commentEntity.getComment_desc());
+		bean.setComment_created(commentEntity.getComment_created());
+		bean.setFirst_name(commentEntity.getUser_comments_entity().getFirst_name());
+		return bean;
 	}
 }

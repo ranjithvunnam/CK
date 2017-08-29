@@ -8,6 +8,7 @@ import com.nunc.wisp.beans.ChangePasswordBean;
 import com.nunc.wisp.beans.ContactUsBean;
 import com.nunc.wisp.beans.ResetPasswordBeans;
 import com.nunc.wisp.beans.SearchResultsResponseBean;
+import com.nunc.wisp.beans.ServiceCommentsResponseBeans;
 import com.nunc.wisp.beans.ServiceEnquiryBean;
 import com.nunc.wisp.beans.ServiceFeedBackBean;
 import com.nunc.wisp.beans.ServiceFilterRequestBean;
@@ -62,4 +63,6 @@ public interface ApplicationServices {
 	public void addEnquiryDetails(ServiceEnquiryBean bean) throws WISPServiceException;
 
 	public void updateUser(UserRegistrationBean bean) throws WISPServiceException;
+
+	public List<ServiceCommentsResponseBeans> getServiceComments(Long service_id) throws WISPServiceException;
 }

@@ -69,4 +69,6 @@ public interface ApplicationRepository {
 	public void addContactUsDetails(ContactUsEntity createContactUsEntity) throws WISPDataAccessException;
 
 	public void addEnquiryDetails(ServiceEnquiryDetailsEntity createServiceEnquiryEntity) throws WISPDataAccessException;
+
+	public List<ServiceCommentsEntity> getServiceComments(Long service_id) throws WISPDataAccessException;
 }
