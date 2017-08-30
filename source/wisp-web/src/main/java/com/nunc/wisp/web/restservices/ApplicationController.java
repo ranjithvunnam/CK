@@ -192,6 +192,7 @@ public class ApplicationController {
 	public String showListOfServices(@PathVariable(value="token") String token, Model model, Integer offset, Integer maxResults, HttpSession session) throws WISPServiceException {
 		String location = (String) session.getAttribute("location");
 		model.asMap().clear();
+		token = ServiceType.contains(token) ? ServiceType.valueOf(token).getDescription() : token;
 		if(location != null && !location.isEmpty()) {
 			return "redirect:/"+location+"/"+token+"/service_listing";
 		} else {
@@ -217,6 +218,7 @@ public class ApplicationController {
 	public String showLocationBasedListOfServices(@ModelAttribute("serviceFilterBean") final ServiceFilterRequestBean bean,@PathVariable(value="location") String location,
 			@PathVariable(value="token") String token, Model model, Integer offset, Integer maxResults) throws WISPServiceException {
 		
+		token = ServiceType.contains(token) ? ServiceType.valueOf(token).getDescription() : token;
 		location = (bean.getLocation() != null && !bean.getLocation().isEmpty()) ? bean.getLocation() : location;
 		ServiceType serv_type = (bean.getService_type() != null && !bean.getService_type().name().isEmpty()) ? bean.getService_type() : ServiceType.getNameByCode(token);
 		bean.setService_type(serv_type);
@@ -275,10 +277,15 @@ public class ApplicationController {
 		if(service_details != null) {
 			vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
 		}
+		ServiceFilterRequestBean bean = new ServiceFilterRequestBean();
+		bean.setService_type(ServiceType.getNameByCode(token));
+		model.addAttribute("serviceFilterBean", bean);
 		List<String> city_list = applicationServices.getListOfCities();
 		model.addAttribute("city_list", city_list);
 		model.addAttribute("service_details", service_details);
 		model.addAttribute("enquiryBean", new ServiceEnquiryBean());
+		model.addAttribute("service_list", ServiceType.values());
+		
 		String referrer = request.getHeader("Referer");
 		if (referrer != null) {
 			request.getSession().setAttribute("previous_page", referrer);

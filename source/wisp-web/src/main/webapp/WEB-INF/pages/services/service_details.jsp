@@ -32,81 +32,82 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
+				<form id="filter_search_form" role="form" action="filterServices" method="POST">
 				<div class="col-sm-12 col-sm-12 col-xs-12 filter-area">
-					<div class="dropdown">
-						<button class=" dropdown-toggle" type="button" id="dropdownMenu1"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							Services <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-					</div>
-					<div class="dropdown">
-						<button class="dropdown-toggle" type="button" id="dropdownMenu1"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							Location <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-					</div>
-					<div class="dropdown">
-						<button class="dropdown-toggle" type="button" id="dropdownMenu1"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							Capacity <span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a href="#">Action</a></li>
-							<li><a href="#">Another action</a></li>
-							<li><a href="#">Something else here</a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="#">Separated link</a></li>
-						</ul>
-					</div>
-					<div class="checkbox-div">
-						Air Con <label class="custom_switch"> <input
-							type="checkbox" id="togBtn">
-							<div class="slider round">
-								<!--ADDED HTML -->
-								<span class="on"><i class="fa fa-check"
-									aria-hidden="true"></i></span><span class="off"></span>
-								<!--END-->
+						<form:select class="" name="" path="serviceFilterBean.service_type" id="_servicefilter">
+							<form:options items="${service_list}" itemLabel="displayName" />
+						</form:select>
+						<form:select class="" name="" path="serviceFilterBean.location">
+							<form:options items="${city_list}" />
+						</form:select>
+						<input type="hidden" value="${serviceFilterBean.location}" id="filter_location"/>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE' || serviceFilterBean.service_type eq 'SER_CATERERS'}">
+							<form:select class="" name="" path="serviceFilterBean.amenityBean.capacity">
+								<form:option value="">Select Capacity</form:option>
+								<form:option value="500 - 1000">500 - 1000</form:option>
+								<form:option value="1000 - 1500">1000 - 1500</form:option>
+								<form:option value="1500-2000">1500-2000</form:option>
+								<form:option value="2500 +">2500 +</form:option>
+							</form:select>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<form:select class="" name="" path="serviceFilterBean.amenityBean.rooms">
+								<form:option value="">Select Rooms</form:option>
+								<form:option value="10">10</form:option>
+								<form:option value="15">15</form:option>
+								<form:option value="25">25</form:option>
+							</form:select>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								Air Con
+								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.air_condition" />
+									<div class="slider round">
+										<span class="on"><i class="fa fa-check"
+											aria-hidden="true"></i></span><span class="off"></span>
+									</div>
 							</div>
-						</label>
-					</div>
-					<div class="checkbox-div">
-						Liquor <label class="custom_switch"> <input
-							type="checkbox" id="togBtn">
-							<div class="slider round">
-								<!--ADDED HTML -->
-								<span class="on"><i class="fa fa-check"
-									aria-hidden="true"></i></span><span class="off"></span>
-								<!--END-->
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								Liquor 
+								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.liquor" />
+									<div class="slider round">
+										<span class="on"><i class="fa fa-check"
+											aria-hidden="true"></i></span><span class="off"></span>
+									</div>
 							</div>
-						</label>
-					</div>
-					<div class="checkbox-div">
-						Parking <label class="custom_switch"> <input
-							type="checkbox" id="togBtn">
-							<div class="slider round">
-								<!--ADDED HTML -->
-								<span class="on"><i class="fa fa-check"
-									aria-hidden="true"></i></span><span class="off"></span>
-								<!--END-->
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								Parking 
+								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.parking" />
+									<div class="slider round">
+										<span class="on"><i class="fa fa-check"
+											aria-hidden="true"></i></span><span class="off"></span>
+									</div>
 							</div>
-						</label>
-					</div>
-					<div class="filter-search-div">
-						<input type="text" class="form-control" placeholder="Search">
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								WiFi 
+								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.wifi" />
+									<div class="slider round">
+										<span class="on"><i class="fa fa-check"
+											aria-hidden="true"></i></span><span class="off"></span>
+									</div>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_BEAUTICIANS'}">
+							<form:select class="" name="" path="serviceFilterBean.amenityBean.gender">
+								<form:option value="">Select Gender</form:option>
+								<form:option value="Women">Women</form:option>
+								<form:option value="Men">Men</form:option>
+								<form:option value="Unisex">Unisex</form:option>
+							</form:select>
+						</c:if>
+						<div class="filter-search-div">
+						<form:input type="text" class="form-control" placeholder="Search" name="" path="serviceFilterBean.searchTerm" />
 						<div class="input-group">
 							<button type="submit">
 								<span class="glyphicon glyphicon-search"></span>
@@ -114,6 +115,7 @@
 						</div>
 					</div>
 				</div>
+				</form>
 			</div>
 		</div>
 		<div class="row">

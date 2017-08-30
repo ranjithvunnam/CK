@@ -48,7 +48,7 @@
 							<div class="col-md-4">
 								<form:select class="form-control" name="" path="service_creation_bean.service_type">
 									<form:option value="Select"/>
-									<form:options items="${service_list}" itemLabel="description" />
+									<form:options items="${service_list}" itemLabel="displayName" />
 								</form:select>
 							</div>
 						</div>

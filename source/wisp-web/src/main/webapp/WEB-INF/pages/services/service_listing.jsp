@@ -44,12 +44,13 @@
 			<div class="col-xs-12 col-sm-12 col-md-12">
 			<form id="filter_search_form" role="form" action="filterServices" method="POST">
 				<div class="col-sm-12 col-sm-12 col-xs-12 filter-area">
-						<form:select class="" name="" path="serviceFilterBean.service_type">
-							<form:options items="${service_list}" itemLabel="description" />
+						<form:select class="" name="" path="serviceFilterBean.service_type" id="_servicefilter">
+							<form:options items="${service_list}" itemLabel="displayName" />
 						</form:select>
 						<form:select class="" name="" path="serviceFilterBean.location">
 							<form:options items="${city_list}" />
 						</form:select>
+						<input type="hidden" value="${serviceFilterBean.location}" id="filter_location"/>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE' || serviceFilterBean.service_type eq 'SER_CATERERS'}">
 							<form:select class="" name="" path="serviceFilterBean.amenityBean.capacity">
 								<form:option value="">Select Capacity</form:option>
@@ -474,6 +475,25 @@
 			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#servicesx").addClass('active');
 		});
+		
+		/* $('#_servicefilter').change(function() {    
+		    var url = "";
+		    var service_type = $(this).val();
+		    url += service_type;
+		    url +='/service_listing';
+		    $.ajax({
+				url : url,
+				type : 'GET',
+				contentType : 'application/json; charset=utf-8',
+				success : function(msg) {
+					alert("RRR.. "+msg);
+				},
+				error : function(jqXHR, textStatus) {
+					alert(textStatus);
+				}
+			});
+		}); */
+		
 		// toggle favourite icon
 		$(".top-share-icon .fav").on("click", function(){
 			var serviceId = $(this).attr('id');
