@@ -357,8 +357,8 @@
 		</c:choose>
 		<div class="row">
 			<div class="col-md-12 text-right mTop10">
-				<tag:paginate max="15" offset="${offset}" count="${count}"
-					uri="${service.service_type.description}/service_listing" next="&raquo;"
+				<tag:paginate max="10" offset="${offset}" count="${count}"
+					uri="services/search" query="${_q}" next="&raquo;"
 					previous="&laquo;" />
 			</div>
 		</div>

@@ -413,9 +413,19 @@
 			
 			$('#_tagquerylist').on("click", function(e){
 				var name = $("#tagQuery").val();        
-			    if (name) {
+			    if (name && name.length > 2) {
 			        window.location = 'services/search?_q=' +encodeURIComponent(name);
 			    }
+			});
+			
+			$('#tagQuery').on("keypress", function(e) {
+		        if (e.keyCode == 13) {
+		        	var name = $("#tagQuery").val();
+		        	if (name && name.length > 2) {
+		        		window.location = 'services/search?_q=' +encodeURIComponent(name);
+		        	}
+		            return false; // prevent the button click from happening
+		        }
 			});
 		
 			$('#tagQuery').click(function() {

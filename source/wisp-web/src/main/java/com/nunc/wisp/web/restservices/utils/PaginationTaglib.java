@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 public class PaginationTaglib extends SimpleTagSupport {
 	protected static final Logger LOG_R = Logger.getLogger(PaginationTaglib.class);
 	private String uri;
+	private String query;
 	private int offset;
 	private int count;
 	private int max = 10;
@@ -55,7 +56,6 @@ public class PaginationTaglib extends SimpleTagSupport {
 					out.write(constructLink((itr / 10 + 1) - 1 * steps,	String.valueOf(itr / 10 + 1), "active", true));
 				}
 				else{
-					LOG_R.info("Loop not active page : "+itr / 10 * steps +" text : "+String.valueOf(itr / 10 + 1));
 					out.write(constructLink(itr / 10 * steps, String.valueOf(itr / 10 + 1), null, false));
 				}
 			}
@@ -86,10 +86,13 @@ public class PaginationTaglib extends SimpleTagSupport {
 		}
 		if (disabled)
 			link.append(">").append("<a href=\"javascript:function() { return false; }\">" + text + "</a></li>");
-		else
-			link.append(">").append(
-					"<a href=\"" + uri + "?offset=" + page + "\">" + text
-							+ "</a></li>");
+		else {
+			if(query != null){
+				link.append(">").append("<a href=\"" + uri + "?_q="+query+"&offset=" + page + "\">" + text + "</a></li>");
+			} else {
+				link.append(">").append("<a href=\"" + uri + "?offset=" + page + "\">" + text + "</a></li>");
+			}
+		}
 		return link.toString();
 	}
 
@@ -147,6 +150,14 @@ public class PaginationTaglib extends SimpleTagSupport {
 
 	public void setSteps(int steps) {
 		this.steps = steps;
+	}
+
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
 	}
 
 }

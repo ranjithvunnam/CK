@@ -144,6 +144,7 @@ public class VendorServicesController {
 			if(count > 0){
 				List<ServiceListEntity>  vendor_service_list = vendorAppServices.getListOfServicesByVendorID(userDetails.getUsername(), offset, maxResults);
 				model.addAttribute("count", count);
+				model.addAttribute("offset", offset);
 				model.addAttribute("services", vendor_service_list);
 				return "vendor/vendor_service_list";
 			}else{

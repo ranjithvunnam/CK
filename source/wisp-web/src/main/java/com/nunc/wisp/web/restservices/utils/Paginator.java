@@ -9,7 +9,7 @@ public class Paginator extends SimpleTagSupport {
     private String uri;
     private int currPage;
     private int totalPages;
-    private int maxLinks = 2;
+    private int maxLinks = 10;
      
     private Writer getWriter() {
         JspWriter out = getJspContext().getOut();

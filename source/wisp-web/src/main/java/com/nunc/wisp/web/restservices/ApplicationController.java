@@ -163,6 +163,7 @@ public class ApplicationController {
 		model.addAttribute("service_list", ServiceType.values());
 		List<String> city_list = applicationServices.getListOfCities();
 		model.addAttribute("city_list", city_list);
+		model.addAttribute("_q", search);
 		return "services/search";
 	}
 	

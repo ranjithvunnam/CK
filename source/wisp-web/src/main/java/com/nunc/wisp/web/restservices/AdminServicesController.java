@@ -68,6 +68,7 @@ public class AdminServicesController {
 		Long count = adminApplicationServices.getCountOfServicesToVerify();
 		List<ServiceListEntity>  vendor_service_list = adminApplicationServices.getListOfServicesToVerify(offset, maxResults);
 		model.addAttribute("count", count);
+		model.addAttribute("offset", offset);
 		model.addAttribute("services", vendor_service_list);
 		model.addAttribute("sessionCount",sessionRegistry.getAllPrincipals().size());
 		return "admin/admin_service_list";
