@@ -659,4 +659,45 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		return result;
 	}
 
+	@Override
+	@Transactional
+	public List<ServiceListEntity> getSearchResults(String search,
+			Integer offset, Integer maxResults) throws WISPDataAccessException {
+		List<ServiceListEntity> results = new ArrayList<>();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criterion name_condition = Restrictions.ilike("service_name", search, MatchMode.ANYWHERE);
+			Criterion description_condition = Restrictions.ilike("service_description", search, MatchMode.ANYWHERE);
+			Criterion completeCondition = Restrictions.disjunction().add(name_condition).add(description_condition);
+			Criteria criteria = session.createCriteria(ServiceListEntity.class)
+					.add(completeCondition)
+					.add(Restrictions.eq("approval_status", 2));
+			criteria.setFirstResult(offset!=null?offset:DEFAULT_OFFSET).setMaxResults(maxResults!=null?maxResults:MAX_ROWS_FOR_USER_SEARCH);
+			criteria.addOrder(Order.desc("service_id"));
+			results = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error(
+					"Exception occured while updating the user into inventory db",
+					e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return results;
+	}
+
+	@Override
+	@Transactional
+	public Long getSearchResultsCount(String search, Integer offset,
+			Integer maxResults) throws WISPDataAccessException {
+		Criterion name_condition = Restrictions.ilike("service_name", search, MatchMode.ANYWHERE);
+		Criterion description_condition = Restrictions.ilike("service_description", search, MatchMode.ANYWHERE);
+		Criterion completeCondition = Restrictions.disjunction().add(name_condition).add(description_condition);
+		return (Long) sessionFactory.getCurrentSession().createCriteria(ServiceListEntity.class)
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.add(completeCondition)
+				.add(Restrictions.eq("approval_status", 2)).setProjection(Projections.rowCount())
+				.uniqueResult();
+	}
+
 }

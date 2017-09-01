@@ -153,6 +153,19 @@ public class ApplicationController {
 			return "home";
 		}
 	}
+	
+	@RequestMapping(value = {"/services/search"}, method = RequestMethod.GET)
+	public String search(@RequestParam(value = "_q") String search, Model model, Integer offset, Integer maxResults, HttpSession session) throws WISPServiceException {
+		model.asMap().clear();
+		model.addAttribute("services", applicationServices.getSearchResults(search, offset, maxResults));
+		model.addAttribute("count", applicationServices.getSearchResultsCount(search, offset, maxResults));
+		model.addAttribute("offset", offset);
+		model.addAttribute("service_list", ServiceType.values());
+		List<String> city_list = applicationServices.getListOfCities();
+		model.addAttribute("city_list", city_list);
+		return "services/search";
+	}
+	
 	/*
 	 * Home controller with location
 	 * */
@@ -247,6 +260,9 @@ public class ApplicationController {
 	@RequestMapping(value = {"/{token}/{service_id}/service_par_listing"}, method = RequestMethod.GET)
 	public String showPartialListOfServices(@PathVariable(value="token") String token, Model model, @PathVariable(value="service_id") Long service_id, HttpServletRequest request) 
 			throws WISPServiceException {
+		token = ServiceType.contains(token) ? ServiceType.valueOf(token).getDescription() : token;
+		ServiceFilterRequestBean bean = new ServiceFilterRequestBean();
+		bean.setService_type(ServiceType.getNameByCode(token));
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			ServiceListEntity service_details = applicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
@@ -254,6 +270,7 @@ public class ApplicationController {
 				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 				vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr(), userDetails.getUsername());
 			}
+			model.addAttribute("serviceFilterBean", bean);
 			model.addAttribute("service_details", service_details);
 			model.addAttribute("contactUs", new ContactUsBean());
 			List<String> city_list = applicationServices.getListOfCities();
@@ -267,6 +284,7 @@ public class ApplicationController {
 			List<String> city_list = applicationServices.getListOfCities();
 			model.addAttribute("city_list", city_list);
 			model.addAttribute("service_details", service_details);
+			model.addAttribute("serviceFilterBean", bean);
 			model.addAttribute("service_type", token);
 			return "services/service_par_listing";
 		}

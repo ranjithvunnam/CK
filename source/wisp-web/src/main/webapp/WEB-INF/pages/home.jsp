@@ -41,7 +41,7 @@
 				<div class="search">
 					<div class="input-group stylish-input-group" id="search-home">
 						<input type="text" id="tagQuery" name="tagQuery" class="form-control" onFocus="inputFocus(this)" onBlur="inputBlur(this)" placeholder="Search">
-						<i class="fa fa-search search-placeholder-icon" aria-hidden="true"></i>
+						<a href="javascript:void(0);" id="_tagquerylist"><i class="fa fa-search search-placeholder-icon" aria-hidden="true"></i></a>
                         <div class="search-items">
 							
                         </div>
@@ -409,6 +409,13 @@
 				}
 				$(".search-items").empty();
 				
+			});
+			
+			$('#_tagquerylist').on("click", function(e){
+				var name = $("#tagQuery").val();        
+			    if (name) {
+			        window.location = 'services/search?_q=' +encodeURIComponent(name);
+			    }
 			});
 		
 			$('#tagQuery').click(function() {

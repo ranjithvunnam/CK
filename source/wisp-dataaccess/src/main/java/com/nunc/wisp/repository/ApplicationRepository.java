@@ -71,4 +71,10 @@ public interface ApplicationRepository {
 	public void addEnquiryDetails(ServiceEnquiryDetailsEntity createServiceEnquiryEntity) throws WISPDataAccessException;
 
 	public List<ServiceCommentsEntity> getServiceComments(Long service_id) throws WISPDataAccessException;
+
+	public List<ServiceListEntity> getSearchResults(String search,
+			Integer offset, Integer maxResults) throws WISPDataAccessException;
+
+	public Long getSearchResultsCount(String search, Integer offset,
+			Integer maxResults) throws WISPDataAccessException;
 }

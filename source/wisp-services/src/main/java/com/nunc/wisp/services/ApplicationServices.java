@@ -65,4 +65,9 @@ public interface ApplicationServices {
 	public void updateUser(UserRegistrationBean bean) throws WISPServiceException;
 
 	public List<ServiceCommentsResponseBeans> getServiceComments(Long service_id) throws WISPServiceException;
+
+	public List<ServiceListEntity> getSearchResults(String search, Integer offset, Integer maxResults) throws WISPServiceException;
+
+	public Long getSearchResultsCount(String search, Integer offset,
+			Integer maxResults) throws WISPServiceException;
 }

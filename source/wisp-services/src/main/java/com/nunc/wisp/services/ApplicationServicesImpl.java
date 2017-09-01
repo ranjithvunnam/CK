@@ -474,4 +474,30 @@ public class ApplicationServicesImpl implements ApplicationServices {
 		bean.setFirst_name(commentEntity.getUser_comments_entity().getFirst_name());
 		return bean;
 	}
+
+	@Override
+	@Transactional
+	public List<ServiceListEntity> getSearchResults(String search,
+			Integer offset, Integer maxResults) throws WISPServiceException {
+		try {
+			return applicationRepository.getSearchResults(search, offset, maxResults);
+			
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
+
+	@Override
+	@Transactional
+	public Long getSearchResultsCount(String search, Integer offset,
+			Integer maxResults) throws WISPServiceException {
+		try {
+			return applicationRepository.getSearchResultsCount(search, offset, maxResults);
+			
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
 }

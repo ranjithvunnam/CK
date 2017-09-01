@@ -68,6 +68,7 @@
 		<intercept-url pattern="/ContactUs" access="permitAll" />
 		<intercept-url pattern="/estimates" access="permitAll" />
 		<intercept-url pattern="/offers" access="permitAll" />
+		<intercept-url pattern="/services/search" access="permitAll" />
 		<intercept-url pattern="/simulateSearch" access="permitAll" />
 		<intercept-url pattern="/**/**/service_par_listing" access="permitAll" />
 		<intercept-url pattern="/**/service_listing/" access="permitAll" />
