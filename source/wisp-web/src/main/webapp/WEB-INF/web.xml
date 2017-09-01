@@ -9,6 +9,12 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <listener>
+        <listener-class>com.nunc.wisp.services.handlers.SessionCounter</listener-class>
+    </listener>
+    <session-config>
+	    <session-timeout>1</session-timeout>
+	</session-config>
   <filter>
     <filter-name>encoding-filter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

@@ -27,6 +27,7 @@ import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.services.AdminApplicationServices;
 import com.nunc.wisp.services.exception.WISPServiceException;
+import com.nunc.wisp.services.handlers.SessionCounter;
 import com.nunc.wisp.web.restservices.exception.handler.ResourceNotFoundException;
 
 @Controller
@@ -42,6 +43,9 @@ public class AdminServicesController {
 	@Autowired
 	@Qualifier("sessionRegistry")
 	private SessionRegistry sessionRegistry;
+	
+	@Autowired
+	private SessionCounter sessionCounter;
 	
 	@RequestMapping(value = "/access", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
@@ -70,7 +74,7 @@ public class AdminServicesController {
 		model.addAttribute("count", count);
 		model.addAttribute("offset", offset);
 		model.addAttribute("services", vendor_service_list);
-		model.addAttribute("sessionCount",sessionRegistry.getAllPrincipals().size());
+		model.addAttribute("sessionCount",sessionCounter.getActiveSessionNumber());
 		return "admin/admin_service_list";
 	}
 	
