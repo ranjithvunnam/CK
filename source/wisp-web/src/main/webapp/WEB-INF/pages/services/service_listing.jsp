@@ -296,6 +296,15 @@
 			                            <li class="social-gplus">
 			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="googleShare"><i class="fa fa-google-plus"></i></a>
 			                            </li>
+			                            <li class="social-watsapp">
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="watsappshare"><i class="fa fa-whatsapp"></i></a>
+			                            </li>
+			                            <li class="social-copyclipboard">
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="copytoclipboard"><i class="fa fa-clipboard"></i></a>
+			                            </li>
+			                            <li class="social-email">
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="emailshare"><i class="fa fa-envelope"></i></a>
+			                            </li>
 			                          </ul>
 			                        </div>
 			                    </span>
@@ -462,7 +471,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
-	<!-- <script src="slick/slick.js" type="text/javascript" charset="utf-8"></script> -->
+	<script src="slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script src="resources/js/custom.js" type="text/javascript"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>

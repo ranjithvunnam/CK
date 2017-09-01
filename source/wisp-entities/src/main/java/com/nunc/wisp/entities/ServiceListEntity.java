@@ -77,10 +77,10 @@ public class ServiceListEntity implements Serializable{
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "serviceListEntity", cascade = CascadeType.ALL)
 	private ServicesAddressEntity addressEntity;
 	
-	@OneToMany(mappedBy ="service_image_list_entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy ="service_image_list_entity", orphanRemoval=true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ServiceImagesEntity> imagesEntities;
 	
-	@OneToMany(mappedBy ="service_video_list_entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy ="service_video_list_entity", orphanRemoval=true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ServiceVideosEntity> videosEntities;
 	
 	@OneToMany(mappedBy ="service_comments_list_entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -256,4 +256,39 @@ public class ServiceListEntity implements Serializable{
 	public void setAmenitiyEntity(ServiceAmenitiyEntity amenitiyEntity) {
 		this.amenitiyEntity = amenitiyEntity;
 	}
+	
+	/*@Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(service_id);
+        hcb.append(service_type);
+        hcb.append(service_name);
+        hcb.append(service_description);
+        hcb.append(service_website);
+        hcb.append(service_phone);
+        hcb.append(imagesEntities);
+        hcb.append(videosEntities);
+        return hcb.toHashCode();
+    }
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ServiceListEntity)) {
+            return false;
+        }
+        ServiceListEntity that = (ServiceListEntity) obj;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(service_id, that.service_id);
+        eb.append(service_type, that.service_type);
+        eb.append(service_name, that.service_name);
+        eb.append(service_description, that.service_description);
+        eb.append(service_website, that.service_website);
+        eb.append(service_phone, that.service_phone);
+        eb.append(imagesEntities, that.imagesEntities);
+        eb.append(videosEntities, that.videosEntities);
+        return eb.isEquals();
+    }*/
 }

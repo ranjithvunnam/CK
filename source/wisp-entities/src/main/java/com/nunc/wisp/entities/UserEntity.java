@@ -71,7 +71,7 @@ public class UserEntity implements Serializable {
 	
 	@OneToMany(mappedBy = "user_service_entity", cascade =CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<ServiceListEntity> service_user_ListEntity;
-
+	
 	public Long getId() {
 		return id;
 	}

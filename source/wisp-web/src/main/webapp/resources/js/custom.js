@@ -1,4 +1,7 @@
     $(document).on('ready', function() {
+    	//Sticky footer
+    	
+    	stickyFooter();
     	// share icons
         $(".top-share-icon .share").on("click", function(){
             $(".social-networks").slideToggle( "fast", function() {
@@ -100,4 +103,36 @@
 		});
 	    $("#mod_comm").html(html);
 	    $("#comments_modal").modal();
+	}
+	
+
+	$(window).resize(function() {
+		stickyFooter();
+		var imageHeight1 = 0;
+		$(".upload-images .thumb-images img").each(function(i, e) {
+			if (imageHeight1 < $(e).height()) {
+				imageHeight1 = $(e).height();
+			}
+		});
+		$(".upload-images .thumb-images").css({
+			'height' : imageHeight1 + "px"
+		});
+	});
+	
+	function stickyFooter() {
+		$(".footer").css({
+			"position" : "relative"
+		});
+		var vHeight = document.body.clientHeight;
+		var deviceHeight = window.innerHeight;
+		console.log(vHeight, deviceHeight);
+		if (vHeight < deviceHeight) {
+			$(".footer").css({
+				"position" : "absolute"
+			});
+		}
+	}
+	
+	function goBack() {
+	    window.history.back();
 	}

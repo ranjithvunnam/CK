@@ -248,14 +248,23 @@
 						<span class="share"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
 	                        <div class="social-networks">
 	                          <ul>
-	                            <li class="social-twitter">
-	                              <a href="#" onClick="MyWindow=window.open('https://twitter.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-twitter"></i></a>
+	                          	<li class="social-twitter">
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="twitterShare"><i class="fa fa-twitter"></i></a>
 	                            </li>
 	                            <li class="social-facebook">
-	                              <a href="#" onClick="MyWindow=window.open('https://www.facebook.com/sharer.php?u=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-facebook"></i></a>
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="facebookShare"><i class="fa fa-facebook"></i></a>
 	                            </li>
 	                            <li class="social-gplus">
-	                              <a href="#" onClick="MyWindow=window.open('https://plus.google.com/share?url=http://202.53.86.11:8080/wisp/home','MyWindow',width=600,height=300); return false;"><i class="fa fa-google-plus"></i></a>
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="googleShare"><i class="fa fa-google-plus"></i></a>
+	                            </li>
+	                            <li class="social-watsapp">
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="watsappshare"><i class="fa fa-whatsapp"></i></a>
+	                            </li>
+	                            <li class="social-copyclipboard">
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="copytoclipboard"><i class="fa fa-clipboard"></i></a>
+	                            </li>
+	                            <li class="social-email">
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="emailshare"><i class="fa fa-envelope"></i></a>
 	                            </li>
 	                          </ul>
 	                        </div>
@@ -414,8 +423,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
-	<!-- <script src="slick/slick.js" type="text/javascript" charset="utf-8"></script> -->
-	<script src="resources/js/custom.js" type="text/javascript"></script>
+	<script src="slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>

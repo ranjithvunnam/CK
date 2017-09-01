@@ -102,6 +102,15 @@
 									<li class="social-gplus"><a
 										data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details"
 										id="googleShare"><i class="fa fa-google-plus"></i></a></li>
+										<li class="social-watsapp">
+		                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="watsappshare"><i class="fa fa-whatsapp"></i></a>
+		                            </li>
+		                            <li class="social-copyclipboard">
+		                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="copytoclipboard"><i class="fa fa-clipboard"></i></a>
+		                            </li>
+		                            <li class="social-email">
+		                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="emailshare"><i class="fa fa-envelope"></i></a>
+		                            </li>
 								</ul>
 							</div>
 	                    </span>
@@ -325,8 +334,9 @@
                             <div class="input-group-addon">to</div>
                             <input name="toDate"  placeholder="To Date" type="text" class="form-control" value="2012-04-19">
                         </div>
-                        <button type="submit" class="btn custom-button more">Refresh</button>
-                        <button type="submit" class="btn custom-button more">Get Details</button>
+                        <button type="submit" id="insights_refresh" class="btn custom-button more">Refresh</button>
+                        <a href="javascript:void(0)" id="service_insights" class="btn custom-button more">Get Details</a>
+                        <!-- <button type="submit" class="btn custom-button more">Get Details</button> -->
                     </form>
                     <div id="chart_div"></div>
                 </div>
@@ -362,8 +372,12 @@
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
+	<script src="resources/js/socialauth.js"></script>
     <script>
         $(document).ready(function(){
+        	
+        	$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
+			$("#servicesx").addClass('active');
 			
 			Date.prototype.yyyymmdd = function() {
             	  var yyyy = this.getFullYear().toString();
@@ -378,23 +392,58 @@
                 $(this).datepicker('clearDates', { minDate: 0});
             });
 			var id = $("#service_id").val();
-            $("#daterange_chart").on("submit", function(e){
+            $("#insights_refresh").on("click", function(e){
             	e.preventDefault();
             	createChart(id,$("[name='fromDate']").val(),$("[name='toDate']").val());
                 
             });
             	
-            	var date = new Date();
-            	var fromDate = date.yyyymmdd();
-            	var date1 = new Date();
-            	date1.setMonth(date1.getMonth() - 6);
-            	var toDate = date1.yyyymmdd();
-            	createChart(id,toDate,fromDate);
-	            $(window).resize(function(){
-	                google.charts.load('current', {packages: ['corechart', 'line']});
-	                google.charts.setOnLoadCallback(drawBasic);
-	            });
+            var date = new Date();
+        	var fromDate = date.yyyymmdd();
+        	var date1 = new Date();
+        	date1.setMonth(date1.getMonth() - 6);
+        	var toDate = date1.yyyymmdd();
+        	createChart(id,toDate,fromDate);
+            $(window).resize(function(){
+                google.charts.load('current', {packages: ['corechart', 'line']});
+                google.charts.setOnLoadCallback(drawBasic);
             });
+        });
+        
+        $("#service_insights").on("click", function(e){
+        	var id = $("#service_id").val();
+        	var fromDate = $("[name='fromDate']").val();
+        	var toDate = $("[name='toDate']").val();
+        	if(id && fromDate && toDate) {
+        		var form = document.createElement("form");
+                var element1 = document.createElement("input"); 
+                var element2 = document.createElement("input");
+                var element3 = document.createElement("input");
+
+                form.method = "GET";
+                form.action = "vendor/downloadInsights";   
+
+                element1.value=id;
+                element1.name="id";
+                form.appendChild(element1);  
+
+                element2.value=fromDate;
+                element2.name="fromDate";
+                form.appendChild(element2);
+                
+                element3.value=toDate;
+                element3.name="toDate";
+                form.appendChild(element3);
+
+                document.body.appendChild(form);
+
+                form.submit();
+        	} else {
+        		alert('Please select from and to dates..!');
+        	}
+        	
+        });
+        
         function createChart(id, toDate, fromDate){
         	console.log(id);
         	google.charts.load('current', {packages: ['corechart', 'line']});
@@ -431,12 +480,5 @@
                 } // end drawBasis function
         }
     </script>
-    <script type="text/javascript">
-		$(document).ready(function(){
-			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
-			$("#servicesx").addClass('active');
-		});
-	</script>
-	<script src="resources/js/socialauth.js"></script>
 </body>
 </html>

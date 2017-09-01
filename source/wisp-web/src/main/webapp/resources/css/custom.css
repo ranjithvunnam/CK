@@ -1113,7 +1113,7 @@ section#contact .text-danger {
 	width: 100%;
 }
 .service_slider{
-    /* display: none; */
+    display: none;
 }
 
 
@@ -1125,6 +1125,17 @@ section#contact .text-danger {
 
 .social-twitter {
   background: #6cdfea;
+}
+
+.social-copyclipboard {
+  background: #FF7F50;
+}
+
+.social-email {
+  background: #FFDAB9;
+}
+.social-watsapp {
+	background: #34AF23;
 }
 
 .social-networks.open-menu, .no-js .social-networks {

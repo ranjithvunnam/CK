@@ -55,14 +55,14 @@
 												<form:input type="text" name="name" class="form-control"
 													placeholder="Your Name *" id="name" required=""
 													path="contactUs.name"
-													data-validation-required-message="Please enter your name." />
+													data-validation-required-message="Please enter your name." maxlength="45"/>
 												<p class="help-block text-danger"></p>
 											</div>
 											<div class="form-group">
 												<form:input type="email" name="email" class="form-control"
 													placeholder="Your Email *" id="email" required=""
 													path="contactUs.email"
-													data-validation-required-message="Please enter your email address." />
+													data-validation-required-message="Please enter your email address." maxlength="45"/>
 												<p class="help-block text-danger"></p>
 											</div>
 											<div class="form-group">
@@ -78,7 +78,7 @@
 												<form:textarea class="form-control" name="message"
 													placeholder="Your Message *" id="message" required=""
 													path="contactUs.message"
-													data-validation-required-message="Please enter a message."></form:textarea>
+													data-validation-required-message="Please enter a message." maxlength="1024"></form:textarea>
 												<p class="help-block text-danger"></p>
 											</div>
 										</div>

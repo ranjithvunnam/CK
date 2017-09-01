@@ -154,6 +154,15 @@
 	                            <li class="social-gplus">
 	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="googleShare"><i class="fa fa-google-plus"></i></a>
 	                            </li>
+	                            <li class="social-watsapp">
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="watsappshare"><i class="fa fa-whatsapp"></i></a>
+	                            </li>
+	                            <li class="social-copyclipboard">
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="copytoclipboard"><i class="fa fa-clipboard"></i></a>
+	                            </li>
+	                            <li class="social-email">
+	                            	<a data-js="${pageContext.request.contextPath}/${service_details.service_type.description}/${service_details.service_id}/service_details" id="emailshare"><i class="fa fa-envelope"></i></a>
+	                            </li>
 	                          </ul>
 	                        </div>
 	                    </span>
@@ -454,9 +463,9 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
+										<label for="inputEmail3" class="col-sm-2">Comments</label>
 										<div class="col-sm-10">
-											<p class="form-control">${feedback_comment}</p>
+											<p>${feedback_comment}</p>
 										</div>
 									</div>
 								</form>
@@ -714,8 +723,8 @@
 					$("#feedback_form").append('<div class="form-group rating-user">'+'<label for="inputEmail3" class="col-sm-2 control-label">Rate</label>'
 							+'<div class="col-sm-10"><div class="rating-readonly"><input id="" value="'+rating+'" type="text" '
 							+'class="rating" data-min=0 data-max=5 data-step=1 data-size="xs" title="" disabled captio="none"></div></div>'
-							+'</div><div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">Comments</label>'
-							+'<div class="col-sm-10"><p class="form-control">'+comment_desc+'</p></div></div>');
+							+'</div><div class="form-group"><label for="inputEmail3" class="col-sm-2">Comments</label>'
+							+'<div class="col-sm-10"><p>'+comment_desc+'</p></div></div>');
 				},
 				error : function(jqXHR, textStatus) {
 					alert(textStatus);

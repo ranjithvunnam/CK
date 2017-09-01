@@ -189,6 +189,15 @@
 			                            <li class="social-gplus">
 			                            	<a data-js="${pageContext.request.contextPath}/${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details" id="googleShare"><i class="fa fa-google-plus"></i></a>
 			                            </li>
+			                            <li class="social-watsapp">
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details" id="watsappshare"><i class="fa fa-whatsapp"></i></a>
+			                            </li>
+			                            <li class="social-copyclipboard">
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details" id="copytoclipboard"><i class="fa fa-clipboard"></i></a>
+			                            </li>
+			                            <li class="social-email">
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details" id="emailshare"><i class="fa fa-envelope"></i></a>
+			                            </li>
 			                          </ul>
 			                        </div>
 			                    </span>

@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +26,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -39,6 +42,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,6 +54,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.WebUtils;
 
@@ -64,6 +70,7 @@ import com.nunc.wisp.beans.request.ServiceAmenityRequestBean;
 import com.nunc.wisp.beans.request.ServiceCreationRequestBean;
 import com.nunc.wisp.beans.request.ServiceImagesRequestBean;
 import com.nunc.wisp.beans.request.ServiceVideosRequestBean;
+import com.nunc.wisp.beans.vendor.ServiceAccessHitsDownlodResponseBean;
 import com.nunc.wisp.beans.vendor.ServiceAccessHitsResponseBean;
 import com.nunc.wisp.entities.ServiceAmenitiyEntity;
 import com.nunc.wisp.entities.ServiceImagesEntity;
@@ -106,14 +113,21 @@ public class VendorServicesController {
 	AuthenticationManager authenticationManager;
 	
 	private String UPLOAD_TEMP_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_images";
-	private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://202.53.86.11/wisp/service_temp_images/";
+	private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://localhost/wisp/service_temp_images/";
 	
 	private String UPLOAD_TEMP_VIDEOS_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_videos";
-	private String ACCESS_TEMP_VIDEOS_DIRECTORY = "http://202.53.86.11/wisp/service_temp_videos/";
+	private String ACCESS_TEMP_VIDEOS_DIRECTORY = "http://localhost/wisp/service_temp_videos/";
 	
-	private String ACCESS_DEFAULT_THUMBNAIL_URL = "http://202.53.86.11/wisp/service_video_thumbnail/default_video_m.jpg";
+	private String ACCESS_DEFAULT_THUMBNAIL_URL = "http://localhost/wisp/service_video_thumbnail/default_video_m.jpg";
 	
 	private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif");
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
+    }
 	
 	@Autowired
 	public VendorServicesController(ServiceDemoghraphicDetailsValidator validator) {
@@ -356,10 +370,10 @@ public class VendorServicesController {
 	@RequestMapping(value="/removeImage",method=RequestMethod.POST)
 	@ResponseBody
 	public void deleteTempFile(@RequestParam("filePath") String filePath, HttpSession session) throws WISPServiceException{
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		/*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
 		ServiceCreationRequestBean srCreationBean = (ServiceCreationRequestBean) session.getAttribute("service_creation_bean");
-	    if(isImageFile(filePath)) {
+		if(isImageFile(filePath)) {
 	    	boolean isDeleted = fileUploadService.deleteImageFile(filePath);
 	    	if(isDeleted) {
 	    		ServiceImagesRequestBean bean = new ServiceImagesRequestBean();
@@ -368,10 +382,15 @@ public class VendorServicesController {
 		    		srCreationBean.getImagesBean().remove(bean);
 		    	}
 		    	if(srCreationBean.getService_id() != null){
+		    		LOG_R.info("Service edit form is deleted not null"+srCreationBean.getService_id());
+		    		//vendorAppServices.updateServiceDemoghraphicDetails(srCreationBean, 0);
+		    		vendorAppServices.deleteImageFromDB(srCreationBean.getService_id(), bean.getUrl());
+		    	}
+		    	/*if(srCreationBean.getService_id() != null){
 		    		vendorAppServices.updateServiceDemoghraphicDetails(srCreationBean, 0);
 		    	} else {
 		    		vendorAppServices.createServiceDemoghraphicDetails(srCreationBean, userDetails.getUsername(), 0);
-		    	}
+		    	}*/
 	    	}else {
 	    		throw new WISPServiceException();
 	    	}
@@ -889,6 +908,14 @@ public class VendorServicesController {
 			}
 		}
 		return "redirect:/vendor/login";
+	}
+	
+	@RequestMapping(value = "/downloadInsights", method = RequestMethod.GET)
+	public ModelAndView downloadInsightReport(@RequestParam(value = "id") Long id, @RequestParam(value = "fromDate") Date fromDate, 
+			@RequestParam(value = "toDate") Date toDate, HttpServletRequest request,
+		      HttpServletResponse response) throws WISPServiceException {
+		List<ServiceAccessHitsDownlodResponseBean>  results = vendorAppServices.getAccessHistoryDetailsToDownload(id, fromDate, toDate);
+		return new ModelAndView("excelInsightsSummary","insightsData",results);
 	}
 	
 	private boolean userClickedCancel(HttpServletRequest request) {

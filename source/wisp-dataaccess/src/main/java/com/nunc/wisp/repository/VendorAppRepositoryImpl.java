@@ -1,5 +1,8 @@
 package com.nunc.wisp.repository;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.ServiceHitsEntity;
+import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
@@ -169,6 +173,7 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 	public void setAccessHistoryDetails(ServiceHitsEntity hitsEntity) throws WISPDataAccessException {
 		try {
 			Session session = sessionFactory.getCurrentSession();
+			LOG_R.info("@setAccessHistoryDetails repository");
 			session.save(hitsEntity);
 		} catch (HibernateException e) {
 			LOG_R.error("Exception occured while saving the user into inventory db",e);
@@ -176,6 +181,69 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
 		}
+	}
+
+	@Override
+	@Transactional
+	public void deleteImageFromDB(ServiceImagesEntity imagesEntity)	throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.delete(imagesEntity);
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+	}
+
+	@Override
+	@Transactional
+	public ServiceImagesEntity getImageByUrl(Long service_id, String url)
+			throws WISPDataAccessException {
+		ServiceImagesEntity entity = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(ServiceImagesEntity.class, "images");
+			criteria.add(Restrictions.eq("images.service_image_list_entity.service_id", service_id));
+			criteria.add(Restrictions.eq("image_url", url));
+			entity = (ServiceImagesEntity) criteria.uniqueResult();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+
+		return entity;
+	}
+
+	@Override
+	@Transactional
+	public List<ServiceHitsEntity> getAccessHistoryDetailsToDownload(Long service_id,
+			Date from_date, Date to_date) throws WISPDataAccessException {
+		List<ServiceHitsEntity> results = new ArrayList<ServiceHitsEntity>();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(ServiceHitsEntity.class, "hitsEntity");
+			criteria.add(Restrictions.eq("hitsEntity.service_list_hits_entity.service_id",service_id));
+			criteria.add(Restrictions.ge("hitsEntity.timestamp", from_date)); 
+			criteria.add(Restrictions.lt("hitsEntity.timestamp", getTomorrowDate(to_date)));
+			results = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return results;
+	}
+	
+	private Date getTomorrowDate(Date date) {
+	    Calendar cal = Calendar.getInstance();
+	    cal.setTime(date);
+	    cal.add(Calendar.DATE, 1);
+	    return cal.getTime();
 	}
 	
 	

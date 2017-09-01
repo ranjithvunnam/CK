@@ -85,6 +85,9 @@
             //you can remove responsive code if you don't want the slider scales while window resizes
             function ScaleSlider() {
                 $(sliders).each(function(i, e){
+                    //console.log(sliders[i].$Elmt);
+                    
+                    $(sliders[i].$Elmt).fadeIn("slow");
                     if (sliders[i].$Elmt.parentNode.clientWidth)
                         sliders[i].$ScaleWidth(Math.max(Math.min(sliders[i].$Elmt.parentNode.clientWidth-30, 1140), 270));
                     else
@@ -103,10 +106,10 @@
                 // else
                 //     window.setTimeout(ScaleSlider, 30);
             }
-            ScaleSlider();
+            // ScaleSlider();
 
             $(window).bind("load", ScaleSlider);
             $(window).bind("resize", ScaleSlider);
-            $(window).bind("orientationchange", ScaleSlider);
+            // $(window).bind("orientationchange", ScaleSlider);
             //responsive code end
         });

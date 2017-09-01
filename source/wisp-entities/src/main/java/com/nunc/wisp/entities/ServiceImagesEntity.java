@@ -66,6 +66,29 @@ public class ServiceImagesEntity implements Serializable{
 			ServiceListEntity service_image_list_entity) {
 		this.service_image_list_entity = service_image_list_entity;
 	}
+	/*
+	@Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(image_url);
+        hcb.append(service_image_list_entity);
+        return hcb.toHashCode();
+    }
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ServiceImagesEntity)) {
+            return false;
+        }
+        ServiceImagesEntity that = (ServiceImagesEntity) obj;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(image_url, that.image_url);
+        eb.append(service_image_list_entity, that.service_image_list_entity);
+        return eb.isEquals();
+    }*/
 	
 	@Override
 	public boolean equals(Object obj) {

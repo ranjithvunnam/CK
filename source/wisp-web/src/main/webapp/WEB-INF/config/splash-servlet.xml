@@ -65,4 +65,12 @@
 			</value>
 		</property>
 	</bean>
+	
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
+	    <property name="location">
+	        <value>/WEB-INF/config/spring-excel-views.xml</value>
+	    </property>
+	    <property name="order" value="0" />
+ 	</bean>
 </beans>

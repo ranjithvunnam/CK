@@ -18,7 +18,7 @@
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav center-menu">
-					<li id="homex"><a href="home">Home <span class="sr-only">(current)</span></a></li>
+					<li id="homex"><a href="home">Home${loggedIn} <span class="sr-only">(current)</span></a></li>
 					<li class="dropdown" id="servicesx"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">Services <span class="caret"></span></a>

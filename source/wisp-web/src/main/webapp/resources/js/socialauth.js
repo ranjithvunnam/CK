@@ -176,7 +176,7 @@
 		if (twitterWindow.focus) {
 			twitterWindow.focus();
 		}
-		return false;
+		//return false;
 	});
 	
 	$('#facebookShare').on('click', function(e) {
@@ -194,7 +194,7 @@
 			if (facebookWindow.focus) {
 				facebookWindow.focus();
 			}
-			return false;
+			//return false;
 	});
 	
 	$('#googleShare').on('click', function(e) {
@@ -204,5 +204,86 @@
 		if (googleWindow.focus) {
 			googleWindow.focus();
 		}
-		return false;
+		//return false;
 	});
+	
+	$('#copytoclipboard').on('click', function(e) {
+		e.preventDefault();
+		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+		var result = copyToClipboard(full+$(this).data('js'));
+		if(result){
+			alert('Content copied to clipboard.');
+		}
+	    console.log("copied?", result);
+	});
+	
+	function copyToClipboard(text) {
+	    if (window.clipboardData && window.clipboardData.setData) {
+	        // IE specific code path to prevent textarea being shown while dialog is visible.
+	        return clipboardData.setData("Text", text); 
+
+	    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+	        var textarea = document.createElement("textarea");
+	        textarea.textContent = text;
+	        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+	        document.body.appendChild(textarea);
+	        textarea.select();
+	        try {
+	            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+	        } catch (ex) {
+	            console.warn("Copy to clipboard failed.", ex);
+	            return false;
+	        } finally {
+	            document.body.removeChild(textarea);
+	        }
+	    }
+	}
+	
+	$('#emailshare').on('click', function(e) {
+		e.preventDefault();
+		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+		sendMail(full+$(this).data('js'));
+	});
+	
+	function sendMail(body) {
+	    var link = "mailto:me@example.com"
+	             + "?cc=myCCaddress@example.com"
+	             + "&subject=" + escape("This is my subject")
+	             + "&body=" + escape(body);
+	    window.location.href = link;
+	}
+	
+	$('#watsappshare').on('click', function(e) {
+		e.preventDefault();
+		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+		if (isMobile.any()) {
+			var message = encodeURIComponent(full);
+			var whatsapp_url = "whatsapp://send?text=" + message;
+			window.location.href = whatsapp_url;
+		} else {
+			alert("Please share this article in mobile device");
+		}
+	});
+	
+
+	var isMobile = {
+		Android : function() {
+			return navigator.userAgent.match(/Android/i);
+		},
+		BlackBerry : function() {
+			return navigator.userAgent.match(/BlackBerry/i);
+		},
+		iOS : function() {
+			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+		},
+		Opera : function() {
+			return navigator.userAgent.match(/Opera Mini/i);
+		},
+		Windows : function() {
+			return navigator.userAgent.match(/IEMobile/i);
+		},
+		any : function() {
+			return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS()
+					|| isMobile.Opera() || isMobile.Windows());
+		}
+	};

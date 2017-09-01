@@ -28,7 +28,7 @@
     <![endif]-->
 </head>
 <body>
-	<%@ include file="templetes/header.jsp"%>
+	<%-- <%@ include file="templetes/header.jsp"%> --%>
 
 	<div class="container">
 		<div class="container" style="min-height: 400px;">
@@ -44,17 +44,17 @@
 				</p>
 
 				<p>
-					<a onclick="goBack()">Click here</a> to visit our home page
+					<a href="home">Click here</a> to visit our home page
 				</p>
 
 				<p>
-					<a onclick="goBack()">celebratekaro</a>
+					<a href="home">celebratekaro</a>
 				</p>
 			</div>
 		</div>
 	</div>
 
-	<%@ include file="templetes/footer.jsp"%>
+	<%-- <%@ include file="templetes/footer.jsp"%> --%>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script

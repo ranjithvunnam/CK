@@ -17,6 +17,7 @@ import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.beans.request.ServiceCreationRequestBean;
 import com.nunc.wisp.beans.request.ServiceImagesRequestBean;
 import com.nunc.wisp.beans.request.ServiceVideosRequestBean;
+import com.nunc.wisp.beans.vendor.ServiceAccessHitsDownlodResponseBean;
 import com.nunc.wisp.beans.vendor.ServiceAccessHitsResponseBean;
 import com.nunc.wisp.entities.ServiceAmenitiyEntity;
 import com.nunc.wisp.entities.ServiceHitsEntity;
@@ -228,12 +229,12 @@ public class VendorAppServicesImpl implements VendorAppServices {
 
 	@Override
 	@Transactional
-	public void setAccessHistoryDetails(Long service_id, String ip_address) throws WISPServiceException {
+	public void setAccessHistoryDetails(Long service_id, String ip_address, String email) throws WISPServiceException {
 		try {
 			ServiceListEntity slEntity = applicationRepository.getServiceIndetailedById(service_id);
 			if(slEntity != null) {
-				LOG_R.info(slEntity.getService_id());
-				vendorAppRepository.setAccessHistoryDetails(createServiceHistoryEntity(slEntity, ip_address));
+				UserEntity user = applicationRepository.getUserByUserEmail(email);
+				vendorAppRepository.setAccessHistoryDetails(createServiceHistoryEntity(slEntity, ip_address, user));
 			}
 		} catch (WISPDataAccessException e) {
 			LOG_R.error("Exception occured ::: ", e);
@@ -241,9 +242,10 @@ public class VendorAppServicesImpl implements VendorAppServices {
 		}
 	}
 
-	private ServiceHitsEntity createServiceHistoryEntity(ServiceListEntity slEntity, String ip_address) {
+	private ServiceHitsEntity createServiceHistoryEntity(ServiceListEntity slEntity, String ip_address, UserEntity user) {
 		ServiceHitsEntity hitsEntity = new ServiceHitsEntity();
 		hitsEntity.setService_list_hits_entity(slEntity);
+		hitsEntity.setUser_hits_entity(user);
 		hitsEntity.setIp_address(ip_address);
 		hitsEntity.setTimestamp(new Date());
 		return hitsEntity;
@@ -320,5 +322,44 @@ public class VendorAppServicesImpl implements VendorAppServices {
 			service.setVideosEntities(videosEntities);
 		}
 		return service;
+	}
+
+	@Override
+	@Transactional
+	public void deleteImageFromDB(Long service_id, String url) throws WISPServiceException {
+		try {
+			ServiceImagesEntity entity = vendorAppRepository.getImageByUrl(service_id, url);
+			if(entity != null) {
+				vendorAppRepository.deleteImageFromDB(entity);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
+
+	@Override
+	@Transactional
+	public List<ServiceAccessHitsDownlodResponseBean> getAccessHistoryDetailsToDownload(
+			Long service_id, Date from_date, Date to_date)
+			throws WISPServiceException {
+		List<ServiceAccessHitsDownlodResponseBean> beans = new ArrayList<ServiceAccessHitsDownlodResponseBean>();
+		try {
+			List<ServiceHitsEntity> result = vendorAppRepository.getAccessHistoryDetailsToDownload(service_id, from_date, to_date);
+			for(ServiceHitsEntity entity : result){
+				ServiceAccessHitsDownlodResponseBean bean = new ServiceAccessHitsDownlodResponseBean();
+				bean.setUser_name(entity.getUser_hits_entity().getFirst_name());
+				bean.setEmail(entity.getUser_hits_entity().getEmail() );
+				bean.setPhone(entity.getUser_hits_entity().getPhone_primary());
+				bean.setLocation(entity.getIp_address());
+				bean.setService_name(entity.getService_list_hits_entity().getService_name());
+				bean.setDate(entity.getTimestamp());
+				beans.add(bean);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+		return beans;
 	}
 }

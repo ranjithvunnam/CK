@@ -108,7 +108,7 @@
 			<div class="modal-content" style="border-radius: unset;">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Send an Enquiry</h4>
+					<h4 class="modal-title">Create your personal account</h4>
 				</div>
 				<div class="modal-body" id="mod_comm" style="overflow-x: scroll;">
 					<div class="col-md-12">

@@ -251,7 +251,8 @@ public class ApplicationController {
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			ServiceListEntity service_details = applicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
 			if(service_details != null) {
-				vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
+				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+				vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr(), userDetails.getUsername());
 			}
 			model.addAttribute("service_details", service_details);
 			model.addAttribute("contactUs", new ContactUsBean());
@@ -260,9 +261,9 @@ public class ApplicationController {
 			return "services/service_details";
 		} else {
 			ServiceListEntity service_details = applicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
-			if(service_details != null) {
+			/*if(service_details != null) {
 				vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
-			}
+			}*/
 			List<String> city_list = applicationServices.getListOfCities();
 			model.addAttribute("city_list", city_list);
 			model.addAttribute("service_details", service_details);
@@ -273,9 +274,15 @@ public class ApplicationController {
 	
 	@RequestMapping(value = "/{token}/{service_id}/service_details", method = RequestMethod.GET)
 	public String showServiceIndetailed(@PathVariable(value="token") String token, @PathVariable(value="service_id") Long service_id, Model model, HttpServletRequest request) throws WISPServiceException{
+		
 		ServiceListEntity service_details = applicationServices.getServiceIndetailed(ServiceType.getNameByCode(token),service_id);
+		
 		if(service_details != null) {
-			vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr());
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			if (!(authentication instanceof AnonymousAuthenticationToken)) {
+				UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+				vendorAppServices.setAccessHistoryDetails(service_id, request.getRemoteAddr(), userDetails.getUsername());
+			}
 		}
 		ServiceFilterRequestBean bean = new ServiceFilterRequestBean();
 		bean.setService_type(ServiceType.getNameByCode(token));

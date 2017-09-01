@@ -87,4 +87,27 @@ public class ServiceVideosEntity implements Serializable{
 	public int hashCode() {
 		return video_url.hashCode();
 	}
+	
+	/*@Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(video_url);
+        hcb.append(service_video_list_entity);
+        return hcb.toHashCode();
+    }
+	
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof ServiceImagesEntity)) {
+            return false;
+        }
+        ServiceVideosEntity that = (ServiceVideosEntity) obj;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(video_url, that.video_url);
+        eb.append(service_video_list_entity, that.service_video_list_entity);
+        return eb.isEquals();
+    }*/
 }

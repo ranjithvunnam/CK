@@ -34,6 +34,10 @@ public class ServiceHitsEntity implements Serializable{
 	private Date timestamp;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "wisp_services_details_user_id")
+	private UserEntity user_hits_entity;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "wisp_services_details_service_id")
 	private ServiceListEntity service_list_hits_entity;
 	
@@ -69,5 +73,13 @@ public class ServiceHitsEntity implements Serializable{
 	public void setService_list_hits_entity(
 			ServiceListEntity service_list_hits_entity) {
 		this.service_list_hits_entity = service_list_hits_entity;
+	}
+
+	public UserEntity getUser_hits_entity() {
+		return user_hits_entity;
+	}
+
+	public void setUser_hits_entity(UserEntity user_hits_entity) {
+		this.user_hits_entity = user_hits_entity;
 	}
 }

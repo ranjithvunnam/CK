@@ -20,12 +20,6 @@
 <link href="resources/css/custom.css" rel="stylesheet">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
 	<style>
 	#search-result{
 		padding: 0;		
@@ -364,178 +358,103 @@
 	<%@ include file="templetes/footer.jsp"%>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="resources/slick/slick.js" type="text/javascript"
-		charset="utf-8"></script>
+	<script src="resources/slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script src="resources/js/custom.js" type="text/javascript"></script>
-	<script>
+	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script type="text/javascript">
 		$(document).ready(function() {
-			$('.mesmerizing').slick({
-				dots : true,
-				infinite : false,
-				speed : 300,
-				slidesToShow : 4,
-				slidesToScroll : 4,
-				responsive : [ {
-					breakpoint : 992,
-					settings : {
-						slidesToShow : 3,
-						slidesToScroll : 3,
-						infinite : true,
-						dots : true
+			$("#servicesx,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
+				$("#homex").addClass('active');
+			$('.mesmerizing, .mouthwatering, .photography').slick({
+					dots : true,
+					infinite : false,
+					speed : 300,
+					slidesToShow : 4,
+					slidesToScroll : 4,
+					responsive : [ {
+						breakpoint : 992,
+						settings : {
+							slidesToShow : 3,
+							slidesToScroll : 3,
+							infinite : true,
+							dots : true
+						}
+					}, {
+						breakpoint : 600,
+						settings : {
+							slidesToShow : 2,
+							slidesToScroll : 2
+						}
+					}, {
+						breakpoint : 480,
+						settings : {
+							slidesToShow : 2,
+							slidesToScroll : 2
+						}
 					}
-				}, {
-					breakpoint : 600,
-					settings : {
-						slidesToShow : 2,
-						slidesToScroll : 2
-					}
-				}, {
-					breakpoint : 480,
-					settings : {
-						slidesToShow : 2,
-						slidesToScroll : 2
-					}
-				}
-				// You can unslick at a given breakpoint now by adding:
-				// settings: "unslick"
-				// instead of a settings object
+					// You can unslick at a given breakpoint now by adding:
+					// settings: "unslick"
+					// instead of a settings object
 				]
 			});
-
-			// mouthwatering slide
-			$('.mouthwatering').slick({
-				dots : true,
-				infinite : false,
-				speed : 300,
-				slidesToShow : 4,
-				slidesToScroll : 4,
-				responsive : [ {
-					breakpoint : 1024,
-					settings : {
-						slidesToShow : 3,
-						slidesToScroll : 3,
-						infinite : true,
-						dots : true
-					}
-				}, {
-					breakpoint : 600,
-					settings : {
-						slidesToShow : 2,
-						slidesToScroll : 2
-					}
-				}, {
-					breakpoint : 480,
-					settings : {
-						slidesToShow : 2,
-						slidesToScroll : 2
-					}
+			
+			//attach autocomplete
+			$('body').on("click", function(e){
+				if ($(e.target).hasClass('ui-autocomplete-input')) {
+					//$("#tagQuery").trigger("autocompleteselect");
+					return false;
 				}
-				// You can unslick at a given breakpoint now by adding:
-				// settings: "unslick"
-				// instead of a settings object
-				]
+				$(".search-items").empty();
+				
 			});
+		
+			$('#tagQuery').click(function() {
+			   $('#autocomplete').trigger("focus"); //or "click", at least one should work
+			});
+		
+			$("#tagQuery").autocomplete({
+				minLength: 3,
+				delay: 300,
+				autoFocus: true,
+				//define callback to format results
+				source: function (request, response) {
+					$(".search-items").empty();
+					$.getJSON("simulateSearch", request, function(result) {
+						console.log(result);
+						response($.map(result, function(item) {
+							
+								$(".search-items").append('<a href="'+item.service_type+'/'+item.service_id+'/service_par_listing">'+ item.service_name +'</a>');
+							
+						}));
+					});
+				},
 
-			// photography
-
-			$('.photography').slick({
-				dots : true,
-				infinite : false,
-				speed : 300,
-				slidesToShow : 4,
-				slidesToScroll : 4,
-				responsive : [ {
-					breakpoint : 1024,
-					settings : {
-						slidesToShow : 3,
-						slidesToScroll : 3,
-						infinite : true,
-						dots : true
-					}
-				}, {
-					breakpoint : 600,
-					settings : {
-						slidesToShow : 2,
-						slidesToScroll : 2
-					}
-				}, {
-					breakpoint : 480,
-					settings : {
-						slidesToShow : 2,
-						slidesToScroll : 2
+				//define select handler
+				select : function(event, ui) {
+					if (ui.item) {
+						console.log(ui.item);
+						event.preventDefault();
+						//$("#selected_tags").append('<li class="search-result" href=" + ui.item.tag_url + " target="_blank">'+ ui.item.label +'</li>');
+						//$("#tagQuery").value = $("#tagQuery").defaultValue
+						var defValue = $("#tagQuery").prop('defaultValue');
+						$("#tagQuery").val(defValue);
+						$("#tagQuery").blur();
+						return false;
 					}
 				}
-				// You can unslick at a given breakpoint now by adding:
-				// settings: "unslick"
-				// instead of a settings object
-				]
 			});
 		});
-	</script>
-	<script type="text/javascript">
+		
 		function inputFocus(i){
 			if(i.value==i.defaultValue){ i.value=""; i.style.color="#000"; }
 		}
+		
 		function inputBlur(i){
 			if(i.value==""){ i.value=i.defaultValue; i.style.color="#848484"; }
 		}
-	</script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function() {
-    //attach autocomplete
-	$('body').on("click", function(e){
-		if ($(e.target).hasClass('ui-autocomplete-input')) {
-			//$("#tagQuery").trigger("autocompleteselect");
-			return false;
-		}
-		$(".search-items").empty();
-		
-	});
-$('#tagQuery').click(function() {
-   $('#autocomplete').trigger("focus"); //or "click", at least one should work
-});
-    $("#tagQuery").autocomplete({
-        minLength: 3,
-        delay: 300,
-		autoFocus: true,
-        //define callback to format results
-        source: function (request, response) {
-			$(".search-items").empty();
-            $.getJSON("simulateSearch", request, function(result) {
-				console.log(result);
-                response($.map(result, function(item) {
-					
-						$(".search-items").append('<a href="'+item.service_type+'/'+item.service_id+'/service_par_listing">'+ item.service_name +'</a>');
-                    
-                }));
-            });
-        },
-
-        //define select handler
-        select : function(event, ui) {
-            if (ui.item) {
-				console.log(ui.item);
-                event.preventDefault();
-                //$("#selected_tags").append('<li class="search-result" href=" + ui.item.tag_url + " target="_blank">'+ ui.item.label +'</li>');
-                //$("#tagQuery").value = $("#tagQuery").defaultValue
-                var defValue = $("#tagQuery").prop('defaultValue');
-                $("#tagQuery").val(defValue);
-                $("#tagQuery").blur();
-                return false;
-            }
-        }
-    });
-});
-		$(document).ready(function(){
-			$("#servicesx,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
-			$("#homex").addClass('active');
-		});
-		
 	</script>
 </body>
 </html>

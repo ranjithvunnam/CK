@@ -1,11 +1,13 @@
 package com.nunc.wisp.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.ServiceHitsEntity;
+import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
@@ -29,5 +31,11 @@ public interface VendorAppRepository {
 	public List<Object[]> getAccessHistoryDetails(Long service_id, String from_date, String to_date) throws WISPDataAccessException;
 
 	public void setAccessHistoryDetails(ServiceHitsEntity hitsEntity) throws WISPDataAccessException;
+
+	public void deleteImageFromDB(ServiceImagesEntity imagesEntity) throws WISPDataAccessException;
+
+	public ServiceImagesEntity getImageByUrl(Long service_id, String url) throws WISPDataAccessException;
+
+	public List<ServiceHitsEntity> getAccessHistoryDetailsToDownload(Long service_id, Date from_date, Date to_date) throws WISPDataAccessException;
 
 }
