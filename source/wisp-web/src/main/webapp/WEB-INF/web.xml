@@ -13,7 +13,7 @@
         <listener-class>com.nunc.wisp.services.handlers.SessionCounter</listener-class>
     </listener>
     <session-config>
-	    <session-timeout>1</session-timeout>
+	    <session-timeout>5</session-timeout>
 	</session-config>
   <filter>
     <filter-name>encoding-filter</filter-name>

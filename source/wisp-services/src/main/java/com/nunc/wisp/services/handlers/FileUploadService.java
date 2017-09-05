@@ -110,7 +110,30 @@ public class FileUploadService {
 			}
 		} catch (IOException e) {
 			status = false;
-			LOG_R.info("Service edit form deleteImageFile "+e.getMessage());
+			throw new WISPServiceException(e);
+		}
+		return status;
+	}
+
+	public boolean deleteVideoFile(String videotempPath)  throws WISPServiceException {
+		boolean status = false;
+		try {
+			URL dl = new URL(videotempPath);
+			if(videotempPath != null && videotempPath.contains("service_videos")) {
+				File fileToDelete = new File(UPLOAD_VIDEOS_DIRECTORY + "/" + FilenameUtils.getName(dl.getPath()));
+				if(fileToDelete.exists()) {
+					FileUtils.forceDelete(fileToDelete);
+				}
+				status = true;
+			} else {
+				File fileToDelete = new File(UPLOAD_TEMP_VIDEOS_DIRECTORY + "/" + FilenameUtils.getName(dl.getPath()));
+				if(fileToDelete.exists()) {
+					FileUtils.forceDelete(fileToDelete);
+				}
+				status = true;
+			}
+		} catch (IOException e) {
+			status = false;
 			throw new WISPServiceException(e);
 		}
 		return status;

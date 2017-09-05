@@ -1,5 +1,6 @@
 package com.nunc.wisp.web.restservices;
 
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +64,7 @@ import com.nunc.wisp.services.VendorAppServices;
 import com.nunc.wisp.services.exception.WISPServiceException;
 import com.nunc.wisp.web.restservices.exception.handler.MethodNotAllowedException;
 import com.nunc.wisp.web.restservices.exception.handler.ResourceNotFoundException;
+import com.nunc.wisp.web.restservices.utils.CKUtils;
 
 /**
  * @author Ranjith
@@ -90,6 +92,9 @@ public class ApplicationController {
 	@Autowired
 	@Qualifier("sessionRegistry")
 	private SessionRegistry sessionRegistry;
+	
+	@Autowired
+	CKUtils ckUtils;
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public String handleResourceNotFoundException() {
@@ -155,7 +160,7 @@ public class ApplicationController {
 	}
 	
 	@RequestMapping(value = {"/services/search"}, method = RequestMethod.GET)
-	public String search(@RequestParam(value = "_q") String search, Model model, Integer offset, Integer maxResults, HttpSession session) throws WISPServiceException {
+	public String search(@RequestParam(value = "_q", required = false) String search, Model model, Integer offset, Integer maxResults, HttpSession session) throws WISPServiceException {
 		model.asMap().clear();
 		model.addAttribute("services", applicationServices.getSearchResults(search, offset, maxResults));
 		model.addAttribute("count", applicationServices.getSearchResultsCount(search, offset, maxResults));
@@ -254,8 +259,14 @@ public class ApplicationController {
 	@RequestMapping(value = "/filterServices", method = RequestMethod.POST)
 	public String filterServices(@ModelAttribute("serviceFilterBean") @Valid ServiceFilterRequestBean bean,
 			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes) throws WISPServiceException {
+		
 		redirectAttributes.addFlashAttribute("serviceFilterBean", bean);
-		return "redirect:/"+bean.getLocation()+"/"+bean.getService_type().getDescription()+"/service_listing";
+		if(bean.getLocation() != null) {
+			return "redirect:/"+bean.getLocation()+"/"+bean.getService_type().getDescription()+"/service_listing";
+		} else {
+			return "redirect:/"+bean.getService_type().getDescription()+"/service_listing";
+		}
+		
 	}
 	
 	@RequestMapping(value = {"/{token}/{service_id}/service_par_listing"}, method = RequestMethod.GET)
@@ -640,9 +651,17 @@ public class ApplicationController {
 	@RequestMapping(value = "/goPrevious", method = RequestMethod.GET)
 	public String goPrevious(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		String targetUrl = "/home";
+		String targetUrl = null;
 		if (session != null) {
-			targetUrl = (String) request.getSession().getAttribute("previous_page");
+			String referre = (String) request.getSession().getAttribute("previous_page");
+			try {
+				targetUrl = ckUtils.removeQueryString(referre, "location");
+			} catch (URISyntaxException e) {
+				LOG_R.info(e.getMessage());
+			}
+		}
+		if(targetUrl == null || targetUrl.isEmpty()){
+			targetUrl = "/home";
 		}
 	    return "redirect:"+ targetUrl;
 	}

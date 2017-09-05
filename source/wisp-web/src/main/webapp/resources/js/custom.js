@@ -1,6 +1,9 @@
     $(document).on('ready', function() {
     	//Sticky footer
-    	
+    	$(".dropdown-menu li a").click(function(){
+	  		  var selText = $(this).text();
+	  		  $(this).parents('.dropdown').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
+	  	 });
     	stickyFooter();
     	// share icons
         $(".top-share-icon .share").on("click", function(){
@@ -135,4 +138,46 @@
 	
 	function goBack() {
 	    window.history.back();
+	}
+	
+	
+	var ServiceType = {
+			Venue : "SER_VENUE",
+			Caterers : "SER_CATERERS",
+			Photography : "SER_PHOTOGRAPHY",
+			EventPlanners : "SER_EVENT_PLANNERS",
+			EventDesigners : "SER_EVENT_DESIGNERS",
+			Florists : "SER_FLORIST",
+			Pandits : "SER_PANDITS",
+			Baaraat : "SER_BAARAAT",
+			Entertainers : "SER_ENTERTAINERS",
+			CardDesigners : "SER_CARDS",
+			MakeupArtists : "SER_BEAUTICIANS",
+			MehendiArtists : "SER_MEHANDI",
+			Musicians : "SER_MUSICIANS",
+			Choreographer : "SER_CHOREOGRAPHERS",
+			TravelAgency :"SER_TRAVEL"
+	};
+	
+	$('#_servicefilter').change(function() {    
+	    var url = "";
+	    var service_type = $(this).val();
+	    if(service_type) {
+	    	url += SearchRefractive(service_type);
+			url += '/service_listing';
+			if (url) {
+				window.location = url;
+			}
+	    }
+	});
+	
+	function SearchRefractive(myValue) {
+		if(myValue == 'SER_DJ') {
+			return 'D.J';
+		}
+	    for (prop in ServiceType) {
+	      if (ServiceType[prop] == myValue) {
+	        return prop;
+	      }
+	    }
 	}

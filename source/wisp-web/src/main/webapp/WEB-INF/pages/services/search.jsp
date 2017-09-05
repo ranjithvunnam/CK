@@ -384,7 +384,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="slick/slick.js" type="text/javascript" charset="utf-8"></script>
+	<script src="resources/slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script src="resources/js/custom.js" type="text/javascript"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>

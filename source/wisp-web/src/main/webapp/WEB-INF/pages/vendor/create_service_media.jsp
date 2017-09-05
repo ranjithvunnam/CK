@@ -48,7 +48,7 @@
 							<label for="file-upload" class="custom-file-upload mTop10">
 								<i class="fa fa-cloud-upload"></i> Custom Upload
 							</label> 
-							<input id="file-upload" type="file" name="images" accept="image/*"  accept="video/*" path="service_creation_bean.images"/>
+							<input id="file-upload" type="file" name="images" path="service_creation_bean.images"/>
 					</div>
 					<form id="media_form" role="form" action="vendor/create_service" enctype="multipart/form-data" method="POST">
 					<div class="col-xs-12 col-md-8">
@@ -258,7 +258,7 @@
 						processData: false, 
 	                    contentType:false,
 						success : function(msg) {
-							var createImageContainer = '<div class="thumb-images"><img src="'+msg+'" alt="">'+
+							var createImageContainer = '<div class="thumb-images"><img src="'+msg+'" alt="" id="'+msg+'">'+
 			                '<div class="thumb-close"><i class="fa fa-times" aria-hidden="true"></i></div></div>';
 			                $(".uploaded-container").append(createImageContainer);
 						},
@@ -278,7 +278,7 @@
 
 				});
 				$(".uploaded-container").on("click", ".thumb-close", function() {
-					var index = $(this).siblings("img").attr("src");
+					var index = $(this).siblings("img").attr("id");
 					var _this = $(this);
 					console.log("Close index "+index, $(this));
 					var removeForm = new FormData();

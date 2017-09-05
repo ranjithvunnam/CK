@@ -26,15 +26,6 @@
 <link rel="stylesheet" href="resources/css/star-rating.css">
 <link rel="stylesheet" href="resources/css/jssor.css">
 <link href="resources/css/custom.css" rel="stylesheet">
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via tes
-    file:// -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 <body>
 	<%@ include file="/WEB-INF/pages/templetes/header.jsp"%>
@@ -48,6 +39,7 @@
 							<form:options items="${service_list}" itemLabel="displayName" />
 						</form:select>
 						<form:select class="" name="" path="serviceFilterBean.location">
+							<form:option value="">Select Location</form:option>
 							<form:options items="${city_list}" />
 						</form:select>
 						<input type="hidden" value="${serviceFilterBean.location}" id="filter_location"/>
@@ -471,7 +463,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
-	<script src="slick/slick.js" type="text/javascript" charset="utf-8"></script>
+	<script src="resources/slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script src="resources/js/custom.js" type="text/javascript"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>
@@ -485,56 +477,41 @@
 			$("#servicesx").addClass('active');
 		});
 		
-		/* $('#_servicefilter').change(function() {    
-		    var url = "";
-		    var service_type = $(this).val();
-		    url += service_type;
-		    url +='/service_listing';
-		    $.ajax({
-				url : url,
-				type : 'GET',
-				contentType : 'application/json; charset=utf-8',
-				success : function(msg) {
-					alert("RRR.. "+msg);
-				},
-				error : function(jqXHR, textStatus) {
-					alert(textStatus);
-				}
-			});
-		}); */
-		
 		// toggle favourite icon
-		$(".top-share-icon .fav").on("click", function(){
-			var serviceId = $(this).attr('id');
-			var fullPath = $(this).find('img').attr('src');
-			console.log(fullPath);
-			var currentImage = $(this).find('img');
-			$.ajax({
-				url : 'rest/toggleFavorite?&service_id='+serviceId,
-				type : 'GET',
-				contentType : 'application/json; charset=utf-8',
-				success : function(result, msg, xhr) {
-					var imageName = fullPath.replace(/^.*[\\\/]/, '');
-					console.log(imageName);
-					if(imageName == "favourite.png"){
-						console.log($(this));
-						currentImage.attr("src", "resources/images/icons/favorite.png");
-					}
-					else{
-						console.log(false);
-						currentImage.attr("src", "resources/images/icons/favourite.png")
-					}
-					
-				},
-				error : function(jqXHR, textStatus) {
-					if (jqXHR.status === 401) { // HTTP Status 401: Unauthorized
-			            window.location = 'login';
-			        } else {
-			        	alert(textStatus);
-			        }
-				}
-			});
-		});
+		$(".top-share-icon .fav").on(
+				"click",
+				function() {
+					var serviceId = $(this).attr('id');
+					var fullPath = $(this).find('img').attr('src');
+					console.log(fullPath);
+					var currentImage = $(this).find('img');
+					$.ajax({
+						url : 'rest/toggleFavorite?&service_id=' + serviceId,
+						type : 'GET',
+						contentType : 'application/json; charset=utf-8',
+						success : function(result, msg, xhr) {
+							var imageName = fullPath.replace(/^.*[\\\/]/, '');
+							console.log(imageName);
+							if (imageName == "favourite.png") {
+								console.log($(this));
+								currentImage.attr("src",
+										"resources/images/icons/favorite.png");
+							} else {
+								console.log(false);
+								currentImage.attr("src",
+										"resources/images/icons/favourite.png")
+							}
+
+						},
+						error : function(jqXHR, textStatus) {
+							if (jqXHR.status === 401) { // HTTP Status 401: Unauthorized
+								window.location = 'login';
+							} else {
+								alert(textStatus);
+							}
+						}
+					});
+				});
 	</script>
 </body>
 </html>

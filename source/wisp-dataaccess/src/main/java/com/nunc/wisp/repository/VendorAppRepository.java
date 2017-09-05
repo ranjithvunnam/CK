@@ -9,6 +9,7 @@ import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.ServiceHitsEntity;
 import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
+import com.nunc.wisp.entities.ServiceVideosEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
 @Repository
@@ -37,5 +38,9 @@ public interface VendorAppRepository {
 	public ServiceImagesEntity getImageByUrl(Long service_id, String url) throws WISPDataAccessException;
 
 	public List<ServiceHitsEntity> getAccessHistoryDetailsToDownload(Long service_id, Date from_date, Date to_date) throws WISPDataAccessException;
+
+	public ServiceVideosEntity getVIdeoByUrl(Long service_id, String filePath) throws WISPDataAccessException;
+
+	public void deleteVideoFromDB(ServiceVideosEntity entity) throws WISPDataAccessException;
 
 }

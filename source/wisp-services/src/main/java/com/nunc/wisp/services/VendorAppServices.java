@@ -34,4 +34,6 @@ public interface VendorAppServices {
 	public void deleteImageFromDB(Long service_id, String url) throws WISPServiceException;
 	
 	public List<ServiceAccessHitsDownlodResponseBean> getAccessHistoryDetailsToDownload(Long service_id, Date from_date, Date to_date) throws WISPServiceException;
+
+	public void deleteVideoFromDB(Long service_id, String filePath) throws WISPServiceException;
 }

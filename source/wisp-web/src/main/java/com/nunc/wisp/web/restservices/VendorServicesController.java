@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -308,6 +309,12 @@ public class VendorServicesController {
 						break;
 					case 1:
 						model.addAttribute("service_creation_bean", requestBean);
+						if(requestBean.getImagesBean() != null) {
+							LOG_R.info("XXXXX Request bean updated "+requestBean.getImagesBean().size());
+							for(ServiceImagesRequestBean imagesRequestBean : requestBean.getImagesBean()) {
+								LOG_R.info("XXXXX Request bean updated "+imagesRequestBean.getUrl());
+							}
+						}
 						validator.validateServiceMediaDetails(requestBean, result);
 						break;
 					}
@@ -335,35 +342,25 @@ public class VendorServicesController {
 		String url = null;
 		String fileContentType = multipartFile.getContentType();
 	    if(contentTypes.contains(fileContentType)) {
-	    	List<ServiceImagesRequestBean> images = srCreationBean.getImagesBean();
 			try {
 				url = createTempImageFile(UUID.randomUUID().toString(), "."+multipartFile.getOriginalFilename().split("\\.")[1], multipartFile);
 			} catch (IOException e) {
 				
 			}
-			if(images == null){
-				images = new ArrayList<ServiceImagesRequestBean>();
-			}
 			ServiceImagesRequestBean image = new ServiceImagesRequestBean();
 			image.setUrl(url);
-			images.add(image);
-			srCreationBean.setImagesBean(images);
+			srCreationBean.getImagesBean().add(image);
 	    } else if(fileContentType.contains("video/")) {
-	    	List<ServiceVideosRequestBean> videos = srCreationBean.getVideosBeans();
 	    	try {
 	    		url = createTempVideoFile(UUID.randomUUID().toString(), "."+multipartFile.getOriginalFilename().split("\\.")[1], multipartFile);
 	    	} catch (IOException e) {
 				throw new WISPServiceException(e);
 			}
-	    	if(videos == null){
-	    		videos = new ArrayList<ServiceVideosRequestBean>();
-			}
 	    	ServiceVideosRequestBean video = new ServiceVideosRequestBean();
 			video.setVideo_url(url);
     		video.setVideo_thumbnail(ACCESS_DEFAULT_THUMBNAIL_URL);
-			videos.add(video);
-			srCreationBean.setVideosBeans(videos);
-			url = ACCESS_DEFAULT_THUMBNAIL_URL;
+    		srCreationBean.getVideosBeans().add(video);
+			//url = ACCESS_DEFAULT_THUMBNAIL_URL;
 	    }
 		return url;
 	}
@@ -377,15 +374,16 @@ public class VendorServicesController {
 		if(isImageFile(filePath)) {
 	    	boolean isDeleted = fileUploadService.deleteImageFile(filePath);
 	    	if(isDeleted) {
-	    		ServiceImagesRequestBean bean = new ServiceImagesRequestBean();
-		    	bean.setUrl(filePath);
 		    	if(srCreationBean.getImagesBean() != null) {
-		    		srCreationBean.getImagesBean().remove(bean);
+		    		for (Iterator<ServiceImagesRequestBean> iterator = srCreationBean.getImagesBean().iterator(); iterator.hasNext(); ) {
+		    			ServiceImagesRequestBean value = iterator.next();
+		    			if(value.getUrl().equals(filePath)){
+		    				iterator.remove();
+		    			}
+		    		}
 		    	}
 		    	if(srCreationBean.getService_id() != null){
-		    		LOG_R.info("Service edit form is deleted not null"+srCreationBean.getService_id());
-		    		//vendorAppServices.updateServiceDemoghraphicDetails(srCreationBean, 0);
-		    		vendorAppServices.deleteImageFromDB(srCreationBean.getService_id(), bean.getUrl());
+		    		vendorAppServices.deleteImageFromDB(srCreationBean.getService_id(), filePath);
 		    	}
 		    	/*if(srCreationBean.getService_id() != null){
 		    		vendorAppServices.updateServiceDemoghraphicDetails(srCreationBean, 0);
@@ -396,7 +394,23 @@ public class VendorServicesController {
 	    		throw new WISPServiceException();
 	    	}
 	    }else if(isVideoFile(filePath)) {
-	    	
+	    	boolean isDeleted = fileUploadService.deleteVideoFile(filePath);
+	    	if(isDeleted) {
+	    		if(srCreationBean.getVideosBeans() != null) {
+		    		for (Iterator<ServiceVideosRequestBean> iterator = srCreationBean.getVideosBeans().iterator(); iterator.hasNext(); ) {
+		    			ServiceVideosRequestBean value = iterator.next();
+		    			if(value.getVideo_url().equals(filePath)){
+		    				iterator.remove();
+		    			}
+		    		}
+		    	}
+	    		if(srCreationBean.getService_id() != null){
+		    		vendorAppServices.deleteVideoFromDB(srCreationBean.getService_id(), filePath);
+		    	}
+	    		
+	    	}else {
+	    		throw new WISPServiceException();
+	    	}
 	    }
 	}
 

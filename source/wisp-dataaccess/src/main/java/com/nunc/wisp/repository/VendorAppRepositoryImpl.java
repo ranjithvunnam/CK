@@ -23,6 +23,7 @@ import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.ServiceHitsEntity;
 import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
+import com.nunc.wisp.entities.ServiceVideosEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
 @Repository("VendorAppRepository")
@@ -244,6 +245,42 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 	    cal.setTime(date);
 	    cal.add(Calendar.DATE, 1);
 	    return cal.getTime();
+	}
+
+	@Override
+	@Transactional
+	public ServiceVideosEntity getVIdeoByUrl(Long service_id, String filePath)
+			throws WISPDataAccessException {
+		ServiceVideosEntity entity = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(ServiceVideosEntity.class, "videos");
+			criteria.add(Restrictions.eq("videos.service_video_list_entity.service_id", service_id));
+			criteria.add(Restrictions.eq("video_url", filePath));
+			entity = (ServiceVideosEntity) criteria.uniqueResult();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+
+		return entity;
+	}
+
+	@Override
+	@Transactional
+	public void deleteVideoFromDB(ServiceVideosEntity entity)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.delete(entity);
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
 	}
 	
 	

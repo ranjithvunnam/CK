@@ -437,6 +437,7 @@
 						</div>
 					</div>
 				</div>
+				<c:if test="${service_details.user_service_entity.email != email}">
 				<div class="col-xs-12 col-md-7 col-lg-7 feedback-box">
 					<div class="col-md-12 feedback pbot12">
 						<h5 class="service-heading">Your feedback</h5>
@@ -471,34 +472,35 @@
 								</form>
 							</c:when>
 							<c:otherwise>
-								<form class="form-horizontal" id="feedback_form">
-									<input type="hidden" name="feedback_ser_id"
-										value="${service_details.service_id}" />
-									<div class="form-group rating-user">
-										<label for="inputEmail3" class="col-sm-2 control-label">Rate</label>
-										<div class="col-sm-10">
-											<input id="rating" value="0" type="text"
-												name="feedback_rating" class="rating" data-min=0 data-max=5
-												data-step=1 data-size="xs" title="">
+									<form class="form-horizontal" id="feedback_form">
+										<input type="hidden" name="feedback_ser_id"
+											value="${service_details.service_id}" />
+										<div class="form-group rating-user">
+											<label for="inputEmail3" class="col-sm-2 control-label">Rate</label>
+											<div class="col-sm-10">
+												<input id="rating" value="0" type="text"
+													name="feedback_rating" class="rating" data-min=0 data-max=5
+													data-step=1 data-size="xs" title="">
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
-										<div class="col-sm-10">
-											<textarea class="form-control" rows="3" maxlength="1024"
-												name="feedback_comments"></textarea>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">Comments</label>
+											<div class="col-sm-10">
+												<textarea class="form-control" rows="3" maxlength="1024"
+													name="feedback_comments"></textarea>
+											</div>
 										</div>
-									</div>
-									<div class="form-group">
-										<div class="col-sm-offset-2 col-sm-10">
-											<button type="submit" class="btn custom-button">Submit</button>
+										<div class="form-group">
+											<div class="col-sm-offset-2 col-sm-10">
+												<button type="submit" class="btn custom-button">Submit</button>
+											</div>
 										</div>
-									</div>
-								</form>
+									</form>
 							</c:otherwise>
 						</c:choose>
 					</div>
 				</div>
+				</c:if>
 			</div>
 		</div>
 		<%@ include file="/WEB-INF/pages/templetes/suggest_temp.jsp"%>

@@ -362,4 +362,19 @@ public class VendorAppServicesImpl implements VendorAppServices {
 		}
 		return beans;
 	}
+
+	@Override
+	@Transactional
+	public void deleteVideoFromDB(Long service_id, String filePath)
+			throws WISPServiceException {
+		try {
+			ServiceVideosEntity entity = vendorAppRepository.getVIdeoByUrl(service_id, filePath);
+			if(entity != null) {
+				vendorAppRepository.deleteVideoFromDB(entity);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
 }

@@ -17,7 +17,6 @@ public class ServiceFilterRequestBean implements Serializable{
 	@NotNull(message="Please select service")
 	private ServiceType service_type;
 	
-	@NotNull(message="Please select location")
 	private String location;
 	
 	private ServiceAmenityRequestBean amenityBean;
