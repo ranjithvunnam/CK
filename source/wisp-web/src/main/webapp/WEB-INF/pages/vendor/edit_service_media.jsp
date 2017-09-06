@@ -59,7 +59,7 @@
 								<c:if test="${not empty service_creation_bean.imagesBean}">
 									<c:forEach items="${service_creation_bean.imagesBean}" var="images" varStatus="img_bean_status">
 										<div class="thumb-images">
-			                                <img src="${images.url}" alt="">
+			                                <img src="${images.url}" alt="" id="${images.url}">
 			                                <div class="thumb-close"><i class="fa fa-times" aria-hidden="true"></i></div>
 			                            </div>
 									</c:forEach>
@@ -67,7 +67,7 @@
 								<c:if test="${not empty service_creation_bean.videosBeans}">
 									<c:forEach items="${service_creation_bean.videosBeans}" var="videos" varStatus="video_bean_status">
 										<div class="thumb-images">
-			                                <img src="${videos.video_thumbnail}" alt="">
+			                                <img src="${videos.video_thumbnail}" alt="" id="${videos.video_url}">
 			                                <div class="thumb-close"><i class="fa fa-times" aria-hidden="true"></i></div>
 			                            </div>
 									</c:forEach>
@@ -379,7 +379,7 @@
 						processData: false, 
 	                    contentType:false,
 						success : function(msg) {
-							var createImageContainer = '<div class="thumb-images"><img src="'+msg+'" alt="">'+
+							var createImageContainer = '<div class="thumb-images"><img src="'+msg.THUMBNAIL+'" alt="" id="'+msg.URL+'">'+
 			                '<div class="thumb-close"><i class="fa fa-times" aria-hidden="true"></i></div></div>';
 			                $(".uploaded-container").append(createImageContainer);
 						},
@@ -399,7 +399,7 @@
 
 				});
 				$(".uploaded-container").on("click", ".thumb-close", function() {
-					var index = $(this).siblings("img").attr("src");
+					var index = $(this).siblings("img").attr("id");
 					var _this = $(this);
 					console.log("Close index "+index, $(this));
 					var removeForm = new FormData();

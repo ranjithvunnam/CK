@@ -337,13 +337,16 @@ public class VendorServicesController {
 	
 	@RequestMapping(value="/uploadImage",method=RequestMethod.POST)
 	@ResponseBody
-	public String upload(@RequestParam("file") MultipartFile multipartFile, HttpSession session) throws WISPServiceException{
+	public Map<String, String> upload(@RequestParam("file") MultipartFile multipartFile, HttpSession session) throws WISPServiceException{
 		ServiceCreationRequestBean srCreationBean = (ServiceCreationRequestBean) session.getAttribute("service_creation_bean");
 		String url = null;
+		Map<String, String> result = new HashMap<String, String>();
 		String fileContentType = multipartFile.getContentType();
 	    if(contentTypes.contains(fileContentType)) {
 			try {
 				url = createTempImageFile(UUID.randomUUID().toString(), "."+multipartFile.getOriginalFilename().split("\\.")[1], multipartFile);
+				result.put("URL", url);
+				result.put("THUMBNAIL", url);
 			} catch (IOException e) {
 				
 			}
@@ -353,6 +356,8 @@ public class VendorServicesController {
 	    } else if(fileContentType.contains("video/")) {
 	    	try {
 	    		url = createTempVideoFile(UUID.randomUUID().toString(), "."+multipartFile.getOriginalFilename().split("\\.")[1], multipartFile);
+	    		result.put("URL", url);
+	    		result.put("THUMBNAIL", ACCESS_DEFAULT_THUMBNAIL_URL);
 	    	} catch (IOException e) {
 				throw new WISPServiceException(e);
 			}
@@ -360,9 +365,8 @@ public class VendorServicesController {
 			video.setVideo_url(url);
     		video.setVideo_thumbnail(ACCESS_DEFAULT_THUMBNAIL_URL);
     		srCreationBean.getVideosBeans().add(video);
-			//url = ACCESS_DEFAULT_THUMBNAIL_URL;
 	    }
-		return url;
+		return result;
 	}
 	
 	@RequestMapping(value="/removeImage",method=RequestMethod.POST)
@@ -372,6 +376,7 @@ public class VendorServicesController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
 		ServiceCreationRequestBean srCreationBean = (ServiceCreationRequestBean) session.getAttribute("service_creation_bean");
 		if(isImageFile(filePath)) {
+			LOG_R.info("Delete image ");
 	    	boolean isDeleted = fileUploadService.deleteImageFile(filePath);
 	    	if(isDeleted) {
 		    	if(srCreationBean.getImagesBean() != null) {
@@ -393,9 +398,11 @@ public class VendorServicesController {
 	    	}else {
 	    		throw new WISPServiceException();
 	    	}
-	    }else if(isVideoFile(filePath)) {
+	    }else {
+	    	LOG_R.info("Delete video ");
 	    	boolean isDeleted = fileUploadService.deleteVideoFile(filePath);
 	    	if(isDeleted) {
+	    		LOG_R.info("Delete video is deleted");
 	    		if(srCreationBean.getVideosBeans() != null) {
 		    		for (Iterator<ServiceVideosRequestBean> iterator = srCreationBean.getVideosBeans().iterator(); iterator.hasNext(); ) {
 		    			ServiceVideosRequestBean value = iterator.next();
@@ -420,8 +427,9 @@ public class VendorServicesController {
 	}
 
 	private boolean isVideoFile(String path) {
+		LOG_R.info("Check Video file");
 		String mimeType = URLConnection.guessContentTypeFromName(path);
-		return mimeType != null && mimeType.startsWith("video");
+		return mimeType != null && mimeType.startsWith("video/");
 	}
 	private String createTempImageFile(String prefix, String suffix, MultipartFile file) throws IOException, WISPServiceException{
 		OutputStream outputStream = null;
