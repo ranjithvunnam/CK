@@ -19,10 +19,33 @@ import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.StandardFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.apache.solr.analysis.StopFilterFactory;
+import org.hibernate.search.annotations.Analyze;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
+
 import com.nunc.wisp.beans.enums.ServiceType;
 
 @Entity(name="ServiceListEntity")
+@Indexed
 @Table(name="wisp_services_details")
+@AnalyzerDef(name = "searchtokenanalyzer",tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+filters = {
+  @TokenFilterDef(factory = StandardFilterFactory.class),
+  @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+  @TokenFilterDef(factory = StopFilterFactory.class,params = { 
+      @Parameter(name = "ignoreCase", value = "true") }) })
+      @Analyzer(definition = "searchtokenanalyzer")
 public class ServiceListEntity implements Serializable{
 
 	/**
@@ -39,9 +62,11 @@ public class ServiceListEntity implements Serializable{
 	@Enumerated (value = EnumType.STRING)
 	private ServiceType service_type;
 	
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(name = "service_name", updatable = true, nullable = false)
 	private String service_name;
 	
+	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
 	@Column(name = "service_description", updatable = true, nullable = false)
 	private String service_description;
 	

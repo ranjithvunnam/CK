@@ -36,6 +36,7 @@ import com.nunc.wisp.entities.UserFavoritesEntity;
 import com.nunc.wisp.repository.ApplicationRepository;
 import com.nunc.wisp.repository.VendorAppRepository;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
+import com.nunc.wisp.services.exception.UserRoleExitsException;
 import com.nunc.wisp.services.exception.WISPServiceException;
 import com.nunc.wisp.services.mailutils.Emailer;
 
@@ -76,15 +77,18 @@ public class ApplicationServicesImpl implements ApplicationServices {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = WISPServiceException.class)
-	public void registerNewUserAccount(UserRegistrationBean bean) throws WISPServiceException {
+	public void registerNewUserAccount(UserRegistrationBean bean) throws WISPServiceException, UserRoleExitsException {
 		try {
-			if (applicationRepository.isUserAlreadyRegistered(bean.getEmail())) {
-				// TODO
+			if(applicationRepository.isUserRegisterOnlyAsClient(bean.getEmail())) {
+				UserEntity entity = applicationRepository.getUserByUserEmail(bean.getEmail());
+				entity.setUser_role_entity(applicationRepository.getRoleDetailsById(2L));
+				applicationRepository.updateUserCredentials(entity);
+				throw new UserRoleExitsException("This email already registered, you can use same account for vendor.", 1000);
+			} else if (applicationRepository.isUserAlreadyRegistered(bean.getEmail())) {
 				throw new WISPServiceException("Email already in use.", 1000);
 			}
 			UserEntity user_entity = createUserEntity(bean);
 			user_entity.setUser_role_entity(applicationRepository.getRoleDetailsById(bean.getRole()));
-			LOG_R.info("Role details "+user_entity.getUser_role_entity().getRole_name());
 			applicationRepository.registerNewUserAccount(user_entity);
 		} catch (WISPDataAccessException e) {
 			LOG_R.error("Exception occured ::: ", e);
@@ -351,7 +355,7 @@ public class ApplicationServicesImpl implements ApplicationServices {
 	public List<SearchResultsResponseBean> simulateSearchResult(String tagName) throws WISPServiceException {
 		List<SearchResultsResponseBean> results = new ArrayList<>();
 		try {
-			List<ServiceListEntity> entities = applicationRepository.simulateSearchResult(tagName);
+			List<ServiceListEntity> entities = applicationRepository.simulateSearchResultWithHibernateSearch(tagName);
 			for(ServiceListEntity entity : entities) {
 				SearchResultsResponseBean bean = new SearchResultsResponseBean();
 				bean.setService_id(entity.getService_id());

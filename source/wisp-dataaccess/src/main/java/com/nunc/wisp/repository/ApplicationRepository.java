@@ -72,9 +72,11 @@ public interface ApplicationRepository {
 
 	public List<ServiceCommentsEntity> getServiceComments(Long service_id) throws WISPDataAccessException;
 
-	public List<ServiceListEntity> getSearchResults(String search,
-			Integer offset, Integer maxResults) throws WISPDataAccessException;
+	public List<ServiceListEntity> getSearchResults(String search, Integer offset, Integer maxResults) throws WISPDataAccessException;
 
-	public Long getSearchResultsCount(String search, Integer offset,
-			Integer maxResults) throws WISPDataAccessException;
+	public Long getSearchResultsCount(String search, Integer offset, Integer maxResults) throws WISPDataAccessException;
+	
+	public List<ServiceListEntity> simulateSearchResultWithHibernateSearch(String searchQuery) throws WISPDataAccessException;
+	
+	public boolean isUserRegisterOnlyAsClient(String email) throws WISPDataAccessException;
 }

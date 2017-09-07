@@ -61,6 +61,7 @@ import com.nunc.wisp.entities.UserEntity;
 import com.nunc.wisp.entities.UserFavoritesEntity;
 import com.nunc.wisp.services.ApplicationServices;
 import com.nunc.wisp.services.VendorAppServices;
+import com.nunc.wisp.services.exception.UserRoleExitsException;
 import com.nunc.wisp.services.exception.WISPServiceException;
 import com.nunc.wisp.web.restservices.exception.handler.MethodNotAllowedException;
 import com.nunc.wisp.web.restservices.exception.handler.ResourceNotFoundException;
@@ -515,6 +516,18 @@ public class ApplicationController {
 			bean.setConfirm_password("");
 			model.addAttribute("bean", bean);
 			return "register";
+		} catch (UserRoleExitsException e) {
+			if(e.getErrorCode() == 1000){
+				model.addAttribute("error", e.getMessage());
+				model.addAttribute("bean", new UserRegistrationBean());
+			} else {
+				model.addAttribute("error", "Problem communicating with servers..try again");
+				bean.setEmail("");
+				bean.setPassword("");
+				bean.setConfirm_password("");
+				model.addAttribute("bean", bean);
+			}
+			return "register";
 		}
 	}
 	
@@ -544,6 +557,18 @@ public class ApplicationController {
 			bean.setPassword("");
 			bean.setConfirm_password("");
 			model.addAttribute("bean", bean);
+			return "register";
+		} catch (UserRoleExitsException e) {
+			if(e.getErrorCode() == 1000){
+				model.addAttribute("error", e.getMessage());
+				model.addAttribute("bean", new UserRegistrationBean());
+			} else {
+				model.addAttribute("error", "Problem communicating with servers..try again");
+				bean.setEmail("");
+				bean.setPassword("");
+				bean.setConfirm_password("");
+				model.addAttribute("bean", bean);
+			}
 			return "register";
 		}
 	}

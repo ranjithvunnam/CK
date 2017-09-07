@@ -19,6 +19,7 @@ import com.nunc.wisp.entities.ServiceCommentsEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.UserEntity;
 import com.nunc.wisp.entities.UserFavoritesEntity;
+import com.nunc.wisp.services.exception.UserRoleExitsException;
 import com.nunc.wisp.services.exception.WISPServiceException;
 
 @Service
@@ -26,7 +27,7 @@ public interface ApplicationServices {
 	
 	public List<MainSliderEntity> getMainSliderImages() throws WISPServiceException;
 	
-	public void registerNewUserAccount(UserRegistrationBean bean) throws WISPServiceException;
+	public void registerNewUserAccount(UserRegistrationBean bean) throws WISPServiceException, UserRoleExitsException;
 
 	public UserEntity getUserByUserEmail(String email) throws WISPServiceException;
 

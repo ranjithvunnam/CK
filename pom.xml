@@ -275,11 +275,6 @@
 				<version>${hibernate.version}</version>
 			</dependency>
 			<dependency>
-					<groupId>org.hibernate</groupId>
-					<artifactId>hibernate-search</artifactId>
-					<version>4.3.0.Final</version>
-				</dependency>
-			<dependency>
 				<groupId>org.apache.velocity</groupId>
 				<artifactId>velocity</artifactId>
 				<version>1.7</version>
@@ -633,7 +628,12 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.6</version>
-		   </dependency>
+		</dependency>
+		<dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search</artifactId>
+            <version>4.1.1.Final</version>
+        </dependency>
 	</dependencies>
 
 	<profiles>
