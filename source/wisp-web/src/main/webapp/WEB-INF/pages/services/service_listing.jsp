@@ -276,7 +276,7 @@
 										</c:otherwise>
 									</c:choose>
 									<!-- <span class="share" id="fb_share"><img src="resources/images/icons/share.png" alt="">share</span> -->
-									<span class="share"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
+									<span class="share" id="${service.service_id}"><img src="resources/images/icons/share.png" alt="">share <i class="fa fa-caret-down" aria-hidden="true"></i>
 			                        <div class="social-networks">
 			                          <ul>
 			                            <li class="social-twitter">

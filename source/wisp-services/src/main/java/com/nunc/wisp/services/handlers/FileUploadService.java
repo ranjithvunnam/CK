@@ -20,10 +20,10 @@ public class FileUploadService {
 	protected static final Logger LOG_R = Logger.getLogger(FileUploadService.class);
 	
 	private String UPLOAD_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_images";
-	private String ACCESS_IMAGES_DIRECTORY = "http://localhost/wisp/service_images/";
+	private String ACCESS_IMAGES_DIRECTORY = "http://202.53.86.14/wisp/service_images/";
 	
 	private String UPLOAD_VIDEOS_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_videos";
-	private String ACCESS_VIDEOS_DIRECTORY = "http://localhost/wisp/service_videos/";
+	private String ACCESS_VIDEOS_DIRECTORY = "http://202.53.86.14/wisp/service_videos/";
 	
 	private String UPLOAD_TEMP_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_images\\";
 	//private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://202.53.86.11/wisp/service_temp_images/";

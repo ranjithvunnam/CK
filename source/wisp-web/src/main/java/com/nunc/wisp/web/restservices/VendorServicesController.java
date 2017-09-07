@@ -114,12 +114,12 @@ public class VendorServicesController {
 	AuthenticationManager authenticationManager;
 	
 	private String UPLOAD_TEMP_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_images";
-	private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://localhost/wisp/service_temp_images/";
+	private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://202.53.86.14/wisp/service_temp_images/";
 	
 	private String UPLOAD_TEMP_VIDEOS_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_videos";
-	private String ACCESS_TEMP_VIDEOS_DIRECTORY = "http://localhost/wisp/service_temp_videos/";
+	private String ACCESS_TEMP_VIDEOS_DIRECTORY = "http://202.53.86.14/wisp/service_temp_videos/";
 	
-	private String ACCESS_DEFAULT_THUMBNAIL_URL = "http://localhost/wisp/service_video_thumbnail/default_video_m.jpg";
+	private String ACCESS_DEFAULT_THUMBNAIL_URL = "http://202.53.86.14/wisp/service_video_thumbnail/default_video_m.jpg";
 	
 	private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif");
 	
