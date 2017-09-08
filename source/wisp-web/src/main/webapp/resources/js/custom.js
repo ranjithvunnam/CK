@@ -1,5 +1,11 @@
     $(document).on('ready', function() {
-    	
+
+    	$('select').each(function(i, e){
+    		var id = $(e).attr('id');
+    		var selectedValue = $("#"+id+" option:selected").text();
+    		$(e).parent().siblings('button').find(".menuselected").html(selectedValue);
+    	})
+
     	$(".dropdown-menu li a").click(function(){
 	  		  var selText = $(this).text();
 	  		  $(this).parents('.dropdown').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
@@ -16,7 +22,7 @@
         });
         
         $(document).on('click touchstart', function(e) {
-			console.log(e.target.className)
+			// console.log(e.target.className)
             if (e.target.className != 'share') {
                 $(".social-networks").fadeOut();
             }
@@ -169,18 +175,44 @@
 			Choreographer : "SER_CHOREOGRAPHERS",
 			TravelAgency :"SER_TRAVEL"
 	};
-	
-	$('#_servicefilter').change(function() {    
-	    var url = "";
-	    var service_type = $(this).val();
-	    if(service_type) {
-	    	url += SearchRefractive(service_type);
-			url += '/service_listing';
-			if (url) {
-				window.location = url;
+
+	$(document).on('click', '.dropdown-menu li', function(){		
+		var service_type = $(this).data('value');
+		var allOptions = $(this).siblings('select').find('option');
+		
+		$(allOptions).removeAttr("selected");
+		$(allOptions).each(function(i, e){		
+			console.log($(e).val(),"==", service_type);
+			if($(e).val()===service_type){
+				$(this).attr("selected", "selected");
 			}
-	    }
+		})
+		if($(this).parent().hasClass("_servicefilter")){			
+		    var url = "";	    
+	        if(service_type) {
+	        	url += SearchRefractive(service_type);
+	    		url += '/service_listing';
+	    		if (url) {
+	    			window.location = url;
+	    		}
+	        }
+		}
+
 	});
+	
+	// function changeFilters(inputVal) {   
+	// 	console.log(inputVal) 
+	//  //    var url = "";
+	//  //    var service_type = inputVal;
+	// 	// console.log(service_type)
+	//  //    if(service_type) {
+	//  //    	url += SearchRefractive(service_type);
+	// 	// 	url += '/service_listing';
+	// 	// 	if (url) {
+	// 	// 		window.location = url;
+	// 	// 	}
+	//  //    }
+	// };
 	
 	function SearchRefractive(myValue) {
 		if(myValue == 'SER_DJ') {

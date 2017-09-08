@@ -35,30 +35,54 @@
 			<div class="col-xs-12 col-sm-12 col-md-12">
 			<form id="filter_search_form" role="form" action="filterServices" method="POST">
 				<div class="col-sm-12 col-sm-12 col-xs-12 filter-area">
-						<form:select class="" name="" path="serviceFilterBean.service_type" id="_servicefilter">
-							<form:options items="${service_list}" itemLabel="displayName" />
-						</form:select>
-						<form:select class="" name="" path="serviceFilterBean.location">
-							<form:option value="">Select Location</form:option>
-							<form:options items="${city_list}" />
-						</form:select>
+						<div class="dropdown">
+							<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                            <span class="menuselected">Services</span>
+	                            <span class="caret"></span>
+	                        </button>
+							<form:select class="dropdown-menu _servicefilter" name="" path="serviceFilterBean.service_type">
+								<form:options items="${service_list}" itemLabel="displayName" />
+							</form:select>
+						</div>
+						<div class="dropdown">
+							<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                            <span class="menuselected">Location</span>
+	                            <span class="caret"></span>
+	                        </button>
+	                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.location">
+								<form:options items="${city_list}" />
+							</form:select>
+						</div>
+						
 						<input type="hidden" value="${serviceFilterBean.location}" id="filter_location"/>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE' || serviceFilterBean.service_type eq 'SER_CATERERS'}">
-							<form:select class="" name="" path="serviceFilterBean.amenityBean.capacity">
-								<form:option value="">Select Capacity</form:option>
-								<form:option value="500 - 1000">500 - 1000</form:option>
-								<form:option value="1000 - 1500">1000 - 1500</form:option>
-								<form:option value="1500-2000">1500-2000</form:option>
-								<form:option value="2500 +">2500 +</form:option>
-							</form:select>
+							<div class="dropdown">
+								<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		                            <span class="menuselected">Capacity</span>
+		                            <span class="caret"></span>
+		                        </button>
+		                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.capacity" id="_capacityfilter">
+									<form:option value="">Capacity</form:option>
+									<form:option value="500 - 1000">500 - 1000</form:option>
+									<form:option value="1000 - 1500">1000 - 1500</form:option>
+									<form:option value="1500-2000">1500-2000</form:option>
+									<form:option value="2500 +">2500 +</form:option>
+								</form:select>
+							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
-							<form:select class="" name="" path="serviceFilterBean.amenityBean.rooms">
-								<form:option value="">Select Rooms</form:option>
-								<form:option value="10">10</form:option>
-								<form:option value="15">15</form:option>
-								<form:option value="25">25</form:option>
-							</form:select>
+							<div class="dropdown">
+								<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		                            <span class="menuselected">Rooms</span>
+		                            <span class="caret"></span>
+		                        </button>
+		                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.rooms" id="_roomsfilter">
+									<form:option value="">Rooms</form:option>
+									<form:option value="10">10</form:option>
+									<form:option value="15">15</form:option>
+									<form:option value="25">25</form:option>
+								</form:select>
+							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
@@ -465,13 +489,18 @@
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
-	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
 	<script src="resources/js/socialauth.js"></script>
+	<script src="resources/js/selectjs/classie.js"></script>
+    <script src="resources/js/selectjs/selectFx.js"></script>
+    <script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			[].slice.call( document.querySelectorAll('select.dropdown-menu') ).forEach( function(el) {    
+			    new SelectFx(el);
+			} );
 			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#servicesx").addClass('active');
 		});

@@ -603,7 +603,7 @@ body {
 }
 
 .filter-area select {
-	display: inline-block;
+	/* display: inline-block; */
 	border: none;
 }
 

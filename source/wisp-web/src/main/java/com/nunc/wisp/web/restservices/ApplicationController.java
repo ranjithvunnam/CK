@@ -237,7 +237,9 @@ public class ApplicationController {
 	@RequestMapping(value = "{location}/{token}/service_listing", method = RequestMethod.GET)
 	public String showLocationBasedListOfServices(@ModelAttribute("serviceFilterBean") final ServiceFilterRequestBean bean,@PathVariable(value="location") String location,
 			@PathVariable(value="token") String token, Model model, Integer offset, Integer maxResults) throws WISPServiceException {
-		
+		if(bean.getAmenityBean() != null){
+			LOG_R.info("After Farwording "+bean.getAmenityBean().getRooms());
+		}
 		token = ServiceType.contains(token) ? ServiceType.valueOf(token).getDescription() : token;
 		location = (bean.getLocation() != null && !bean.getLocation().isEmpty()) ? bean.getLocation() : location;
 		ServiceType serv_type = (bean.getService_type() != null && !bean.getService_type().name().isEmpty()) ? bean.getService_type() : ServiceType.getNameByCode(token);
@@ -260,7 +262,7 @@ public class ApplicationController {
 	@RequestMapping(value = "/filterServices", method = RequestMethod.POST)
 	public String filterServices(@ModelAttribute("serviceFilterBean") @Valid ServiceFilterRequestBean bean,
 			BindingResult result, Errors errors, Model model, RedirectAttributes redirectAttributes) throws WISPServiceException {
-		
+		LOG_R.info("Before Farwording "+bean.getAmenityBean().getRooms());
 		redirectAttributes.addFlashAttribute("serviceFilterBean", bean);
 		if(bean.getLocation() != null) {
 			return "redirect:/"+bean.getLocation()+"/"+bean.getService_type().getDescription()+"/service_listing";
