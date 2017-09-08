@@ -168,7 +168,7 @@
 	}
 	
 
-	$('#twitterShare').on('click', function(e) {
+	$('.twitterShare').on('click', function(e) {
 		e.preventDefault();
 		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 		var twitterWindow = window.open('https://twitter.com/share?url='
@@ -179,7 +179,7 @@
 		//return false;
 	});
 	
-	$('#facebookShare').on('click', function(e) {
+	$('.facebookShare').on('click', function(e) {
 		e.preventDefault();
 		 /*var FB = window.FB;*/
 		 var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
@@ -197,7 +197,7 @@
 			//return false;
 	});
 	
-	$('#googleShare').on('click', function(e) {
+	$('.googleShare').on('click', function(e) {
 		e.preventDefault();
 		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 		var googleWindow = window.open('https://plus.google.com/share?url='+ full+$(this).data('js'), 'google-popup', 'height=600,width=350');
@@ -207,7 +207,7 @@
 		//return false;
 	});
 	
-	$('#copytoclipboard').on('click', function(e) {
+	$('.copytoclipboard').on('click', function(e) {
 		e.preventDefault();
 		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 		var result = copyToClipboard(full+$(this).data('js'));
@@ -239,7 +239,7 @@
 	    }
 	}
 	
-	$('#emailshare').on('click', function(e) {
+	$('.emailshare').on('click', function(e) {
 		e.preventDefault();
 		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 		sendMail(full+$(this).data('js'));
@@ -253,7 +253,7 @@
 	    window.location.href = link;
 	}
 	
-	$('#watsappshare').on('click', function(e) {
+	$('.watsappshare').on('click', function(e) {
 		e.preventDefault();
 		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 		if (isMobile.any()) {

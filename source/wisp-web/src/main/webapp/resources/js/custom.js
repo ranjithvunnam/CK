@@ -1,16 +1,27 @@
     $(document).on('ready', function() {
-    	//Sticky footer
+    	
     	$(".dropdown-menu li a").click(function(){
 	  		  var selText = $(this).text();
 	  		  $(this).parents('.dropdown').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
 	  	 });
+    	
+    	//Sticky footer
     	stickyFooter();
+    	
     	// share icons
         $(".top-share-icon .share").on("click", function(){
-            $(".social-networks").slideToggle( "fast", function() {
-                // Animation complete.
+			$(".social-networks").fadeOut();
+            $(this).find(".social-networks").slideToggle( "fast", function() {
               });
         });
+        
+        $(document).on('click touchstart', function(e) {
+			console.log(e.target.className)
+            if (e.target.className != 'share') {
+                $(".social-networks").fadeOut();
+            }
+        });
+        
         // get ratings
         $(".rating input").on("click", function() {
             alert("you have given - custom.js " + $(this).val()); // delete this after u get 
@@ -79,9 +90,9 @@
 		    //title
 		    html += '<div class="title h5">';
 		    html += '<a href="#"><b>'+val.first_name+'</b></a> made a post.';
-		  	html += '<div class="rating-readonly">';
-		  	html += '<form><input id="" value="'+val.rating+'" type="text" class="rating" data-min=0 data-max=5 data-step=0.2 data-size="xs" title="" disabled></form>';
-		  	html += '</div>';
+		  	html += '<span class="fav"><div class="ratings"><div class="rating-readonly">';
+		  	html += '<form><div class="rating-container rating-xs rating-animate rating-disabled"><div class="clear-rating " title="Clear"><i class="glyphicon glyphicon-minus-sign"></i></div><div class="rating-stars"><span class="empty-stars"><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span></span><span class="filled-stars" style="width: '+20*val.rating+'%;"><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span></span><input id="" value="'+val.rating+'" type="text" class="rating rating-input" data-min=0 data-max=5 data-step=0.2 data-size="xs" title="" disabled="disabled" captio="none"></div><div class="caption"><span class="label label-info">Three Stars</span></div></div></form>';
+		  	html += '</div></div><span/>';
 		    html += '</div>';
 		    //end title
 		    var d = new Date(val.comment_created);

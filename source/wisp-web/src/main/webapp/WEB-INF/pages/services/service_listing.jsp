@@ -280,22 +280,22 @@
 			                        <div class="social-networks">
 			                          <ul>
 			                            <li class="social-twitter">
-			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="twitterShare"><i class="fa fa-twitter"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" class="twitterShare"><i class="fa fa-twitter"></i></a>
 			                            </li>
 			                            <li class="social-facebook">
-			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="facebookShare"><i class="fa fa-facebook"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" class="facebookShare"><i class="fa fa-facebook"></i></a>
 			                            </li>
 			                            <li class="social-gplus">
-			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="googleShare"><i class="fa fa-google-plus"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" class="googleShare"><i class="fa fa-google-plus"></i></a>
 			                            </li>
 			                            <li class="social-watsapp">
-			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="watsappshare"><i class="fa fa-whatsapp"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" class="watsappshare"><i class="fa fa-whatsapp"></i></a>
 			                            </li>
 			                            <li class="social-copyclipboard">
-			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="copytoclipboard"><i class="fa fa-clipboard"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" class="copytoclipboard"><i class="fa fa-clipboard"></i></a>
 			                            </li>
 			                            <li class="social-email">
-			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" id="emailshare"><i class="fa fa-envelope"></i></a>
+			                            	<a data-js="${pageContext.request.contextPath}/${service.service_type.description}/${service.service_id}/service_details" class="emailshare"><i class="fa fa-envelope"></i></a>
 			                            </li>
 			                          </ul>
 			                        </div>
@@ -420,7 +420,7 @@
 										<span class="comments">${service.commentsEntities.size()}</span>
 										<div class="rating-readonly">
 				                            <form>
-				                                <input id="" value="${service.service_avg_rating}" type="text" class="rating" data-min=0 data-max=5 data-step=0.2 data-size="xs"
+				                                <input id="" value="${service.service_avg_rating}" type="text" class="rating rating-input" data-min=0 data-max=5 data-step=0.2 data-size="xs"
 				                                        title="" disabled captio="none">
 				                            </form>
 				                        </div>
@@ -464,7 +464,6 @@
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="resources/js/bootstrap.min.js"></script>
 	<script src="resources/slick/slick.js" type="text/javascript" charset="utf-8"></script>
-	<script src="resources/js/custom.js" type="text/javascript"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>

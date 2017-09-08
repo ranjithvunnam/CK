@@ -266,6 +266,7 @@ public class ApplicationServicesImpl implements ApplicationServices {
 			throws WISPServiceException {
 		ServiceListEntity result = null;
 		try {
+			LOG_R.info("Search Problem "+serviceType);
 			result = applicationRepository.getServiceIndetailed(serviceType, service_id);
 		} catch (WISPDataAccessException e) {
 			LOG_R.error("Exception occured ::: ", e);

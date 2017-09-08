@@ -11,6 +11,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,7 +103,8 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 			Criteria criteria = session.createCriteria(ServiceListEntity.class, "service")
 			.createAlias("service.user_service_entity", "user")
 			.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).add(Restrictions.eq("user.email", email))
-			.setFirstResult(offset!=null?offset:DEFAULT_OFFSET).setMaxResults(maxResults!=null?maxResults:MAX_ROWS_FOR_USER_SEARCH);
+			.setFirstResult(offset!=null?offset:DEFAULT_OFFSET).setMaxResults(maxResults!=null?maxResults:MAX_ROWS_FOR_USER_SEARCH)
+			.addOrder(Order.desc("service_created"));;
 			results = criteria.list();
 		} catch (HibernateException e) {
 			LOG_R.error("Exception occured while saving the user into inventory db",e);

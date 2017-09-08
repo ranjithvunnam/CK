@@ -800,9 +800,15 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		            luceneQuery.add(new TermQuery(exactTerm), BooleanClause.Occur.MUST);
 		        }
 		    }
+		    
 	        // wrap Lucene query in a javax.persistence.Query
-	        org.hibernate.Query fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, ServiceListEntity.class);
-	         
+		    org.hibernate.search.FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, ServiceListEntity.class);
+	        
+	        Criteria criteria = session.createCriteria(ServiceListEntity.class);
+		    criteria.add(Restrictions.eq("approval_status", 2));
+	        
+	        
+		    fullTextQuery.setCriteriaQuery(criteria);
 	        results = fullTextQuery.list();
 		} catch (HibernateException e) {
 			LOG_R.error(
