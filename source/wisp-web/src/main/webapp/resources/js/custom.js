@@ -1,10 +1,14 @@
     $(document).on('ready', function() {
-
+    	
+    	[].slice.call( document.querySelectorAll('select.dropdown-menu') ).forEach( function(el) {    
+		    new SelectFx(el);
+		} );
+    	
     	$('select').each(function(i, e){
     		var id = $(e).attr('id');
     		var selectedValue = $("#"+id+" option:selected").text();
     		$(e).parent().siblings('button').find(".menuselected").html(selectedValue);
-    	})
+    	});
 
     	$(".dropdown-menu li a").click(function(){
 	  		  var selText = $(this).text();
@@ -179,14 +183,15 @@
 	$(document).on('click', '.dropdown-menu li', function(){		
 		var service_type = $(this).data('value');
 		var allOptions = $(this).siblings('select').find('option');
-		
+		// console.log(allOptions)
 		$(allOptions).removeAttr("selected");
 		$(allOptions).each(function(i, e){		
-			console.log($(e).val(),"==", service_type);
-			if($(e).val()===service_type){
+			// console.log($(e).val(),"==", service_type);
+			if($(e).val()==service_type){
 				$(this).attr("selected", "selected");
 			}
-		})
+		});
+		
 		if($(this).parent().hasClass("_servicefilter")){			
 		    var url = "";	    
 	        if(service_type) {
@@ -199,21 +204,7 @@
 		}
 
 	});
-	
-	// function changeFilters(inputVal) {   
-	// 	console.log(inputVal) 
-	//  //    var url = "";
-	//  //    var service_type = inputVal;
-	// 	// console.log(service_type)
-	//  //    if(service_type) {
-	//  //    	url += SearchRefractive(service_type);
-	// 	// 	url += '/service_listing';
-	// 	// 	if (url) {
-	// 	// 		window.location = url;
-	// 	// 	}
-	//  //    }
-	// };
-	
+		
 	function SearchRefractive(myValue) {
 		if(myValue == 'SER_DJ') {
 			return 'D.J';

@@ -34,77 +34,115 @@
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<form id="filter_search_form" role="form" action="filterServices" method="POST">
 				<div class="col-sm-12 col-sm-12 col-xs-12 filter-area">
-						<form:select class="" name="" path="serviceFilterBean.service_type" id="_servicefilter">
-							<form:options items="${service_list}" itemLabel="displayName" />
-						</form:select>
-						<form:select class="" name="" path="serviceFilterBean.location">
-							<form:options items="${city_list}" />
-						</form:select>
+						<div class="dropdown">
+							<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                            <span class="menuselected">Services</span>
+	                            <span class="caret"></span>
+	                        </button>
+							<form:select class="dropdown-menu _servicefilter" name="" path="serviceFilterBean.service_type">
+								<form:options items="${service_list}" itemLabel="displayName" />
+							</form:select>
+						</div>
+						<div class="dropdown">
+							<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                            <span class="menuselected">Location</span>
+	                            <span class="caret"></span>
+	                        </button>
+	                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.location">
+								<form:options items="${city_list}" />
+							</form:select>
+						</div>
 						<input type="hidden" value="${serviceFilterBean.location}" id="filter_location"/>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE' || serviceFilterBean.service_type eq 'SER_CATERERS'}">
-							<form:select class="" name="" path="serviceFilterBean.amenityBean.capacity">
-								<form:option value="">Select Capacity</form:option>
-								<form:option value="500 - 1000">500 - 1000</form:option>
-								<form:option value="1000 - 1500">1000 - 1500</form:option>
-								<form:option value="1500-2000">1500-2000</form:option>
-								<form:option value="2500 +">2500 +</form:option>
-							</form:select>
+							<div class="dropdown">
+								<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		                            <span class="menuselected">Capacity</span>
+		                            <span class="caret"></span>
+		                        </button>
+		                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.capacity" id="_capacityfilter">
+									<form:option value="">Capacity</form:option>
+									<form:option value="500 - 1000">500 - 1000</form:option>
+									<form:option value="1000 - 1500">1000 - 1500</form:option>
+									<form:option value="1500-2000">1500-2000</form:option>
+									<form:option value="2500 +">2500 +</form:option>
+								</form:select>
+							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
-							<form:select class="" name="" path="serviceFilterBean.amenityBean.rooms">
-								<form:option value="">Select Rooms</form:option>
-								<form:option value="10">10</form:option>
-								<form:option value="15">15</form:option>
-								<form:option value="25">25</form:option>
-							</form:select>
-						</c:if>
-						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
-							<div class="checkbox-div">
-								Air Con
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.air_condition" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+							<div class="dropdown">
+								<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		                            <span class="menuselected">Rooms</span>
+		                            <span class="caret"></span>
+		                        </button>
+		                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.rooms" id="_roomsfilter">
+									<form:option value="">Rooms</form:option>
+									<form:option value="10">10</form:option>
+									<form:option value="15">15</form:option>
+									<form:option value="25">25</form:option>
+								</form:select>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
-								Liquor 
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.liquor" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+								Air Con
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtnAC" path="serviceFilterBean.amenityBean.air_condition" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								Liquor
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.liquor" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
 								Parking 
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.parking" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.parking" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
 								WiFi 
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.wifi" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.wifi" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_BEAUTICIANS'}">
-							<form:select class="" name="" path="serviceFilterBean.amenityBean.gender">
-								<form:option value="">Select Gender</form:option>
-								<form:option value="Women">Women</form:option>
-								<form:option value="Men">Men</form:option>
-								<form:option value="Unisex">Unisex</form:option>
-							</form:select>
+							<div class="dropdown">
+									<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			                            <span class="menuselected">Select Gender</span>
+			                            <span class="caret"></span>
+			                        </button>
+								<form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.gender" id="_genderfilter">
+									<form:option value="">Select Gender</form:option>
+									<form:option value="Women">Women</form:option>
+									<form:option value="Men">Men</form:option>
+									<form:option value="Unisex">Unisex</form:option>
+								</form:select>
+							</div>
 						</c:if>
 						<div class="filter-search-div">
 						<form:input type="text" class="form-control" placeholder="Search" name="" path="serviceFilterBean.searchTerm" />
@@ -631,6 +669,8 @@
 	</script>
 	<script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="resources/slick/slick.js" charset="utf-8"></script>
+	<script src="resources/js/selectjs/classie.js"></script>
+    <script src="resources/js/selectjs/selectFx.js"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
@@ -720,11 +760,11 @@
 				}),
 				success : function(msg) {
 					$('#feedback_form')[0].reset();
+					//<div class="rating-container rating-xs rating-animate rating-disabled"><div class="clear-rating " title="Clear"><i class="glyphicon glyphicon-minus-sign"></i></div><div class="rating-stars"><span class="empty-stars"><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span></span><span class="filled-stars" style="width: '+20*val.rating+'%;"><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span></span><input id="" value="'+val.rating+'" type="text" class="rating rating-input" data-min=0 data-max=5 data-step=0.2 data-size="xs" title="" disabled="disabled" captio="none"></div><div class="caption"><span class="label label-info">Three Stars</span></div></div>
 					alert("FeedBack submitted..");
 					$("#feedback_form").empty();
 					$("#feedback_form").append('<div class="form-group rating-user">'+'<label for="inputEmail3" class="col-sm-2 control-label">Rate</label>'
-							+'<div class="col-sm-10"><div class="rating-readonly"><input id="" value="'+rating+'" type="text" '
-							+'class="rating" data-min=0 data-max=5 data-step=1 data-size="xs" title="" disabled captio="none"></div></div>'
+							+'<div class="col-sm-10"><div class="rating-container rating-xs rating-animate rating-disabled"><div class="clear-rating " title="Clear"><i class="glyphicon glyphicon-minus-sign"></i></div><div class="rating-stars"><span class="empty-stars"><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span><span class="star"><i class="glyphicon glyphicon-star-empty"></i></span></span><span class="filled-stars" style="width: '+20*rating+'%;"><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span><span class="star"><i class="glyphicon glyphicon-star"></i></span></span><input id="" value="'+rating+'" type="text" class="rating rating-input" data-min=0 data-max=5 data-step=0.2 data-size="xs" title="" disabled="disabled" captio="none"></div><div class="caption"><span class="label label-info">Three Stars</span></div></div></div>'
 							+'</div><div class="form-group"><label for="inputEmail3" class="col-sm-2">Comments</label>'
 							+'<div class="col-sm-10"><p>'+comment_desc+'</p></div></div>');
 				},

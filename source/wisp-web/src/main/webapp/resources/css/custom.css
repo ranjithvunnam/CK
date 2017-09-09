@@ -669,15 +669,15 @@ body {
 	transition: .4s;
 }
 
-input:checked+.slider {
+input:checked~.slider {
 	background-color: #2ab934;
 }
 
-input:focus+.slider {
+input:focus~.slider {
 	box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked+.slider:before {
+input:checked~.slider:before {
 	-webkit-transform: translateX(13px);
 	-ms-transform: translateX(13px);
 	transform: translateX(13px);
@@ -708,11 +708,11 @@ input:checked+.slider:before {
 	font-family: Verdana, sans-serif;
 }
 
-input:checked+.slider .on {
+input:checked~.slider .on {
 	display: block;
 }
 
-input:checked+.slider .off {
+input:checked~.slider .off {
 	display: none;
 }
 
@@ -1222,7 +1222,10 @@ section#contact .text-danger {
 .ratings .fav{
     cursor: pointer;
 }
-
+.select-custom{	
+	height: 20px !important;
+	border-radius: 4px !important;
+}
 
 
 

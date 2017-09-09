@@ -82,8 +82,7 @@
 								<div class="specifications">
 									<img src="resources/images/icons/capacity.png" alt="">
 									<p>Capacity</p>
-									<form:select class="form-control custom-select" name="" path="service_creation_bean.amenityBean.capacity" 
-									style="height: 35px;">
+									<form:select class="form-control custom-select" name="" path="service_creation_bean.amenityBean.capacity" >
 										<form:option value="">Select</form:option>
 										<form:option value="500 - 1000">500 - 1000</form:option>
 										<form:option value="1000 - 1500">1000 - 1500</form:option>
@@ -96,7 +95,7 @@
 								<div class="specifications">
 									<img src="resources/images/icons/rooms.png" alt="">
 									<p>Rooms</p>
-									<form:select class="form-control custom-select" name="" path="service_creation_bean.amenityBean.rooms" style="height: 35px;">
+									<form:select class="form-control custom-select" name="" path="service_creation_bean.amenityBean.rooms" >
 										<form:option value="">Select</form:option>
 										<form:option value="10">10</form:option>
 										<form:option value="15">15</form:option>
@@ -107,57 +106,70 @@
 							<div class="specifications">
 								<img src="resources/images/icons/price.png" alt="">
 									<p>Price</p>
-									<form:input type="text" class="form-control" name="price" path="service_creation_bean.amenityBean.price"/>
+									<form:input type="text" class="form-control select-custom" name="price" path="service_creation_bean.amenityBean.price"/>
 							</div>
-							<c:if test="${service_creation_bean.service_type eq 'SER_VENUE'}">
-								<div class="specifications">
-									<img src="resources/images/icons/car.png" alt="">
-									<p>Parking</p>
-										<form:checkbox  id="togBtn" path="service_creation_bean.amenityBean.parking"/>
-											<div class="slider round">
-												<!--ADDED HTML -->
-												<span class="on"><i class="fa fa-check"	aria-hidden="true"></i></span><span class="off"></span>
-												<!--END-->
-											</div>
-								</div>
-							</c:if>
-							<c:if test="${service_creation_bean.service_type eq 'SER_VENUE'}">
-								<div class="specifications">
-									<img src="resources/images/icons/liquor.png" alt="">
-									<p>Liquor</p>
-											<form:checkbox id="togBtn" path="service_creation_bean.amenityBean.liquor"/>
-												<div class="slider round">
-													<!--ADDED HTML -->
-													<span class="on"><i class="fa fa-check"
-														aria-hidden="true"></i></span><span class="off"></span>
-													<!--END-->
-												</div>
-								</div>
-							</c:if>
+							<!-- Air Condition -->
 							<c:if test="${service_creation_bean.service_type eq 'SER_VENUE'}">
 								<div class="specifications">
 									<img src="resources/images/icons/ac.png" alt="">
 									<p>Ac</p>
-										<form:checkbox id="togBtn" path="service_creation_bean.amenityBean.air_condition"/>
-											<div class="slider round">
-												<!--ADDED HTML -->
-												<span class="on"><i class="fa fa-check"
-													aria-hidden="true"></i></span><span class="off"></span>
-												<!--END-->
-											</div>
+									<div class="checkbox-div">
+										<label class="custom_switch">
+				                            <form:checkbox id="togBtn" path="service_creation_bean.amenityBean.air_condition"/>
+				                            <div class="slider round">
+				                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+				                                <!--END-->
+				                            </div>
+				                        </label>
+									</div>
 								</div>
 							</c:if>
+							<!-- Liquor -->
+							<c:if test="${service_creation_bean.service_type eq 'SER_VENUE'}">
+								<div class="specifications">
+									<img src="resources/images/icons/liquor.png" alt="">
+									<p>Liquor</p>
+									<div class="checkbox-div">
+										<label class="custom_switch">
+				                            <form:checkbox id="togBtn" path="service_creation_bean.amenityBean.liquor"/>
+				                            <div class="slider round">
+				                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+				                                <!--END-->
+				                            </div>
+				                        </label>
+									</div>
+								</div>
+							</c:if>
+							<!-- Parking -->
+							<c:if test="${service_creation_bean.service_type eq 'SER_VENUE'}">
+								<div class="specifications">
+									<img src="resources/images/icons/car.png" alt="">
+									<p>Parking</p>
+									<div class="checkbox-div">
+										<label class="custom_switch">
+				                            <form:checkbox id="togBtn" path="service_creation_bean.amenityBean.parking"/>
+				                            <div class="slider round">
+				                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+				                                <!--END-->
+				                            </div>
+				                        </label>
+									</div>
+								</div>
+							</c:if>
+							<!-- Wifi -->							
 							<c:if test="${service_creation_bean.service_type eq 'SER_VENUE'}">
 								<div class="specifications">
 									<img src="resources/images/icons/wifi.png" alt="">
 									<p>Wifi</p>
-										<form:checkbox id="togBtn" path="service_creation_bean.amenityBean.wifi"/>
-											<div class="slider round">
-												<!--ADDED HTML -->
-												<span class="on"><i class="fa fa-check"
-													aria-hidden="true"></i></span><span class="off"></span>
-												<!--END-->
-											</div>
+									<div class="checkbox-div">
+										<label class="custom_switch">
+				                            <form:checkbox id="togBtn" path="service_creation_bean.amenityBean.wifi"/>
+				                            <div class="slider round">
+				                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+				                                <!--END-->
+				                            </div>
+				                        </label>
+									</div>
 								</div>
 							</c:if>
 							<c:if test="${service_creation_bean.service_type eq 'SER_CATERERS' || service_creation_bean.service_type eq 'SER_PHOTOGRAPHY' 
@@ -165,14 +177,14 @@
 								<div class="specifications">
 									<img src="resources/images/icons/rooms.png" alt="">
 									<p>Type</p>
-									<form:input type="text" class="form-control" name="type" path="service_creation_bean.amenityBean.type"/>
+									<form:input type="text" class="form-control select-custom" name="type" path="service_creation_bean.amenityBean.type"/>
 								</div>
 							</c:if>
 							<c:if test="${service_creation_bean.service_type eq 'SER_CATERERS'}">
 								<div class="specifications">
 									<img src="resources/images/icons/rooms.png" alt="">
 									<p>Cusine</p>
-									<form:input type="text" class="form-control" name="cusine" path="service_creation_bean.amenityBean.cusine"/>
+									<form:input type="text" class="form-control select-custom" name="cusine" path="service_creation_bean.amenityBean.cusine"/>
 								</div>
 							</c:if>
 							<c:if test="${service_creation_bean.service_type eq 'SER_CATERERS' || service_creation_bean.service_type eq 'SER_EVENT_PLANNERS'
@@ -181,7 +193,7 @@
 								<div class="specifications">
 									<img src="resources/images/icons/rooms.png" alt="">
 									<p>Occasion</p>
-									<form:input type="text" class="form-control" name="occasion" path="service_creation_bean.amenityBean.occasion"/>
+									<form:input type="text" class="form-control select-custom" name="occasion" path="service_creation_bean.amenityBean.occasion"/>
 								</div>
 							</c:if>
 							<c:if test="${service_creation_bean.service_type eq 'SER_BEAUTICIANS'}">
@@ -200,14 +212,14 @@
 								<div class="specifications">
 									<img src="resources/images/icons/rooms.png" alt="">
 									<p>Dance Style</p>
-									<form:input type="text" class="form-control" name="dance_style" path="service_creation_bean.amenityBean.dance_style"/>
+									<form:input type="text" class="form-control select-custom" name="dance_style" path="service_creation_bean.amenityBean.dance_style"/>
 								</div>
 							</c:if>
 							<c:if test="${service_creation_bean.service_type eq 'SER_TRAVEL'}">
 								<div class="specifications">
 									<img src="resources/images/icons/rooms.png" alt="">
 									<p>Fleet</p>
-									<form:input type="text" class="form-control" name="fleet" path="service_creation_bean.amenityBean.fleet"/>
+									<form:input type="text" class="form-control select-custom" name="fleet" path="service_creation_bean.amenityBean.fleet"/>
 								</div>
 							</c:if>
 						</div>

@@ -87,50 +87,64 @@
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
 								Air Con
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.air_condition" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtnAC" path="serviceFilterBean.amenityBean.air_condition" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
-								Liquor 
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.liquor" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+								Liquor
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.liquor" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
 								Parking 
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.parking" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.parking" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
 							<div class="checkbox-div">
 								WiFi 
-								<form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.wifi" />
-									<div class="slider round">
-										<span class="on"><i class="fa fa-check"
-											aria-hidden="true"></i></span><span class="off"></span>
-									</div>
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.wifi" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
 							</div>
 						</c:if>
 						<c:if test="${serviceFilterBean.service_type eq 'SER_BEAUTICIANS'}">
-							<form:select class="" name="" path="serviceFilterBean.amenityBean.gender">
-								<form:option value="">Select Gender</form:option>
-								<form:option value="Women">Women</form:option>
-								<form:option value="Men">Men</form:option>
-								<form:option value="Unisex">Unisex</form:option>
-							</form:select>
+							<div class="dropdown">
+									<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			                            <span class="menuselected">Select Gender</span>
+			                            <span class="caret"></span>
+			                        </button>
+								<form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.gender" id="_genderfilter">
+									<form:option value="">Select Gender</form:option>
+									<form:option value="Women">Women</form:option>
+									<form:option value="Men">Men</form:option>
+									<form:option value="Unisex">Unisex</form:option>
+								</form:select>
+							</div>
 						</c:if>
 						<div class="filter-search-div">
 						<form:input type="text" class="form-control" placeholder="Search" name="" path="serviceFilterBean.searchTerm" />
@@ -498,9 +512,6 @@
     <script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			[].slice.call( document.querySelectorAll('select.dropdown-menu') ).forEach( function(el) {    
-			    new SelectFx(el);
-			} );
 			$("#homex,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 			$("#servicesx").addClass('active');
 		});
