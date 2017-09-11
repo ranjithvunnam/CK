@@ -1,6 +1,5 @@
 package com.nunc.wisp.repository;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
@@ -747,8 +746,8 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		FullTextSession fullTextSession = null;
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			fullTextSession = Search.getFullTextSession(session);
-			QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();
+			/*fullTextSession = Search.getFullTextSession(session);
+			QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();*/
 	        /*org.apache.lucene.search.Query luceneQuery = queryBuilder.keyword()
 	        		.onFields("service_name")
 	        		.andField("service_description")
@@ -776,7 +775,8 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 			BooleanQuery luceneQuery = new BooleanQuery();
 		    fullTextSession = Search.getFullTextSession(session);
 		    Analyzer analyzer = fullTextSession.getSearchFactory().getAnalyzer("searchtokenanalyzer");
-		    QueryParser parser = new QueryParser(Version.LUCENE_35, "service_name", analyzer);
+		    //QueryParser parser = new QueryParser(Version.LUCENE_35, "service_name", analyzer);
+		    MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_35, new String[] {"service_name", "service_name"}, analyzer);
 		    String[] tokenized=null;
 		    Query query = null;
 			try {

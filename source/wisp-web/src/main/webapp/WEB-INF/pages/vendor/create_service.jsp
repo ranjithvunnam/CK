@@ -44,7 +44,7 @@
 						</c:if>
 						<form:hidden path="service_creation_bean.service_id" />
 						<div class="form-group">
-							<label for="firstname" class="col-md-2 control-label">Service</label>
+							<label for="firstname" class="col-md-2 control-label">Service *</label>
 							<div class="col-md-4">
 								<form:select class="form-control" name="" path="service_creation_bean.service_type">
 									<form:option value="Select"/>
@@ -53,14 +53,14 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="lastname" class="col-md-2 control-label">Service Name</label>
+							<label for="lastname" class="col-md-2 control-label">Service Name *</label>
 							<div class="col-md-4">
 								<form:input type="text" class="form-control" name="lastname" path="service_creation_bean.service_name"
 									placeholder="Service Name"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="phone" class="col-md-2 control-label">Phone	Number</label>
+							<label for="phone" class="col-md-2 control-label">Phone	Number *</label>
 							<div class="col-md-4">
 								<form:input type="text" class="form-control" name="phone" path="service_creation_bean.service_phone" placeholder="Phone Number"/>
 							</div>
@@ -73,32 +73,31 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="email" class="col-md-2 control-label">Address 1</label>
+							<label for="email" class="col-md-2 control-label">Address 1 *</label>
 							<div class="col-md-4 bottom-xs">
 								<form:textarea name="" class="form-control" path="service_creation_bean.service_address1"
 									placeholder="Address Line 1" rows="4"></form:textarea>
 							</div>
-							<label for="email" class="col-md-2 control-label">Address
-								2</label>
+							<label for="email" class="col-md-2 control-label">Address 2</label>
 							<div class="col-md-4">
 								<form:textarea name="" class="form-control" path="service_creation_bean.service_address2"
 									placeholder="Address Line 2" rows="4"></form:textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="city" class="col-md-2 control-label">City</label>
+							<label for="city" class="col-md-2 control-label">City *</label>
 							<div class="col-md-4 bottom-xs">
 								<form:input type="text" class="form-control" name="city" path="service_creation_bean.service_city"
 									placeholder="City"/>
 							</div>
-							<label for="" class="col-md-2 control-label">Country</label>
+							<label for="" class="col-md-2 control-label">Country *</label>
 							<div class="col-md-4">
 								<form:input type="text" class="form-control" name="Country" path="service_creation_bean.service_country"
 									placeholder="Country"/>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="password" class="col-md-2 control-label">State</label>
+							<label for="password" class="col-md-2 control-label">State *</label>
 							<div class="col-md-4 bottom-xs"> 
 								<form:input type="text" class="form-control" name="state" path="service_creation_bean.service_state"
 									placeholder="State"/>

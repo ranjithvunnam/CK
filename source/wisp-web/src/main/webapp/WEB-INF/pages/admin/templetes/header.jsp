@@ -1,5 +1,6 @@
 <security:authorize var="loggedIn" access="isAuthenticated()">
 	<security:authentication var="email" property="principal.username" />
+	<security:authentication var="first_name" property="principal.firstname" />
 </security:authorize>
 <nav class="navbar navbar-default" id="custom-navbar">
 		<div class="container-fluid">
@@ -22,7 +23,7 @@
 					        <li class="dropdown"><a href="#" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="true"><i class="fa fa-user" aria-hidden="true"></i>
-									My Profile <span class="caret"></span></a>
+									${first_name} <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="changepass">Change Password</a></li>
 									<li><a href="admin/j_spring_security_logout">Logout</a></li>

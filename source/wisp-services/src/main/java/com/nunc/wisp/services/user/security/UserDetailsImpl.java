@@ -13,11 +13,13 @@ public class UserDetailsImpl implements UserDetails{
 	 private Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 	 private String password;
 	 private String username;
+	 private String firstname;
 	 
-	 public UserDetailsImpl(String username , String password, Set<GrantedAuthority> authorities) {
+	 public UserDetailsImpl(String username , String password, String firstname, Set<GrantedAuthority> authorities) {
 		 this.authorities=authorities;
 		 this.username=username;
 		 this.password=password;
+		 this.firstname=firstname;
 	}
 
 	@Override
@@ -33,6 +35,14 @@ public class UserDetailsImpl implements UserDetails{
 	@Override
 	public String getUsername() {
 		return this.username;
+	}
+	
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
 	@Override

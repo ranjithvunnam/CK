@@ -286,7 +286,7 @@
 											<a class="${service.amenitiyEntity.wifi ? '' : 'active'}">No</a>
 										</div>
 									</c:if>
-									<c:if test="${service.service_type eq 'SER_CATERERS' || service.service_type eq 'SER_PHOTOGRAPHY' 
+									<%-- <c:if test="${service.service_type eq 'SER_CATERERS' || service.service_type eq 'SER_PHOTOGRAPHY' 
 										|| service.service_type eq 'SER_ENTERTAINERS' || service.service_type eq 'SER_BEAUTICIANS'}">
 										<div class="specifications">
 											<img src="resources/images/icons/rooms.png" alt="">
@@ -300,7 +300,7 @@
 											<p>Cusine</p>
 											<p>${service.amenitiyEntity.cusine}</p>
 										</div>
-									</c:if>
+									</c:if> --%>
 									<c:if test="${service.service_type eq 'SER_CATERERS' || service.service_type eq 'SER_EVENT_PLANNERS'
 										|| service.service_type eq 'SER_EVENT_DESIGNERS' || service.service_type eq 'SER_PANDITS'
 										|| service.service_type eq 'SER_CHOREOGRAPHERS'}">

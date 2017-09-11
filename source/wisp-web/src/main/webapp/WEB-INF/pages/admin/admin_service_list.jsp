@@ -197,7 +197,7 @@
 											<p>${service.amenitiyEntity.type}</p>
 										</div>
 									</c:if>
-									<c:if test="${service.service_type eq 'SER_CATERERS'}">
+									<%-- <c:if test="${service.service_type eq 'SER_CATERERS'}">
 										<div class="specifications">
 											<img src="resources/images/icons/rooms.png" alt="">
 											<p>Cusine</p>
@@ -212,7 +212,7 @@
 											<p>Occasion</p>
 											<p>${service.amenitiyEntity.occasion}</p>
 										</div>
-									</c:if>
+									</c:if> --%>
 									<c:if test="${service.service_type eq 'SER_BEAUTICIANS'}">
 										<div class="specifications">
 											<img src="resources/images/icons/rooms.png" alt="">

@@ -207,16 +207,21 @@
 						<a href="goPrevious"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
-					<p class="contact">	${service_details.addressEntity.address_1} 
-										${service_details.addressEntity.address_2}
-										${service_details.addressEntity.city}
-										${service_details.addressEntity.state}
-										${service_details.addressEntity.country}
+					<p class="contact">	${service_details.addressEntity.address_1}, &nbsp
+										${service_details.addressEntity.address_2}, &nbsp
+										${service_details.addressEntity.city}, &nbsp
+										${service_details.addressEntity.state}, &nbsp
+										${service_details.addressEntity.country}, &nbsp
 										${service_details.addressEntity.pincode}
 					</p>
+					<br>
 					<p class="phone">Phone : ${service_details.service_phone}</p>
-					<p class="web">Website : ${service_details.service_website}</p>
-					<p class="web">Email : ${service_details.service_email}</p>
+					<c:if test="${service_details.service_website != null}">
+						| &nbsp;&nbsp;<p class="phone">Website : ${service_details.service_website}</p>
+					</c:if>
+					<c:if test="${service_details.service_email != null}">
+						| &nbsp;&nbsp;<p class="phone">Email : ${service_details.service_email}</p>
+					</c:if>
 				</div>
 			</div>
 		</div>
@@ -417,7 +422,7 @@
 											<p>${service_details.amenitiyEntity.type}</p>
 										</div>
 									</c:if>
-									<c:if test="${service_details.service_type eq 'SER_CATERERS'}">
+									<%-- <c:if test="${service_details.service_type eq 'SER_CATERERS'}">
 										<div class="specifications">
 											<img src="resources/images/icons/rooms.png" alt="">
 											<p>Cusine</p>
@@ -432,7 +437,7 @@
 											<p>Occasion</p>
 											<p>${service_details.amenitiyEntity.occasion}</p>
 										</div>
-									</c:if>
+									</c:if> --%>
 									<c:if test="${service_details.service_type eq 'SER_BEAUTICIANS'}">
 										<div class="specifications">
 											<img src="resources/images/icons/rooms.png" alt="">

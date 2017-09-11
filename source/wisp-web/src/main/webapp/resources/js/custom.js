@@ -1,5 +1,5 @@
     $(document).on('ready', function() {
-    	
+
     	[].slice.call( document.querySelectorAll('select.dropdown-menu') ).forEach( function(el) {    
 		    new SelectFx(el);
 		} );
@@ -9,7 +9,6 @@
     		var selectedValue = $("#"+id+" option:selected").text();
     		$(e).parent().siblings('button').find(".menuselected").html(selectedValue);
     	});
-
     	$(".dropdown-menu li a").click(function(){
 	  		  var selText = $(this).text();
 	  		  $(this).parents('.dropdown').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
@@ -49,6 +48,18 @@
             }
         });
 
+
+        // setting overlay height
+        var allOverlay = $(".overlay");
+        var maxHeight = 0;
+        $(allOverlay).each(function(i, e){
+        	if(maxHeight < $(e).height()){
+        		maxHeight = $(e).height();
+        	}
+
+        });
+        $(".overlay").css({"height" : (maxHeight+10)+"px"});
+
     });
     $(window).resize(function() {
 
@@ -59,6 +70,19 @@
             }
         });
         $(".upload-images .thumb-images").css({ 'height': imageHeight1 + "px" });
+
+        // setting overlay height
+        var allOverlay = $(".overlay");
+        var maxHeight = 0;
+
+        $(".overlay").css({"height" : "auto"});
+        $(allOverlay).each(function(i, e){
+        	if(maxHeight < $(e).height()){
+        		maxHeight = $(e).height();
+        	}
+
+        });
+        $(".overlay").css({"height" : (maxHeight+10)+"px"});
     });
     
   //Comments

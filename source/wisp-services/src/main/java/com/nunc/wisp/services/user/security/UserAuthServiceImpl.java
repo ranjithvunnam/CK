@@ -38,10 +38,9 @@ public class UserAuthServiceImpl implements UserDetailsService {
 			UserEntity loadUserByUserName = repo.getUserByEmail(email);
 			if (loadUserByUserName != null) {
 				Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-				LOG_R.info("ROLE "+loadUserByUserName.getUser_role_entity().getRole_name());
 				GrantedAuthority grant = new GrantedAuthorityImpl(loadUserByUserName.getUser_role_entity().getRole_name());
 				authorities.add(grant);
-				user = new UserDetailsImpl(loadUserByUserName.getEmail(),loadUserByUserName.getPassword(), authorities);
+				user = new UserDetailsImpl(loadUserByUserName.getEmail(),loadUserByUserName.getPassword(),loadUserByUserName.getFirst_name()+loadUserByUserName.getLast_name(), authorities);
 			} else {
 				throw new UsernameNotFoundException("User name not found.");
 			}

@@ -24,13 +24,13 @@ public class ServiceDemoghraphicDetailsValidator implements Validator{
 	public void validateServiceDemoghraphicDetails(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmpty(errors, "service_type", "Service type is required.");
 		ValidationUtils.rejectIfEmpty(errors, "service_name", "Service name is required");
-		ValidationUtils.rejectIfEmpty(errors, "service_description", "Service Description is required");
+		//ValidationUtils.rejectIfEmpty(errors, "service_description", "Service Description is required");
 		ValidationUtils.rejectIfEmpty(errors, "service_phone", "Phone number is required");
 		ValidationUtils.rejectIfEmpty(errors, "service_address1", "Address1 required");
 		ValidationUtils.rejectIfEmpty(errors, "service_city", "City is required");
 		ValidationUtils.rejectIfEmpty(errors, "service_state", "State is required");
 		ValidationUtils.rejectIfEmpty(errors, "service_country", "Country is required");
-		ValidationUtils.rejectIfEmpty(errors, "service_pin", "Pincode is required");
+		//ValidationUtils.rejectIfEmpty(errors, "service_pin", "Pincode is required");
 	}
 
 	public void validateServiceMediaDetails(Object target, Errors errors) {
