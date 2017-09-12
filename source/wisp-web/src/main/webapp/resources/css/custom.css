@@ -233,7 +233,7 @@ body {
 }
 
 .slick-prev:before,.slick-next:before {
-	color: #ff4390;
+	color: #b32075;
 }
 
 .slick-dotted.slick-slider {
@@ -379,7 +379,7 @@ body {
 
 .overlay {
 	position: absolute;
-	background-color: #fe71aa;
+	background-color: #b32075;
 	color: #fff;
 	width: 100%;
 	left: 0;
@@ -1430,6 +1430,9 @@ section#contact .text-danger {
 
 @media screen and (max-width: 767px) {
 	#daterange_chart button {
+		margin-top: 10px;
+	}
+	.custom-button {
 		margin-top: 10px;
 	}
 	/*    #line-chart{

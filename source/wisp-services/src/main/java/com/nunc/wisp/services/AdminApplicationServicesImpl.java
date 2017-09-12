@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nunc.wisp.beans.ServiceStatusUpdateRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.repository.AdminApplicationRepository;
 import com.nunc.wisp.repository.ApplicationRepository;
@@ -85,5 +86,42 @@ public class AdminApplicationServicesImpl implements AdminApplicationServices {
 			LOG_R.error("Exception occured ::: ", e);
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
 		}
+	}
+
+	@Override
+	@Transactional
+	public List<MainSliderEntity> getHomePageSliderImages()
+			throws WISPServiceException {
+		try {
+			return adminApplicationRepository.getHomePageSliderImages();
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
+
+	@Override
+	@Transactional
+	public MainSliderEntity createHomePageSliderImages(String name, String url,
+			String description) throws WISPServiceException {
+		MainSliderEntity entity = new MainSliderEntity();
+		try {
+			createMainSliderEntity(name, url, description, entity);
+			adminApplicationRepository.createHomePageSliderImages(entity);
+			return entity;
+			
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
+
+	private MainSliderEntity createMainSliderEntity(String name, String url,
+			String description, MainSliderEntity entity) throws WISPDataAccessException {
+		entity.setSlider_description(description);
+		entity.setSlider_url(url);
+		entity.setSlider_status(1);
+		entity.setSlider_order(adminApplicationRepository.getHighestOrder()+1);
+		return entity;
 	}
 }

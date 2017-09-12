@@ -335,9 +335,21 @@
                 <div class="col-md-12 white-bg pTop10 mTop10">
                     <form class="form-inline text-center" id="daterange_chart">
                         <div class="input-group input-daterange">
-                            <input name="fromDate" placeholder="From Date" type="text" class="form-control" value="2012-04-05">
+                            <!-- <input name="fromDate" placeholder="From Date" type="text" class="form-control" value="2012-04-05"> -->
+                            <div class='input-group date' id=example1>
+	                            <input name="fromDate" type='text' class="form-control"  placeholder="From Date" />
+	                            <span class="input-group-addon">
+		                            <span class="fa fa-calendar"></span>
+		                        </span>
+	                      	</div>
                             <div class="input-group-addon">to</div>
-                            <input name="toDate"  placeholder="To Date" type="text" class="form-control" value="2012-04-19">
+                            <!-- <input name="toDate"  placeholder="To Date" type="text" class="form-control" value="2012-04-19"> -->
+                        	<div class='input-group date' id='example2'>
+                                <input name="toDate" type='text' class="form-control" placeholder="To Date" />
+                                <span class="input-group-addon">
+                               	 	<span class="fa fa-calendar"></span>
+	                        	</span>
+	                      	</div>
                         </div>
                         <button type="submit" id="insights_refresh" class="btn custom-button more">Refresh</button>
                         <a href="javascript:void(0)" id="service_insights" class="btn custom-button more">Get Details</a>
@@ -409,10 +421,23 @@
         	date1.setMonth(date1.getMonth() - 6);
         	var toDate = date1.yyyymmdd();
         	createChart(id,toDate,fromDate);
+        	
             $(window).resize(function(){
                 google.charts.load('current', {packages: ['corechart', 'line']});
                 google.charts.setOnLoadCallback(drawBasic);
             });
+            
+            $('#example1').datepicker({
+                format: "dd/mm/yyyy",
+                autoclose: true
+            });
+            
+            $('#example2').datepicker({
+                format: "dd/mm/yyyy"
+            }).on('change', function () {
+                $('.datepicker').hide();
+            });
+            
         });
         
         $("#service_insights").on("click", function(e){
@@ -484,6 +509,8 @@
                   });
                 } // end drawBasis function
         }
+        
+        
     </script>
 </body>
 </html>

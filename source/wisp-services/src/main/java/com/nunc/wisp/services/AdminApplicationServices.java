@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.nunc.wisp.beans.ServiceStatusUpdateRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.services.exception.WISPServiceException;
 
@@ -21,6 +22,10 @@ public interface AdminApplicationServices {
 			Long service_id) throws WISPServiceException;
 
 	public void updateServiceStatus(ServiceStatusUpdateRequestBean bean) throws WISPServiceException;
+
+	public List<MainSliderEntity> getHomePageSliderImages() throws WISPServiceException;
+
+	public MainSliderEntity createHomePageSliderImages(String name, String url,	String description) throws WISPServiceException;
 	
 	
 }

@@ -26,6 +26,8 @@
 									${first_name} <span class="caret"></span></a>
 								<ul class="dropdown-menu">
 									<li><a href="changepass">Change Password</a></li>
+									<li><a href="admin/marketing">Marketing</a></li>
+									<li><a href="admin/analytics">Analytics</a></li>
 									<li><a href="admin/j_spring_security_logout">Logout</a></li>
 								</ul>
 							</li>

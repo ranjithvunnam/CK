@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
@@ -122,6 +123,56 @@ public class AdminApplicationRepositoryImpl implements AdminApplicationRepositor
 		}
 
 		return entity;
+	}
+
+	@Override
+	@Transactional
+	public List<MainSliderEntity> getHomePageSliderImages() throws WISPDataAccessException {
+		List<MainSliderEntity> results = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(MainSliderEntity.class);
+			results = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return results;
+	}
+
+	@Override
+	@Transactional
+	public void createHomePageSliderImages(MainSliderEntity entity)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.save(entity);
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+	}
+
+	@Override
+	@Transactional
+	public Long getHighestOrder() throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria c = session.createCriteria(MainSliderEntity.class);
+			c.addOrder(Order.desc("slider_order"));
+			c.setMaxResults(1);
+			MainSliderEntity entity = (MainSliderEntity)c.uniqueResult();
+			return entity.getSlider_order();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
 	}
 
 }

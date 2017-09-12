@@ -1,6 +1,11 @@
 package com.nunc.wisp.web.restservices;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,10 +25,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.nunc.wisp.beans.ServiceStatusUpdateRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.services.AdminApplicationServices;
 import com.nunc.wisp.services.exception.WISPServiceException;
@@ -35,6 +43,8 @@ import com.nunc.wisp.web.restservices.exception.handler.ResourceNotFoundExceptio
 public class AdminServicesController {
 	
 	protected static final Logger LOG_R = Logger.getLogger(AdminServicesController.class);
+	
+	private String UPLOAD_BANNER_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\banner_images";
 	
 	@Autowired
 	@Qualifier("AdminApplicationServices")
@@ -88,6 +98,46 @@ public class AdminServicesController {
 			model.addAttribute("service_details", service_details);
 			return "admin/admin_service_details";
 		}
+	}
+	
+	@RequestMapping(value = "/marketing", method = RequestMethod.GET)
+	public String marketing(Model model) throws WISPServiceException {
+		List<MainSliderEntity> results = adminApplicationServices.getHomePageSliderImages();
+		model.addAttribute("results", results);
+		return "admin/marketing";
+	}
+	
+	@RequestMapping(value = "/analytics", method = RequestMethod.GET)
+	public String analytics(Model model) throws WISPServiceException {
+		
+		return "admin/analytics";
+	}
+	
+	@RequestMapping(value="/uploadImage",method=RequestMethod.POST)
+	@ResponseBody
+	public MainSliderEntity upload(@RequestParam("file") MultipartFile multipartFile) throws WISPServiceException{
+		MainSliderEntity entity = new MainSliderEntity();
+		if (!multipartFile.isEmpty()) {
+			try {
+				byte[] bytes = multipartFile.getBytes();
+				File dir = new File(UPLOAD_BANNER_DIRECTORY + File.separator);
+				if (!dir.exists())
+					dir.mkdirs();
+				// Create the file on server
+				String url = UUID.randomUUID().toString()+"."+multipartFile.getOriginalFilename().split("\\.")[1];
+				File serverFile = new File(dir.getAbsolutePath() + File.separator +url);
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+				entity = adminApplicationServices.createHomePageSliderImages("",url,"");
+			} catch (IOException e) {
+				throw new WISPServiceException("File was empty.", 1000);
+			}
+		} else {
+			throw new WISPServiceException("File was empty.", 1000);
+		}
+		return entity;
+		
 	}
 	
 	@RequestMapping(value = "/update_status", method = RequestMethod.DELETE)

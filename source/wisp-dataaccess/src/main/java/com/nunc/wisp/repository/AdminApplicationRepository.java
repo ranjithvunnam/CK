@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.nunc.wisp.beans.enums.ServiceType;
+import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
@@ -22,5 +23,11 @@ public interface AdminApplicationRepository {
 	public void updateServiceStatus(ServiceListEntity service) throws WISPDataAccessException;
 
 	public ServiceListEntity getServiceIndetailedByID(Long service_id) throws WISPDataAccessException;
+
+	public List<MainSliderEntity> getHomePageSliderImages() throws WISPDataAccessException;
+
+	public void createHomePageSliderImages(MainSliderEntity createMainSliderEntity) throws WISPDataAccessException;
+
+	public Long getHighestOrder() throws WISPDataAccessException;
 	
 }

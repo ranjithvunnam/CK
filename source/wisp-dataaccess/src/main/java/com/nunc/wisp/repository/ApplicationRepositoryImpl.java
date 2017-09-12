@@ -776,7 +776,7 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		    fullTextSession = Search.getFullTextSession(session);
 		    Analyzer analyzer = fullTextSession.getSearchFactory().getAnalyzer("searchtokenanalyzer");
 		    //QueryParser parser = new QueryParser(Version.LUCENE_35, "service_name", analyzer);
-		    MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_35, new String[] {"service_name", "service_name"}, analyzer);
+		    MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_35, new String[] {"service_name", "service_description"}, analyzer);
 		    String[] tokenized=null;
 		    Query query = null;
 			try {
@@ -786,13 +786,14 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 				e.printStackTrace();
 			}
 		    String cleanedText=query.toString("service_name");
-		     tokenized = cleanedText.split("\\s");
+		    tokenized = cleanedText.split("\\s");
 
-		    QueryBuilder qBuilder = fullTextSession.getSearchFactory()
-		            .buildQueryBuilder().forEntity(ServiceListEntity.class).get();
+		    QueryBuilder qBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();
 		    for(int i=0;i<tokenized.length;i++){
 		         if(i==(tokenized.length-1)){
-		            Query query1 = qBuilder.keyword().wildcard().onField("service_name")
+		            Query query1 = qBuilder.keyword().wildcard()
+		            		.onField("service_name")
+		            		.andField("service_description")
 		                    .matching(tokenized[i] + "*").createQuery();
 		            luceneQuery.add(query1, BooleanClause.Occur.MUST);
 		        }else{
@@ -800,10 +801,9 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		            luceneQuery.add(new TermQuery(exactTerm), BooleanClause.Occur.MUST);
 		        }
 		    }
-		    
+		    LOG_R.info("Hibernate Search Query "+luceneQuery.toString());
 	        // wrap Lucene query in a javax.persistence.Query
 		    org.hibernate.search.FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, ServiceListEntity.class);
-	        
 	        Criteria criteria = session.createCriteria(ServiceListEntity.class);
 		    criteria.add(Restrictions.eq("approval_status", 2));
 	        
