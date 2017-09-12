@@ -26,6 +26,10 @@ public interface AdminApplicationServices {
 	public List<MainSliderEntity> getHomePageSliderImages() throws WISPServiceException;
 
 	public MainSliderEntity createHomePageSliderImages(String name, String url,	String description) throws WISPServiceException;
+
+	public void deleteHomePageSlider(Long id) throws WISPServiceException;
+
+	public void updateBannerImageStatus(Long id) throws WISPServiceException;
 	
 	
 }

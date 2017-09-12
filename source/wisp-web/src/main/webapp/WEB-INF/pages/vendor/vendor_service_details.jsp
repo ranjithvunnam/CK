@@ -428,12 +428,12 @@
             });
             
             $('#example1').datepicker({
-                format: "dd/mm/yyyy",
+                format: "dd-mm-yyyy",
                 autoclose: true
             });
             
             $('#example2').datepicker({
-                format: "dd/mm/yyyy"
+                format: "dd-mm-yyyy"
             }).on('change', function () {
                 $('.datepicker').hide();
             });

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +37,7 @@ import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.services.AdminApplicationServices;
 import com.nunc.wisp.services.exception.WISPServiceException;
+import com.nunc.wisp.services.handlers.FileUploadService;
 import com.nunc.wisp.services.handlers.SessionCounter;
 import com.nunc.wisp.web.restservices.exception.handler.ResourceNotFoundException;
 
@@ -56,6 +59,14 @@ public class AdminServicesController {
 	
 	@Autowired
 	private SessionCounter sessionCounter;
+	
+	@Autowired
+	private FileUploadService fileUploadService;
+	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String redirectToAdminDashBoard() throws WISPServiceException {
+		return "redirect:/admin/access";
+	}
 	
 	@RequestMapping(value = "/access", method = RequestMethod.GET)
 	public String showLoginForm(@RequestParam(value = "error", required = false) boolean error,
@@ -129,7 +140,7 @@ public class AdminServicesController {
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
-				entity = adminApplicationServices.createHomePageSliderImages("",url,"");
+				entity = adminApplicationServices.createHomePageSliderImages(multipartFile.getOriginalFilename().split("\\.")[0],url,"");
 			} catch (IOException e) {
 				throw new WISPServiceException("File was empty.", 1000);
 			}
@@ -137,7 +148,32 @@ public class AdminServicesController {
 			throw new WISPServiceException("File was empty.", 1000);
 		}
 		return entity;
+	}
+	
+	@RequestMapping(value="/removeBannerImage",method=RequestMethod.POST)
+	@ResponseBody
+	public void deleteTempFile(@RequestParam("id") Long id, @RequestParam("filePath") String filePath, HttpSession session) throws WISPServiceException{
 		
+		try {
+			File fileToDelete = new File(UPLOAD_BANNER_DIRECTORY + "/" + filePath);
+			if(fileToDelete.exists() && fileToDelete.isFile()) {
+				FileUtils.forceDelete(fileToDelete);
+				adminApplicationServices.deleteHomePageSlider(id);
+			} else {
+				throw new WISPServiceException("File can't be deleted.", 1000);
+			}
+		} catch (IOException e) {
+			throw new WISPServiceException(e.getMessage(), 1000);
+		}
+	}
+	
+	@RequestMapping(value = "/update_banner_status", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateBannerImageStatus(@RequestParam("id") Long id) throws WISPServiceException {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			adminApplicationServices.updateBannerImageStatus(id);
+		}
 	}
 	
 	@RequestMapping(value = "/update_status", method = RequestMethod.DELETE)

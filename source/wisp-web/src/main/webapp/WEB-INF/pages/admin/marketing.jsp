@@ -76,11 +76,12 @@
 										<c:forEach items="${results}" var="result" varStatus="loop">
 							    			<tr>
 												<td>${loop.count}</td>
-												<td>Name</td>
+												<td>${result.slider_name}</td>
 												<td>${result.slider_description}</td>
 												<td>${result.slider_order}</td>
-												<td>${result.slider_status == '1' ? 'Enabled' : 'Disabled'}</td>
-												<td><a href="#"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+												<td><input id="_status_checkbox" type="checkbox" value="Enabled" ${result.slider_status == '1' ? 'checked="checked"' : ''} onchange="updateMainSlider(event,${result.id})"/></td>
+												<td><a href="javascript:function() { return false; }"  id="deleteBanner" 
+												onclick="deleteBannerImage(event, '${result.id}', '${result.slider_url}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
 											</tr>
 							    		</c:forEach>
 						    		</tbody>
@@ -112,7 +113,7 @@
 												Browse&hellip; <input type="file" name="file" id="file" style="display: none;">
 											</span>
 										</label>
-										<input type="text" class="form-control" readonly>
+										<input type="text" id="file_name" class="form-control" readonly>
 									</div>
 								</div>
 						</div>
@@ -174,14 +175,15 @@
 
 				$("#file").change(function(){
 				    readURL(this);
-				}); 	
+				});
 		  });
 		  
 		});
 		
 		$('#image_upload_modal').on('hidden.bs.modal', function () {
 		  $('#img-upload').attr('src',null);
-		  $("#file").replaceWith(input.val('').clone(true));
+		  $("#file").replaceWith($('[name="file"]').val('').clone(true));
+		  $("#file_name").val(null);
 		});
 		
 		var isJpg = function(name) {
@@ -216,10 +218,58 @@
 	            contentType: false
 	          }).done(function(data) {
 	              console.log(data);
+	              $('#image_upload_modal').modal('hide');
+	              window.location.href = 'admin/marketing';
 	          }).fail(function(jqXHR, textStatus) {
 	              //alert(jqXHR.responseText);
 	              alert('File upload failed ...');
 	         });
 		});
+		
+		function updateMainSlider(event, id) {
+			console.log(event);
+			$.ajax({
+				url : 'admin/update_banner_status',
+				type : 'POST',
+				contentType : 'application/json; charset=utf-8',
+				data : JSON.stringify({
+					id : id
+				}),
+				success : function(msg) {
+					alert("Status updated successfully.");
+					window.location = 'admin/dashboard';
+				},
+				error : function(jqXHR, textStatus) {
+					alert(textStatus);
+				}
+			});
+		}
+		
+		function deleteBannerImage(event, id, filePath) {
+			var conBox = confirm("Are you sure ?");
+			if (conBox) {
+				var oMyForm = new FormData();
+		           oMyForm.append("id", id);
+		           oMyForm.append("filePath", filePath);
+				$.ajax({
+					url : 'admin/removeBannerImage',
+					type : 'POST',
+					contentType : 'application/json; charset=utf-8',
+					data : oMyForm,
+					processData: false,
+		            contentType: false,
+					success : function(msg) {
+						alert("Image deleted successfully.");
+						window.location = 'admin/marketing';
+					},
+					error : function(jqXHR, textStatus) {
+						alert(textStatus);
+					}
+				});
+			} else {
+				event.preventDefault();
+			};
+		};
+		
 	</script>
 </body>

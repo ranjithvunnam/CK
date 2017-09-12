@@ -175,4 +175,53 @@ public class AdminApplicationRepositoryImpl implements AdminApplicationRepositor
 		}
 	}
 
+	@Override
+	@Transactional
+	public MainSliderEntity getHomePageSliderById(Long id)
+			throws WISPDataAccessException {
+		MainSliderEntity entity = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(MainSliderEntity.class);
+			criteria.add(Restrictions.eq("id", id));
+			entity = (MainSliderEntity) criteria.uniqueResult();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return entity;
+	}
+
+	@Override
+	@Transactional
+	public void deleteHomePageSlider(MainSliderEntity entity)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.delete(entity);
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateMainSliderEntity(MainSliderEntity entity)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			session.saveOrUpdate(entity);
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+	}
+
 }

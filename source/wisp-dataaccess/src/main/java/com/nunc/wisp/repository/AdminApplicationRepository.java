@@ -29,5 +29,11 @@ public interface AdminApplicationRepository {
 	public void createHomePageSliderImages(MainSliderEntity createMainSliderEntity) throws WISPDataAccessException;
 
 	public Long getHighestOrder() throws WISPDataAccessException;
+
+	public MainSliderEntity getHomePageSliderById(Long id) throws WISPDataAccessException;
+
+	public void deleteHomePageSlider(MainSliderEntity entity) throws WISPDataAccessException;
+
+	public void updateMainSliderEntity(MainSliderEntity entity) throws WISPDataAccessException;
 	
 }

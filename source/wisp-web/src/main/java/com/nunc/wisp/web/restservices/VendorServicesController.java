@@ -137,6 +137,11 @@ public class VendorServicesController {
 		this.validator = validator;
 	}
 	
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String redirectToVendorDashBoard() throws WISPServiceException {
+		return "redirect:/vendor/home";
+	}
+	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String index(Model model , Integer offset, Integer maxResults) throws WISPServiceException {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

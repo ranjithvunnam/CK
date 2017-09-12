@@ -25,6 +25,9 @@ public class MainSliderEntity implements Serializable{
 	@Column(name = "slider_url", updatable = true, nullable = false)
 	private String slider_url;
 	
+	@Column(name = "slider_name", updatable = true, nullable = true)
+	private String slider_name;
+	
 	@Column(name = "slider_description", updatable = true, nullable = false)
 	private String slider_description;
 	
@@ -48,6 +51,14 @@ public class MainSliderEntity implements Serializable{
 
 	public void setSlider_url(String slider_url) {
 		this.slider_url = slider_url;
+	}
+
+	public String getSlider_name() {
+		return slider_name;
+	}
+
+	public void setSlider_name(String slider_name) {
+		this.slider_name = slider_name;
 	}
 
 	public String getSlider_description() {

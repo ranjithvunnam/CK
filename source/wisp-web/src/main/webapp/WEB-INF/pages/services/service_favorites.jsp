@@ -205,16 +205,25 @@
 									<a href="${service.service_fav_list_entity.service_type.description}/${service.service_fav_list_entity.service_id}/service_details">
 										<p class="name">${service.service_fav_list_entity.service_name}</p>
 									</a>
-									<p class="contact">	${service.service_fav_list_entity.addressEntity.address_1} 
-										${service.service_fav_list_entity.addressEntity.address_2}
-										${service.service_fav_list_entity.addressEntity.city}
-										${service.service_fav_list_entity.addressEntity.state}
+									<p class="contact">	${service.service_fav_list_entity.addressEntity.address_1}, &nbsp
+										<c:if test="${empty service.service_fav_list_entity.addressEntity.address_2}">
+										${service.service_fav_list_entity.addressEntity.address_2}, &nbsp
+										</c:if>
+										${service.service_fav_list_entity.addressEntity.city}, &nbsp
+										${service.service_fav_list_entity.addressEntity.state}, &nbsp
 										${service.service_fav_list_entity.addressEntity.country}
+										<c:if test="${empty service.service_fav_list_entity.addressEntity.pincode}">
+										, &nbsp
 										${service.service_fav_list_entity.addressEntity.pincode}
+										</c:if>
 									</p>
 									<p class="phone">Phone : ${service.service_fav_list_entity.service_phone}</p>
-									<p class="web">Website : ${service.service_fav_list_entity.service_website}</p>
-									<p class="web">Email : ${service.service_fav_list_entity.service_email}</p>
+									<c:if test="${empty service.service_fav_list_entity.service_website}">
+										| &nbsp;&nbsp;<p class="phone">Website : ${service.service_fav_list_entity.service_website}</p>
+									</c:if>
+									<c:if test="${empty service.service_fav_list_entity.service_email}">
+										| &nbsp;&nbsp;<p class="phone">Email : ${service.service_fav_list_entity.service_email}</p>
+									</c:if>
 								<div class="icons-div">
 									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_VENUE' || service.service_fav_list_entity.service_type eq 'SER_CATERERS'}">
 										<div class="specifications">

@@ -118,10 +118,46 @@ public class AdminApplicationServicesImpl implements AdminApplicationServices {
 
 	private MainSliderEntity createMainSliderEntity(String name, String url,
 			String description, MainSliderEntity entity) throws WISPDataAccessException {
-		entity.setSlider_description(description);
 		entity.setSlider_url(url);
-		entity.setSlider_status(1);
+		entity.setSlider_name(name);
+		entity.setSlider_description(description);
+		entity.setSlider_status(0);
 		entity.setSlider_order(adminApplicationRepository.getHighestOrder()+1);
 		return entity;
+	}
+
+	@Override
+	@Transactional
+	public void deleteHomePageSlider(Long id) throws WISPServiceException {
+		try {
+			MainSliderEntity entity = adminApplicationRepository.getHomePageSliderById(id);
+			if(entity != null){
+				adminApplicationRepository.deleteHomePageSlider(entity);
+			}
+			
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateBannerImageStatus(Long id) throws WISPServiceException {
+		try {
+			MainSliderEntity entity = adminApplicationRepository.getHomePageSliderById(id);
+			if(entity != null){
+				if(entity.getSlider_status() == 0){
+					entity.setSlider_status(1);
+				} else {
+					entity.setSlider_status(0);
+				}
+				adminApplicationRepository.updateMainSliderEntity(entity);
+			}
+			
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
 	}
 }
