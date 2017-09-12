@@ -52,6 +52,7 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="table-responsive">
+						<form:form method="POST" action="admin/updateMainSliderData" modelAttribute="mainSliderResponseBean">
 						<table class="table table-bordered table-hover">
 							<thead>
 								<tr>
@@ -64,7 +65,7 @@
 								</tr>
 							</thead>
 							<c:choose>
-								<c:when test="${empty results}">
+								<c:when test="${empty mainSliderResponseBean.mainSlider}">
 									<tfoot>
 										<tr>
 											<td colspan="6" class="text-center"> <h5>No data available.</h5></td>
@@ -73,24 +74,44 @@
 								</c:when>
 								<c:otherwise>
 									<tbody>
-										<c:forEach items="${results}" var="result" varStatus="loop">
+										<c:forEach items="${mainSliderResponseBean.mainSlider}" var="mainSlider" varStatus="status">
 							    			<tr>
-												<td>${loop.count}</td>
-												<td>${result.slider_name}</td>
-												<td>${result.slider_description}</td>
-												<td>${result.slider_order}</td>
-												<td><input id="_status_checkbox" type="checkbox" value="Enabled" ${result.slider_status == '1' ? 'checked="checked"' : ''} onchange="updateMainSlider(event,${result.id})"/></td>
+												<td>${status.count}</td>
+												<form:input type="hidden" path="mainSlider[${status.index}].id"/>
+												<form:input type="hidden" path="mainSlider[${status.index}].slider_url"/>
+												<form:input type="hidden" path="mainSlider[${status.index}].slider_name"/>
+												<form:input type="hidden" path="mainSlider[${status.index}].slider_description"/>
+												<td>${mainSlider.slider_name}</td>
+												<td>${mainSlider.slider_description}</td>
+												<td><div class="col-md-3">
+														<form:input path="mainSlider[${status.index}].slider_order" name="mainSlider[${status.index}].slider_order" class="form-control" type="number" value="${mainSlider.slider_order}"/>
+													</div>
+												</td>
+												<form:input type="hidden" path="mainSlider[${status.index}].slider_status"/>
+												<td><input id="_status_checkbox" type="checkbox" value="Enabled" ${mainSlider.slider_status == '1' ? 'checked="checked"' : ''} onchange="updateMainSlider(event,${mainSlider.id})"/></td>
 												<td><a href="javascript:function() { return false; }"  id="deleteBanner" 
-												onclick="deleteBannerImage(event, '${result.id}', '${result.slider_url}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+												onclick="deleteBannerImage(event, '${mainSlider.id}', '${mainSlider.slider_url}')"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
 											</tr>
 							    		</c:forEach>
 						    		</tbody>
 								</c:otherwise>
 							</c:choose>
 						</table>
+						<div class="col-md-offset-3 col-md-9 text-right">
+							<input id="btn-signup" class="btn custom-button" type="submit" value="Update Slider">
+						</div>
+						</form:form>
 					</div>
 				</div>
 			</div>
+			<div class="row">
+				<div class="">
+					<h5 class="service-heading">
+						Arrange venues
+					</h5>
+				</div>
+			</div>
+			
 		</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
 	<div class="modal fade" id="image_upload_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -228,21 +249,22 @@
 		
 		function updateMainSlider(event, id) {
 			console.log(event);
+			var oMyForm = new FormData();
+		     oMyForm.append("id", id);
 			$.ajax({
 				url : 'admin/update_banner_status',
 				type : 'POST',
 				contentType : 'application/json; charset=utf-8',
-				data : JSON.stringify({
-					id : id
-				}),
-				success : function(msg) {
-					alert("Status updated successfully.");
-					window.location = 'admin/dashboard';
-				},
-				error : function(jqXHR, textStatus) {
-					alert(textStatus);
-				}
-			});
+				data : oMyForm,
+				processData: false,
+	            contentType: false
+			}).done(function(data) {
+				  alert("Status updated successfully.");
+	              window.location.href = 'admin/marketing';
+	          }).fail(function(jqXHR, textStatus) {
+	              //alert(jqXHR.responseText);
+	        	  alert(textStatus);
+	         });
 		}
 		
 		function deleteBannerImage(event, id, filePath) {

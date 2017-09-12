@@ -114,7 +114,7 @@
 								</ul>
 							</div>
 	                    </span>
-						<a href="vendor/home"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
+						<a href="vendor/home" style="color: black;"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
 					<p class="contact">	${service_details.addressEntity.address_1}, &nbsp

@@ -382,7 +382,6 @@ public class VendorServicesController {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
 		ServiceCreationRequestBean srCreationBean = (ServiceCreationRequestBean) session.getAttribute("service_creation_bean");
 		if(isImageFile(filePath)) {
-			LOG_R.info("Delete image ");
 	    	boolean isDeleted = fileUploadService.deleteImageFile(filePath);
 	    	if(isDeleted) {
 		    	if(srCreationBean.getImagesBean() != null) {

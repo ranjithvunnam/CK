@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nunc.wisp.beans.ServiceStatusUpdateRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.MainSliderEntity;
+import com.nunc.wisp.entities.MainSliderResponseBean;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.services.AdminApplicationServices;
 import com.nunc.wisp.services.exception.WISPServiceException;
@@ -48,6 +52,8 @@ public class AdminServicesController {
 	protected static final Logger LOG_R = Logger.getLogger(AdminServicesController.class);
 	
 	private String UPLOAD_BANNER_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\banner_images";
+	
+	private String DOWNLOAD_BANNER_DIRECTORY = "http://202.53.86.14/wisp/banner_images";
 	
 	@Autowired
 	@Qualifier("AdminApplicationServices")
@@ -114,7 +120,9 @@ public class AdminServicesController {
 	@RequestMapping(value = "/marketing", method = RequestMethod.GET)
 	public String marketing(Model model) throws WISPServiceException {
 		List<MainSliderEntity> results = adminApplicationServices.getHomePageSliderImages();
-		model.addAttribute("results", results);
+		MainSliderResponseBean mainSliderResponseBean = new MainSliderResponseBean();
+		mainSliderResponseBean.setMainSlider(results);
+		model.addAttribute("mainSliderResponseBean", mainSliderResponseBean);
 		return "admin/marketing";
 	}
 	
@@ -140,7 +148,7 @@ public class AdminServicesController {
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
-				entity = adminApplicationServices.createHomePageSliderImages(multipartFile.getOriginalFilename().split("\\.")[0],url,"");
+				entity = adminApplicationServices.createHomePageSliderImages(multipartFile.getOriginalFilename().split("\\.")[0],DOWNLOAD_BANNER_DIRECTORY+"/"+url,"");
 			} catch (IOException e) {
 				throw new WISPServiceException("File was empty.", 1000);
 			}
@@ -155,7 +163,8 @@ public class AdminServicesController {
 	public void deleteTempFile(@RequestParam("id") Long id, @RequestParam("filePath") String filePath, HttpSession session) throws WISPServiceException{
 		
 		try {
-			File fileToDelete = new File(UPLOAD_BANNER_DIRECTORY + "/" + filePath);
+			URL dl = new URL(filePath);
+			File fileToDelete = new File(UPLOAD_BANNER_DIRECTORY + "/" + FilenameUtils.getName(dl.getPath()));
 			if(fileToDelete.exists() && fileToDelete.isFile()) {
 				FileUtils.forceDelete(fileToDelete);
 				adminApplicationServices.deleteHomePageSlider(id);
@@ -174,6 +183,12 @@ public class AdminServicesController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			adminApplicationServices.updateBannerImageStatus(id);
 		}
+	}
+	
+	@RequestMapping(value = "/updateMainSliderData", method = RequestMethod.POST)
+	public String updateSliderData(@ModelAttribute("mainSliderResponseBean") MainSliderResponseBean mainSliderResponseBean) throws WISPServiceException {
+		adminApplicationServices.updateMainSliderData(mainSliderResponseBean.getMainSlider());
+		return "redirect:/admin/marketing";
 	}
 	
 	@RequestMapping(value = "/update_status", method = RequestMethod.DELETE)

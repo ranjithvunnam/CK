@@ -30,6 +30,8 @@ public interface AdminApplicationServices {
 	public void deleteHomePageSlider(Long id) throws WISPServiceException;
 
 	public void updateBannerImageStatus(Long id) throws WISPServiceException;
+
+	public void updateMainSliderData(List<MainSliderEntity> mainSlider) throws WISPServiceException;
 	
 	
 }

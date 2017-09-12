@@ -224,4 +224,25 @@ public class AdminApplicationRepositoryImpl implements AdminApplicationRepositor
 		}
 	}
 
+	@Override
+	@Transactional
+	public void updateMainSliderData(List<MainSliderEntity> mainSlider)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			for ( int i=0; i < mainSlider.size(); i++ ) {
+				session.saveOrUpdate(mainSlider.get(i));
+				if (i % 50 == 0) {
+					session.flush();
+					session.clear();
+				}
+			}
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+	}
+
 }

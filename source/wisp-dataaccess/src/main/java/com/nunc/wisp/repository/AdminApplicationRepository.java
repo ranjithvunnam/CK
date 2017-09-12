@@ -35,5 +35,7 @@ public interface AdminApplicationRepository {
 	public void deleteHomePageSlider(MainSliderEntity entity) throws WISPDataAccessException;
 
 	public void updateMainSliderEntity(MainSliderEntity entity) throws WISPDataAccessException;
+
+	public void updateMainSliderData(List<MainSliderEntity> mainSlider) throws WISPDataAccessException;
 	
 }

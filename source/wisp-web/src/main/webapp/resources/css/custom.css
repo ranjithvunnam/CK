@@ -150,9 +150,20 @@ body {
 	clear: both;
 	font-weight: 400;
 	line-height: 1.42857143;
-	color: #333;
+	color: #f9d36d;
+	background-color:#8c165a;
 	white-space: nowrap;
 	font-family: comfortaa !important;
+}
+
+.dropdown-menu>li>a:hover {
+    color:#f9d36d;
+    text-decoration: none;
+    background-color:#b32075 
+}
+
+ul.dropdown-menu{
+    background-color: #8c165a;
 }
 
 #custom-navbar .navbar-nav>.active>a,.navbar-default .navbar-nav>.active>a:focus,.navbar-default .navbar-nav>.active>a:hover
@@ -480,12 +491,13 @@ body {
 .footer .footer-logo {
 	margin-bottom: 10px;
 	border-radius: 5px;
-	width: 100%;
+	/* width: 100%; */
 }
 
 .footer .bottom-line p {
 	font-size: 14px;
 	margin-top: 5px;
+	letter-spacing: 1px;
 }
 
 /*service pages*/
@@ -555,7 +567,7 @@ body {
 }
 
 .top-share-icon img {
-	width: 20px;
+	/* width: 20px; */
 	padding-right: 2px;
 }
 

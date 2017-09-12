@@ -160,4 +160,18 @@ public class AdminApplicationServicesImpl implements AdminApplicationServices {
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
 		}
 	}
+
+	@Override
+	@Transactional
+	public void updateMainSliderData(List<MainSliderEntity> mainSlider)
+			throws WISPServiceException {
+		try {
+			if(mainSlider != null && mainSlider.size()>0) {
+				adminApplicationRepository.updateMainSliderData(mainSlider);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
 }
