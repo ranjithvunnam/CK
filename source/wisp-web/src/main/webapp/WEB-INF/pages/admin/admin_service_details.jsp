@@ -76,16 +76,26 @@
 							onclick="handleReportedMessage(event, '${service_details.service_id}', '3')"><span class="share"><img src="resources/images/icons/back.png" alt="">Reject</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
-					<p class="contact">	${service_details.addressEntity.address_1} 
-										${service_details.addressEntity.address_2}
-										${service_details.addressEntity.city}
-										${service_details.addressEntity.state}
+					<p class="contact">	${service_details.addressEntity.address_1}, &nbsp
+										<c:if test="${not empty service_details.addressEntity.address_2}">
+										${service_details.addressEntity.address_2}, &nbsp
+										</c:if>
+										${service_details.addressEntity.city}, &nbsp
+										${service_details.addressEntity.state}, &nbsp
 										${service_details.addressEntity.country}
+										<c:if test="${not empty service_details.addressEntity.pincode}">
+										, &nbsp
 										${service_details.addressEntity.pincode}
-					</p>
+										</c:if>
+								</p>
+					<br>
 					<p class="phone">Phone : ${service_details.service_phone}</p>
-					<p class="web">Website : ${service_details.service_website}</p>
-					<p class="web">Email : ${service.service_email}</p>
+					<c:if test="${not empty service_details.service_website}">
+									| &nbsp;&nbsp;<p class="phone">Website : ${service_details.service_website}</p>
+								</c:if>
+								<c:if test="${not empty service_details.service_email}">
+									| &nbsp;&nbsp;<p class="phone">Email : ${service_details.service_email}</p>
+								</c:if>
 				</div>
 			</div>
 		</div>

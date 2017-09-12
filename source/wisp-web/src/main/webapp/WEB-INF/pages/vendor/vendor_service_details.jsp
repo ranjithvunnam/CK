@@ -117,21 +117,26 @@
 						<a href="vendor/home"><span class="share"><img src="resources/images/icons/back.png" alt="">Back</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
-					<p class="contact">	${service_details.addressEntity.address_1} , &nbsp
+					<p class="contact">	${service_details.addressEntity.address_1}, &nbsp
+										<c:if test="${not empty service_details.addressEntity.address_2}">
 										${service_details.addressEntity.address_2}, &nbsp
+										</c:if>
 										${service_details.addressEntity.city}, &nbsp
 										${service_details.addressEntity.state}, &nbsp
-										${service_details.addressEntity.country}, &nbsp
+										${service_details.addressEntity.country}
+										<c:if test="${not empty service_details.addressEntity.pincode}">
+										, &nbsp
 										${service_details.addressEntity.pincode}
-								</p>
-								<br>
-								<p class="phone">Phone : ${service_details.service_phone}</p>
-								<c:if test="${service_details.service_website != null}">
-									| &nbsp;&nbsp;<p class="phone">Website : ${service_details.service_website}</p>
-								</c:if>
-								<c:if test="${service_details.service_email != null}">
-									| &nbsp;&nbsp;<p class="phone">Email : ${service_details.service_email}</p>
-								</c:if>
+										</c:if>
+					</p>
+					<br>
+					<p class="phone">Phone : ${service_details.service_phone}</p>
+					<c:if test="${not empty service_details.service_website}">
+						| &nbsp;&nbsp;<p class="phone">Website : ${service_details.service_website}</p>
+					</c:if>
+					<c:if test="${not empty service_details.service_email}">
+						| &nbsp;&nbsp;<p class="phone">Email : ${service_details.service_email}</p>
+					</c:if>
 				</div>
 			</div>
 		</div>

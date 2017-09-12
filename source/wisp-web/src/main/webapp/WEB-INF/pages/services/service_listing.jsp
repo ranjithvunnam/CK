@@ -342,16 +342,26 @@
 									<a href="${service_type}/${service.service_id}/service_details">
 										<p class="name">${service.service_name}</p>
 									</a>
-								<p class="contact">	${service.addressEntity.address_1} 
-										${service.addressEntity.address_2}
-										${service.addressEntity.city}
-										${service.addressEntity.state}
+								<p class="contact">	${service.addressEntity.address_1}, &nbsp
+										<c:if test="${not empty service.addressEntity.address_2}">
+										${service.addressEntity.address_2}, &nbsp
+										</c:if>
+										${service.addressEntity.city}, &nbsp
+										${service.addressEntity.state}, &nbsp
 										${service.addressEntity.country}
+										<c:if test="${not empty service.addressEntity.pincode}">
+										, &nbsp
 										${service.addressEntity.pincode}
+										</c:if>
 								</p>
+								<br>
 								<p class="phone">Phone : ${service.service_phone}</p>
-								<p class="web">Website : ${service.service_website}</p>
-								<p class="web">Email : ${service.service_email}</p>
+								<c:if test="${not empty service.service_website}">
+									| &nbsp;&nbsp;<p class="phone">Website : ${service.service_website}</p>
+								</c:if>
+								<c:if test="${not empty service.service_email}">
+									| &nbsp;&nbsp;<p class="phone">Email : ${service.service_email}</p>
+								</c:if>
 								<div class="icons-div">
 									<c:if test="${service.service_type eq 'SER_VENUE' || service.service_type eq 'SER_CATERERS'}">
 										<div class="specifications">

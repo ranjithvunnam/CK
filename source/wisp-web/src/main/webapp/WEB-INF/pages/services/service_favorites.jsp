@@ -206,22 +206,23 @@
 										<p class="name">${service.service_fav_list_entity.service_name}</p>
 									</a>
 									<p class="contact">	${service.service_fav_list_entity.addressEntity.address_1}, &nbsp
-										<c:if test="${empty service.service_fav_list_entity.addressEntity.address_2}">
+										<c:if test="${not empty service.service_fav_list_entity.addressEntity.address_2}">
 										${service.service_fav_list_entity.addressEntity.address_2}, &nbsp
 										</c:if>
 										${service.service_fav_list_entity.addressEntity.city}, &nbsp
 										${service.service_fav_list_entity.addressEntity.state}, &nbsp
 										${service.service_fav_list_entity.addressEntity.country}
-										<c:if test="${empty service.service_fav_list_entity.addressEntity.pincode}">
+										<c:if test="${not empty service.service_fav_list_entity.addressEntity.pincode}">
 										, &nbsp
 										${service.service_fav_list_entity.addressEntity.pincode}
 										</c:if>
 									</p>
+									<br>
 									<p class="phone">Phone : ${service.service_fav_list_entity.service_phone}</p>
-									<c:if test="${empty service.service_fav_list_entity.service_website}">
+									<c:if test="${not empty service.service_fav_list_entity.service_website}">
 										| &nbsp;&nbsp;<p class="phone">Website : ${service.service_fav_list_entity.service_website}</p>
 									</c:if>
-									<c:if test="${empty service.service_fav_list_entity.service_email}">
+									<c:if test="${not empty service.service_fav_list_entity.service_email}">
 										| &nbsp;&nbsp;<p class="phone">Email : ${service.service_fav_list_entity.service_email}</p>
 									</c:if>
 								<div class="icons-div">
