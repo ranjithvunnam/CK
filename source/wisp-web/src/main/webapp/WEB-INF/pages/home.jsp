@@ -324,7 +324,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container">
+	<!-- <div class="container">
 		<div class="row">
 			<div class="col-md-4 service-info-box">
 				<div class="wrapper">
@@ -354,7 +354,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<%@ include file="templetes/footer.jsp"%>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -37,5 +37,7 @@ public interface AdminApplicationRepository {
 	public void updateMainSliderEntity(MainSliderEntity entity) throws WISPDataAccessException;
 
 	public void updateMainSliderData(List<MainSliderEntity> mainSlider) throws WISPDataAccessException;
+
+	public List<ServiceListEntity> getServiceList(ServiceType serVenue, String location) throws WISPDataAccessException;
 	
 }

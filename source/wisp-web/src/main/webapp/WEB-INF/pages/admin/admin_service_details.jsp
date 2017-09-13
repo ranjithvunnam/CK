@@ -71,9 +71,9 @@
 				<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
 					<div class="top-share-icon">
 						<a href="javascript:function() { return false; }"  id="handleReport" 
-							onclick="handleReportedMessage(event, '${service_details.service_id}', '2')"><span class="share"><img src="resources/images/icons/edit.png" alt="">Approve</span></a>
+							onclick="handleReportedMessage(event, '${service_details.service_id}', '2')"><span class="share"><img src="resources/images/icons/accept.png" alt="">Approve</span></a>
 						<a href="javascript:function() { return false; }"  id="handleReport" 
-							onclick="handleReportedMessage(event, '${service_details.service_id}', '3')"><span class="share"><img src="resources/images/icons/back.png" alt="">Reject</span></a>
+							onclick="handleReportedMessage(event, '${service_details.service_id}', '3')"><span class="share"><img src="resources/images/icons/reject.png" alt="">Reject</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
 					<p class="contact">	${service_details.addressEntity.address_1}, &nbsp

@@ -245,4 +245,33 @@ public class AdminApplicationRepositoryImpl implements AdminApplicationRepositor
 		}
 	}
 
+	@Override
+	@Transactional
+	public List<ServiceListEntity> getServiceList(ServiceType serviceType,
+			String location) throws WISPDataAccessException {
+		List<ServiceListEntity> result = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(ServiceListEntity.class, "service_list");
+			criteria.createAlias("service_list.addressEntity", "address");
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			criteria.add(Restrictions.eq("service_type", serviceType));
+			if(location != null && !location.isEmpty()) {
+				criteria.add(Restrictions.eq("address.city", location));
+			}
+			criteria.add(Restrictions.eq("approval_status", 2));
+			criteria.setMaxResults(15);
+			criteria.addOrder(Order.desc("service_id"));
+			result = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error(
+					"Exception occured while updating the user into inventory db",
+					e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return result;
+	}
+
 }

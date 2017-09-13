@@ -104,14 +104,150 @@
 					</div>
 				</div>
 			</div>
+			<!-- Venue -->
 			<div class="row">
 				<div class="">
 					<h5 class="service-heading">
 						Arrange venues
 					</h5>
 				</div>
+				<div class="col-xs-12">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Order</th>
+									<th>Status</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<c:choose>
+								<c:when test="${empty service_venue_list}">
+									<tfoot>
+										<tr>
+											<td colspan="5" class="text-center"> <h5>No data available.</h5></td>
+										</tr>
+									</tfoot>
+								</c:when>
+								<c:otherwise>
+									<tbody>
+										<c:forEach items="${service_venue_list}" var="venue" varStatus="status">
+							    			<tr>
+												<td>${status.count}</td>
+												<td>${venue.service_name}</td>
+												<td><div class="col-md-3">
+														<input id="_venue_display_order${venue.service_id}" class="form-control" type="number" value="${venue.service_display_order}"/>
+													</div>
+												</td>
+												<td><input id="_venue_display_status${venue.service_id}" type="checkbox" ${venue.service_display_status == true ? 'checked="checked"' : ''}/></td>
+												<td class="text-center"><a class="btn custom-button" onclick="upDateServiceStatus(event, ${venue.service_id})">Update</a></td>
+											</tr>
+							    		</c:forEach>
+						    		</tbody>
+								</c:otherwise>
+							</c:choose>
+						</table>
+					</div>
+				</div>
 			</div>
-			
+			<!-- Cateres -->
+			<div class="row">
+				<div class="">
+					<h5 class="service-heading">
+						Arrange Cateres
+					</h5>
+				</div>
+				<div class="col-xs-12">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Order</th>
+									<th>Status</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<c:choose>
+								<c:when test="${empty service_cateres_list}">
+									<tfoot>
+										<tr>
+											<td colspan="5" class="text-center"> <h5>No data available.</h5></td>
+										</tr>
+									</tfoot>
+								</c:when>
+								<c:otherwise>
+									<tbody>
+										<c:forEach items="${service_cateres_list}" var="cateres" varStatus="status">
+							    			<tr>
+												<td>${status.count}</td>
+												<td>${cateres.service_name}</td>
+												<td><div class="col-md-3">
+														<input id="_cateres_display_order${cateres.service_id}" class="form-control" type="number" value="${cateres.service_display_order}"/>
+													</div>
+												</td>
+												<td><input id="_cateres_display_status${cateres.service_id}" type="checkbox" ${cateres.service_display_status == true ? 'checked="checked"' : ''}/></td>
+												<td class="text-center"><a class="btn custom-button" onclick="upDateCatererServiceStatus(event, ${cateres.service_id})">Update</a></td>
+											</tr>
+							    		</c:forEach>
+						    		</tbody>
+								</c:otherwise>
+							</c:choose>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- Photography -->
+			<div class="row">
+				<div class="">
+					<h5 class="service-heading">
+						Arrange Photography Service
+					</h5>
+				</div>
+				<div class="col-xs-12">
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Name</th>
+									<th>Order</th>
+									<th>Status</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+							<c:choose>
+								<c:when test="${empty service_photo_list}">
+									<tfoot>
+										<tr>
+											<td colspan="5" class="text-center"> <h5>No data available.</h5></td>
+										</tr>
+									</tfoot>
+								</c:when>
+								<c:otherwise>
+									<tbody>
+										<c:forEach items="${service_photo_list}" var="photo" varStatus="status">
+							    			<tr>
+												<td>${status.count}</td>
+												<td>${photo.service_name}</td>
+												<td><div class="col-md-3">
+														<input id="_photo_display_order${photo.service_id}" class="form-control" type="number" value="${photo.service_display_order}"/>
+													</div>
+												</td>
+												<td><input id="_photo_display_status${photo.service_id}" type="checkbox" ${photo.service_display_status == true ? 'checked="checked"' : ''}/></td>
+												<td class="text-center"><a class="btn custom-button" onclick="upDatePhotoServiceStatus(event, ${photo.service_id})">Update</a></td>
+											</tr>
+							    		</c:forEach>
+						    		</tbody>
+								</c:otherwise>
+							</c:choose>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
 	<div class="modal fade" id="image_upload_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -291,6 +427,78 @@
 			} else {
 				event.preventDefault();
 			};
+		};
+		
+		function upDateServiceStatus(event, id) {
+			var order = $("#_venue_display_order"+id).val();
+			var status = $("#_venue_display_status"+id).is(':checked');
+			var oMyForm = new FormData();
+	           oMyForm.append("service_id", id);
+	           oMyForm.append("display_order", order);
+	           oMyForm.append("display_status", status);
+			$.ajax({
+				url : 'admin/update_service_status',
+				type : 'POST',
+				contentType : 'application/json; charset=utf-8',
+				data : oMyForm,
+				processData: false,
+	            contentType: false,
+				success : function(msg) {
+					alert("Data updated successfully.");
+					window.location = 'admin/marketing';
+				},
+				error : function(jqXHR, textStatus) {
+					alert(textStatus);
+				}
+			});
+		};
+		
+		function upDateCatererServiceStatus(event, id) {
+			var order = $("#_cateres_display_order"+id).val();
+			var status = $("#_cateres_display_status"+id).is(':checked');
+			var oMyForm = new FormData();
+	           oMyForm.append("service_id", id);
+	           oMyForm.append("display_order", order);
+	           oMyForm.append("display_status", status);
+	           $.ajax({
+					url : 'admin/update_service_status',
+					type : 'POST',
+					contentType : 'application/json; charset=utf-8',
+					data : oMyForm,
+					processData: false,
+		            contentType: false,
+					success : function(msg) {
+						alert("Data updated successfully.");
+						window.location = 'admin/marketing';
+					},
+					error : function(jqXHR, textStatus) {
+						alert(textStatus);
+					}
+				});
+		};
+		
+		function upDatePhotoServiceStatus(event, id) {
+			var order = $("#_photo_display_order"+id).val();
+			var status = $("#_photo_display_status"+id).is(':checked');
+			var oMyForm = new FormData();
+	           oMyForm.append("service_id", id);
+	           oMyForm.append("display_order", order);
+	           oMyForm.append("display_status", status);
+	           $.ajax({
+					url : 'admin/update_service_status',
+					type : 'POST',
+					contentType : 'application/json; charset=utf-8',
+					data : oMyForm,
+					processData: false,
+		            contentType: false,
+					success : function(msg) {
+						alert("Data updated successfully.");
+						window.location = 'admin/marketing';
+					},
+					error : function(jqXHR, textStatus) {
+						alert(textStatus);
+					}
+				});
 		};
 		
 	</script>

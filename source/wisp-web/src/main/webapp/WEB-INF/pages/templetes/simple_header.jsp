@@ -1,5 +1,6 @@
 <security:authorize var="loggedIn" access="isAuthenticated()">
 	<security:authentication var="email" property="principal.username" />
+	<security:authentication var="first_name" property="principal.firstname" />
 </security:authorize>
 <nav class="navbar navbar-default" id="custom-navbar">
 		<div class="container-fluid">
@@ -27,6 +28,18 @@
 							<li id="catererx"><a href="Caterers/service_listing">Caterers</a></li>
 							<li id="photox"><a href="Photography/service_listing">Photographers</a></li>
 							<li id="evtplanx"><a href="EventPlanners/service_listing">Event Planners</a></li>
+							<li id="evtplanx"><a href="EventDesigners/service_listing">Event Designers</a></li>
+							<li id="evtplanx"><a href="Florists/service_listing">Florists</a></li>
+							<li id="evtplanx"><a href="Pandits/service_listing">Pandits</a></li>
+							<li id="evtplanx"><a href="Baaraat/service_listing">Baaraat</a></li>
+							<li id="evtplanx"><a href="D.J/service_listing">D.J</a></li>
+							<li id="evtplanx"><a href="Entertainers/service_listing">Entertainers</a></li>
+							<li id="evtplanx"><a href="CardDesigners/service_listing">Card Designers</a></li>
+							<li id="evtplanx"><a href="MakeupArtists/service_listing">Makeup Artists</a></li>
+							<li id="evtplanx"><a href="MehendiArtists/service_listing">Mehendi Artists</a></li>
+							<li id="evtplanx"><a href="Musicians/service_listing">Musicians</a></li>
+							<li id="evtplanx"><a href="Choreographer/service_listing">Choreographer</a></li>
+							<li id="evtplanx"><a href="TravelAgency/service_listing">Travel Agency</a></li>
 						</ul>
 					</li>
 					<li id="favoritesx"><a href="favorites">Favorites</a></li>
@@ -34,18 +47,6 @@
 					<li id="offersx"><a href="offers">Offers</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<%-- <li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown" role="button" aria-haspopup="true"
-						aria-expanded="false"><i class="fa fa-map-marker"
-							aria-hidden="true"></i>
-							<c:out default="None" escapeXml="true" value="${not empty location?location:'Location'}"/>
-							<span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<c:forEach items = "${city_list}" var="city" varStatus="city_var">
-								<li><a href="updateLocation?location=${city}">${city}</a></li>
-							</c:forEach>
-						</ul>
-					</li> --%>
 					<c:choose>
 					    <c:when test="${loggedIn}">
 					        <li class="dropdown"><a href="#" class="dropdown-toggle"

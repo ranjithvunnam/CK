@@ -291,8 +291,9 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 				criteria.add(Restrictions.eq("address.city", location));
 			}
 			criteria.add(Restrictions.eq("approval_status", 2));
-			criteria.setMaxResults(15);
-			criteria.addOrder(Order.desc("service_id"));
+			criteria.add(Restrictions.eq("service_display_status", true));
+			criteria.setMaxResults(16);
+			criteria.addOrder(Order.asc("service_display_order"));
 			result = criteria.list();
 		} catch (HibernateException e) {
 			LOG_R.error(

@@ -69,7 +69,7 @@
 			<div class="col-md-12 service-box-right white-bg">
 				<div class="top-share-icon">
 					<a href="vendor/getSRCreationForm">
-						<span class="share"><img src="resources/images/icons/share.png" alt="">Create New</span>
+						<span class="share"><img src="resources/images/icons/create_service.png" alt="">Create New</span>
 					</a>
 				</div>
 			</div>

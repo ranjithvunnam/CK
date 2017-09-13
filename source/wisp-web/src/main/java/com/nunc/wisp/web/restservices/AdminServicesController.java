@@ -37,9 +37,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.nunc.wisp.beans.ServiceStatusUpdateRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.MainSliderEntity;
-import com.nunc.wisp.entities.MainSliderResponseBean;
 import com.nunc.wisp.entities.ServiceListEntity;
+import com.nunc.wisp.entities.listbeans.MainSliderResponseBean;
 import com.nunc.wisp.services.AdminApplicationServices;
+import com.nunc.wisp.services.ApplicationServices;
 import com.nunc.wisp.services.exception.WISPServiceException;
 import com.nunc.wisp.services.handlers.FileUploadService;
 import com.nunc.wisp.services.handlers.SessionCounter;
@@ -58,6 +59,10 @@ public class AdminServicesController {
 	@Autowired
 	@Qualifier("AdminApplicationServices")
 	private AdminApplicationServices adminApplicationServices;
+	
+	@Autowired
+	@Qualifier("ApplicationServices")
+	private ApplicationServices applicationServices;
 	
 	@Autowired
 	@Qualifier("sessionRegistry")
@@ -123,6 +128,9 @@ public class AdminServicesController {
 		MainSliderResponseBean mainSliderResponseBean = new MainSliderResponseBean();
 		mainSliderResponseBean.setMainSlider(results);
 		model.addAttribute("mainSliderResponseBean", mainSliderResponseBean);
+		model.addAttribute("service_venue_list", adminApplicationServices.getServiceList(ServiceType.SER_VENUE, null));
+		model.addAttribute("service_cateres_list", adminApplicationServices.getServiceList(ServiceType.SER_CATERERS, null));
+		model.addAttribute("service_photo_list", adminApplicationServices.getServiceList(ServiceType.SER_PHOTOGRAPHY, null));
 		return "admin/marketing";
 	}
 	
@@ -182,6 +190,15 @@ public class AdminServicesController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			adminApplicationServices.updateBannerImageStatus(id);
+		}
+	}
+	
+	@RequestMapping(value = "/update_service_status", method = RequestMethod.POST)
+	@ResponseStatus(value = HttpStatus.OK)
+	public void updateServiceStatusAndOrder(@RequestParam("service_id") Long service_id, @RequestParam("display_order") Integer display_order, @RequestParam("display_status") Boolean display_status) throws WISPServiceException {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			adminApplicationServices.updateServiceStatusAndOrder(service_id, display_order, display_status);
 		}
 	}
 	

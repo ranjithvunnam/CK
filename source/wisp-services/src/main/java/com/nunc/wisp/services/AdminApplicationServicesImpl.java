@@ -174,4 +174,33 @@ public class AdminApplicationServicesImpl implements AdminApplicationServices {
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
 		}
 	}
+
+	@Override
+	@Transactional
+	public List<ServiceListEntity> getServiceList(ServiceType serVenue,
+			String location) throws WISPServiceException {
+		try {
+			return adminApplicationRepository.getServiceList(serVenue, location);
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
+
+	@Override
+	@Transactional
+	public void updateServiceStatusAndOrder(Long service_id,
+			Integer display_order, Boolean display_status)
+			throws WISPServiceException {
+		try {
+			ServiceListEntity entity = adminApplicationRepository.getServiceIndetailedByID(service_id);
+			if(entity != null) {
+				entity.setService_display_order(display_order);
+				entity.setService_display_status(display_status);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
 }

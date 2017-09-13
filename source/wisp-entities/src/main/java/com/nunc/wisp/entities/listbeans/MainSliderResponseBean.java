@@ -1,4 +1,4 @@
-package com.nunc.wisp.entities;
+package com.nunc.wisp.entities.listbeans;
 
 import java.io.Serializable;
 import java.util.List;

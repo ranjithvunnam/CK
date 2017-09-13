@@ -32,6 +32,9 @@ public interface AdminApplicationServices {
 	public void updateBannerImageStatus(Long id) throws WISPServiceException;
 
 	public void updateMainSliderData(List<MainSliderEntity> mainSlider) throws WISPServiceException;
-	
-	
+
+	public List<ServiceListEntity> getServiceList(ServiceType serVenue, String location) throws WISPServiceException;
+
+	public void updateServiceStatusAndOrder(Long service_id,
+			Integer display_order, Boolean display_status) throws WISPServiceException;
 }

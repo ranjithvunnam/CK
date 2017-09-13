@@ -23,6 +23,7 @@ import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.apache.solr.analysis.StopFilterFactory;
+import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
@@ -94,6 +95,13 @@ public class ServiceListEntity implements Serializable{
 	@Column(name = "approval_status", updatable = true, nullable = false)
 	/*@Type(type = "org.hibernate.type.NumericBooleanType")*/
 	private Integer approval_status = 0;
+	
+	@Column(name = "service_display_order", updatable = true, nullable = true)
+	private Integer service_display_order;
+	
+	@Column(name = "service_display_status", updatable = true, nullable = true)
+	@Type(type = "org.hibernate.type.NumericBooleanType")
+	private boolean service_display_status;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id") 
@@ -256,6 +264,22 @@ public class ServiceListEntity implements Serializable{
 
 	public void setApproval_status(Integer approval_status) {
 		this.approval_status = approval_status;
+	}
+
+	public Integer getService_display_order() {
+		return service_display_order;
+	}
+
+	public void setService_display_order(Integer service_display_order) {
+		this.service_display_order = service_display_order;
+	}
+
+	public boolean isService_display_status() {
+		return service_display_status;
+	}
+
+	public void setService_display_status(boolean service_display_status) {
+		this.service_display_status = service_display_status;
 	}
 
 	public UserEntity getUser_service_entity() {
