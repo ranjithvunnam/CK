@@ -1,17 +1,20 @@
 package com.nunc.wisp.repository;
 
+import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.index.Term;
-import org.apache.lucene.queryParser.MultiFieldQueryParser;
-import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.analysis.LowerCaseFilter;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.WhitespaceTokenizer;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.Version;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -22,6 +25,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
@@ -47,6 +51,7 @@ import com.nunc.wisp.entities.UserEntity;
 import com.nunc.wisp.entities.UserFavoritesEntity;
 import com.nunc.wisp.entities.UserRoleEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
+import com.nunc.wisp.repository.utils.PermutermTokenFilter;
 
 @Repository("ApplicationRepository")
 public class ApplicationRepositoryImpl implements ApplicationRepository {
@@ -741,70 +746,45 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
 	@Override
 	@Transactional
-	public List<ServiceListEntity> simulateSearchResultWithHibernateSearch(
-			String searchQuery) throws WISPDataAccessException {
+	public List<ServiceListEntity> simulateSearchResultWithHibernateSearch(String searchQuery) throws WISPDataAccessException {
+		
 		List<ServiceListEntity> results = new ArrayList<>();
 		FullTextSession fullTextSession = null;
+		
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			/*fullTextSession = Search.getFullTextSession(session);
-			QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();*/
-	        /*org.apache.lucene.search.Query luceneQuery = queryBuilder.keyword()
-	        		.onFields("service_name")
-	        		.andField("service_description")
-	        		.matching(searchQuery)
-	        		.createQuery();*/
-			/*org.apache.lucene.search.Query luceneQuery = queryBuilder.phrase().withSlop(3)
-	        		.onField("service_name").andField("service_description")
-	        		.sentence(searchQuery)
-	        		.createQuery();*/
-			/*org.apache.lucene.search.Query luceneQuery = queryBuilder.bool()
-					.should( queryBuilder
-							.keyword()
-			        		.onFields("service_name")
-			        		.andField("service_description")
-			        		.matching(searchQuery+"*")
-			        		.createQuery())
-	        		.should( queryBuilder
-	        				.keyword()
-	        		        .onField("service_name")
-	        		        .andField("service_description")
-	        		        .boostedTo(3)
-	        		        .ignoreAnalyzer()
-	        		        .matching(searchQuery+"*").createQuery())
-	        		.createQuery();*/
-			BooleanQuery luceneQuery = new BooleanQuery();
-		    fullTextSession = Search.getFullTextSession(session);
-		    Analyzer analyzer = fullTextSession.getSearchFactory().getAnalyzer("searchtokenanalyzer");
-		    //QueryParser parser = new QueryParser(Version.LUCENE_35, "service_name", analyzer);
-		    MultiFieldQueryParser parser = new MultiFieldQueryParser(Version.LUCENE_35, new String[] {"service_name", "service_description"}, analyzer);
-		    String[] tokenized=null;
-		    Query query = null;
-			try {
-				query = parser.parse(searchQuery);
-			} catch (org.apache.lucene.queryParser.ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    String cleanedText=query.toString("service_name");
-		    tokenized = cleanedText.split("\\s");
+			
+			fullTextSession = Search.getFullTextSession(session);
+			QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();
+			
+			List<Query> queryList = new LinkedList<Query>();
+	        
+			Analyzer analyzer = new Analyzer() {
+				
+				@Override
+				public TokenStream tokenStream(String fieldName, Reader reader) {
+					// TODO Auto-generated method stub
+					TokenStream tokens = new WhitespaceTokenizer(Version.LUCENE_31, reader);
+					tokens = new LowerCaseFilter(Version.LUCENE_31, tokens);
+					tokens = new PermutermTokenFilter(tokens);
+			        return tokens;
+				}
+			};
+			
+			Query luceneFinalQuery = null;
+			String[] arrKeywords = searchQuery.split(" ");
+			for (String keyword : Arrays.asList(arrKeywords)) {
+				luceneFinalQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").matching(keyword+ "*").createQuery();
+	            queryList.add(luceneFinalQuery);
+	        }
+			
+			BooleanQuery finalQuery = new BooleanQuery();
+	        for (Query q : queryList) {
+	            finalQuery.add(q, Occur.MUST);
+	        }
 
-		    QueryBuilder qBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();
-		    for(int i=0;i<tokenized.length;i++){
-		         if(i==(tokenized.length-1)){
-		            Query query1 = qBuilder.keyword().wildcard()
-		            		.onField("service_name")
-		            		.andField("service_description")
-		                    .matching(tokenized[i] + "*").createQuery();
-		            luceneQuery.add(query1, BooleanClause.Occur.MUST);
-		        }else{
-		            Term exactTerm = new Term("service_name", tokenized[i]);
-		            luceneQuery.add(new TermQuery(exactTerm), BooleanClause.Occur.MUST);
-		        }
-		    }
-		    LOG_R.info("Hibernate Search Query "+luceneQuery.toString());
-	        // wrap Lucene query in a javax.persistence.Query
-		    org.hibernate.search.FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(luceneQuery, ServiceListEntity.class);
+	        LOG_R.info("Hibernate Search Query "+finalQuery.toString());
+		    FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(finalQuery, ServiceListEntity.class);
 	        Criteria criteria = session.createCriteria(ServiceListEntity.class);
 		    criteria.add(Restrictions.eq("approval_status", 2));
 	        

@@ -180,7 +180,14 @@
 										</div>
 									</div>
 								</c:if>
-								<c:if test="${service_creation_bean.service_type eq 'SER_CATERERS' || service_creation_bean.service_type eq 'SER_PHOTOGRAPHY' 
+								<c:if test="${service_creation_bean.service_type eq 'SER_CATERERS'}">
+									<div class="specifications">
+										<img src="resources/images/icons/caterer_type.png" alt="">
+										<p>Type</p>
+										<form:input type="text" class="form-control select-custom" name="type" path="service_creation_bean.amenityBean.type"/>
+									</div>
+								</c:if>
+								<c:if test="${service_creation_bean.service_type eq 'SER_PHOTOGRAPHY' 
 									|| service_creation_bean.service_type eq 'SER_ENTERTAINERS' || service_creation_bean.service_type eq 'SER_BEAUTICIANS'}">
 									<div class="specifications">
 										<img src="resources/images/icons/rooms.png" alt="">

@@ -115,7 +115,7 @@
 		    html += '<div class="post-heading">';
 		    //Image
 		    html += '<div class="pull-left image">';
-		    html += '<img src="http://images.clipartpanda.com/user-clipart-dagobert83_female_user_icon.png" class="img-circle avatar" alt="user profile image">';
+		    html += '<img src="resources/images/icons/commentusericon.png" class="img-circle avatar" alt="user profile image">';
 		    html += '</div>';
 		    //Image end
 		    //pull left meta

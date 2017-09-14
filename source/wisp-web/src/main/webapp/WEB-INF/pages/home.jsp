@@ -364,7 +364,22 @@
 	<script src="resources/slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script src="resources/js/custom.js" type="text/javascript"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script type="text/javascript" src="resources/js/timeme.js"></script>
 	<script type="text/javascript">
+	
+		/* TimeMe.initialize({
+		    currentPageName: "Home - Page", // page name
+		    idleTimeoutInSeconds: 15 // time before user considered idle
+		});
+		
+		window.onbeforeunload = function(){
+		    xmlhttp=new XMLHttpRequest();
+		    xmlhttp.open("POST","ENTER_URL_HERE", false);
+		    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		    var timeSpentOnPage = TimeMe.getTimeOnCurrentPageInSeconds();
+		    xmlhttp.send(timeSpentOnPage);
+		}; */
+		
 		$(document).ready(function() {
 			$("#servicesx,#estimatesx,#favoritesx,#estimatesx,#offersx").removeClass('active');
 				$("#homex").addClass('active');

@@ -220,7 +220,14 @@
 											<a class="${service_creation_bean.amenityBean.wifi ? '' : 'active'}">No</a>
 										</div>
 									</c:if>
-									<c:if test="${service_creation_bean.service_type eq 'SER_CATERERS' || service_creation_bean.service_type eq 'SER_PHOTOGRAPHY' 
+									<c:if test="${service_creation_bean.service_type eq 'SER_CATERERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/caterer_type.png" alt="">
+											<p>Type</p>
+											<p>${service_creation_bean.amenityBean.type}</p>
+										</div>
+									</c:if>
+									<c:if test="${service_creation_bean.service_type eq 'SER_PHOTOGRAPHY' 
 										|| service_creation_bean.service_type eq 'SER_ENTERTAINERS' || service_creation_bean.service_type eq 'SER_BEAUTICIANS'}">
 										<div class="specifications">
 											<img src="resources/images/icons/rooms.png" alt="">

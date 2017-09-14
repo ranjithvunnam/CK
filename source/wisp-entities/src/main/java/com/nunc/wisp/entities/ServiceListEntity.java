@@ -23,6 +23,7 @@ import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.apache.solr.analysis.StopFilterFactory;
+import org.apache.solr.analysis.WhitespaceTokenizerFactory;
 import org.hibernate.annotations.Type;
 import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
@@ -40,8 +41,7 @@ import com.nunc.wisp.beans.enums.ServiceType;
 @Entity(name="ServiceListEntity")
 @Indexed
 @Table(name="wisp_services_details")
-@AnalyzerDef(name = "searchtokenanalyzer",tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
-filters = {
+@AnalyzerDef(name = "searchtokenanalyzer",tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class),filters = {
   @TokenFilterDef(factory = StandardFilterFactory.class),
   @TokenFilterDef(factory = LowerCaseFilterFactory.class),
   @TokenFilterDef(factory = StopFilterFactory.class,params = { 

@@ -266,7 +266,14 @@
 											<a class="${service.amenitiyEntity.wifi ? '' : 'active'}">No</a>
 										</div>
 									</c:if>
-									<c:if test="${service.service_type eq 'SER_CATERERS' || service.service_type eq 'SER_PHOTOGRAPHY' 
+									<c:if test="${service.service_type eq 'SER_CATERERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/caterer_type.png" alt="">
+											<p>Type</p>
+											<p>${service.amenitiyEntity.type}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_type eq 'SER_PHOTOGRAPHY' 
 										|| service.service_type eq 'SER_ENTERTAINERS' || service.service_type eq 'SER_BEAUTICIANS'}">
 										<div class="specifications">
 											<img src="resources/images/icons/rooms.png" alt="">
