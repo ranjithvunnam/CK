@@ -23,30 +23,28 @@ import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.StandardFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.apache.solr.analysis.StopFilterFactory;
-import org.apache.solr.analysis.WhitespaceTokenizerFactory;
 import org.hibernate.annotations.Type;
-import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Parameter;
-import org.hibernate.search.annotations.Store;
 import org.hibernate.search.annotations.TokenFilterDef;
 import org.hibernate.search.annotations.TokenizerDef;
 
 import com.nunc.wisp.beans.enums.ServiceType;
 
-@Entity(name="ServiceListEntity")
-@Indexed
-@Table(name="wisp_services_details")
-@AnalyzerDef(name = "searchtokenanalyzer",tokenizer = @TokenizerDef(factory = WhitespaceTokenizerFactory.class),filters = {
+@AnalyzerDef(name = "ngram",tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+filters = {
   @TokenFilterDef(factory = StandardFilterFactory.class),
   @TokenFilterDef(factory = LowerCaseFilterFactory.class),
   @TokenFilterDef(factory = StopFilterFactory.class,params = { 
       @Parameter(name = "ignoreCase", value = "true") }) })
-      @Analyzer(definition = "searchtokenanalyzer")
+      @Analyzer(definition = "ngram")
+@Entity(name="ServiceListEntity")
+@Indexed
+@Table(name="wisp_services_details")
 public class ServiceListEntity implements Serializable{
 
 	/**
@@ -63,11 +61,11 @@ public class ServiceListEntity implements Serializable{
 	@Enumerated (value = EnumType.STRING)
 	private ServiceType service_type;
 	
-	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(analyzer=@Analyzer(definition="ngram"))
 	@Column(name = "service_name", updatable = true, nullable = false)
 	private String service_name;
 	
-	@Field(index = Index.YES, analyze = Analyze.YES, store = Store.NO)
+	@Field(analyzer=@Analyzer(definition="ngram"))
 	@Column(name = "service_description", updatable = true, nullable = false)
 	private String service_description;
 	
@@ -108,6 +106,7 @@ public class ServiceListEntity implements Serializable{
 	private UserEntity user_service_entity;
 	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "serviceListEntity", cascade = CascadeType.ALL)
+	@IndexedEmbedded
 	private ServicesAddressEntity addressEntity;
 	
 	@OneToMany(mappedBy ="service_image_list_entity", orphanRemoval=true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -226,10 +226,23 @@
 											<p>${service_creation_bean.amenityBean.type}</p>
 										</div>
 									</c:if>
-									<c:if test="${service_creation_bean.service_type eq 'SER_PHOTOGRAPHY' 
-										|| service_creation_bean.service_type eq 'SER_ENTERTAINERS' || service_creation_bean.service_type eq 'SER_BEAUTICIANS'}">
+									<c:if test="${service_creation_bean.service_type eq 'SER_PHOTOGRAPHY'}">
 										<div class="specifications">
-											<img src="resources/images/icons/rooms.png" alt="">
+											<img src="resources/images/icons/photographers.png" alt="">
+											<p>Type</p>
+											<p>${service_creation_bean.amenityBean.type}</p>
+										</div>
+									</c:if>
+									<c:if test="${service_creation_bean.service_type eq 'SER_ENTERTAINERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/entertainers.png" alt="">
+											<p>Type</p>
+											<p>${service_creation_bean.amenityBean.type}</p>
+										</div>
+									</c:if>
+									<c:if test="${service_creation_bean.service_type eq 'SER_BEAUTICIANS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/beauticians.png" alt="">
 											<p>Type</p>
 											<p>${service_creation_bean.amenityBean.type}</p>
 										</div>

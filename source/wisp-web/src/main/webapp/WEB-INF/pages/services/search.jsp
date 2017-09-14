@@ -26,20 +26,138 @@
 <link rel="stylesheet" href="resources/css/star-rating.css">
 <link rel="stylesheet" href="resources/css/jssor.css">
 <link href="resources/css/custom.css" rel="stylesheet">
-
-<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via tes
-    file:// -->
-<!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
 </head>
 <body>
 	<%@ include file="/WEB-INF/pages/templetes/header.jsp"%>
 	
 	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12">
+			<form id="filter_search_form" role="form" action="filterServices" method="POST">
+				<div class="col-sm-12 col-sm-12 col-xs-12 filter-area">
+						<div class="dropdown">
+							<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                            <span class="menuselected">Services</span>
+	                            <span class="caret"></span>
+	                        </button>
+							<form:select class="dropdown-menu _servicefilter" name="" path="serviceFilterBean.service_type">
+								<form:options items="${service_list}" itemLabel="displayName" />
+							</form:select>
+						</div>
+						<div class="dropdown">
+							<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+	                            <span class="menuselected">Location</span>
+	                            <span class="caret"></span>
+	                        </button>
+	                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.location">
+								<form:options items="${city_list}" />
+							</form:select>
+						</div>
+						
+						<input type="hidden" value="${serviceFilterBean.location}" id="filter_location"/>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE' || serviceFilterBean.service_type eq 'SER_CATERERS'}">
+							<div class="dropdown">
+								<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		                            <span class="menuselected">Capacity</span>
+		                            <span class="caret"></span>
+		                        </button>
+		                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.capacity" id="_capacityfilter">
+									<form:option value="">Capacity</form:option>
+									<form:option value="500 - 1000">500 - 1000</form:option>
+									<form:option value="1000 - 1500">1000 - 1500</form:option>
+									<form:option value="1500-2000">1500-2000</form:option>
+									<form:option value="2500 +">2500 +</form:option>
+								</form:select>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="dropdown">
+								<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+		                            <span class="menuselected">Rooms</span>
+		                            <span class="caret"></span>
+		                        </button>
+		                        <form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.rooms" id="_roomsfilter">
+									<form:option value="">Rooms</form:option>
+									<form:option value="10">10</form:option>
+									<form:option value="15">15</form:option>
+									<form:option value="25">25</form:option>
+								</form:select>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								Air Con
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtnAC" path="serviceFilterBean.amenityBean.air_condition" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								Liquor
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.liquor" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								Parking 
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.parking" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_VENUE'}">
+							<div class="checkbox-div">
+								WiFi 
+								<label class="custom_switch">
+		                            <form:checkbox id="togBtn" path="serviceFilterBean.amenityBean.wifi" />
+		                            <div class="slider round">
+		                                <!--ADDED HTML --><span class="on"><i class="fa fa-check" aria-hidden="true"></i></span><span class="off"></span>
+		                                <!--END-->
+		                            </div>
+		                        </label>
+							</div>
+						</c:if>
+						<c:if test="${serviceFilterBean.service_type eq 'SER_BEAUTICIANS'}">
+							<div class="dropdown">
+									<button class=" dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			                            <span class="menuselected">Select Gender</span>
+			                            <span class="caret"></span>
+			                        </button>
+								<form:select class="dropdown-menu" name="" path="serviceFilterBean.amenityBean.gender" id="_genderfilter">
+									<form:option value="">Select Gender</form:option>
+									<form:option value="Women">Women</form:option>
+									<form:option value="Men">Men</form:option>
+									<form:option value="Unisex">Unisex</form:option>
+								</form:select>
+							</div>
+						</c:if>
+						<div class="filter-search-div">
+						<form:input type="text" class="form-control" placeholder="Search" name="" path="serviceFilterBean.searchTerm" />
+						<div class="input-group">
+							<button type="submit">
+								<span class="glyphicon glyphicon-search"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+				</form>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-12">
 				<h5 class="service-heading">
@@ -303,10 +421,23 @@
 											<p>${service.amenitiyEntity.type}</p>
 										</div>
 									</c:if>
-									<c:if test="${service.service_type eq 'SER_PHOTOGRAPHY' 
-										|| service.service_type eq 'SER_ENTERTAINERS' || service.service_type eq 'SER_BEAUTICIANS'}">
+									<c:if test="${service.service_type eq 'SER_PHOTOGRAPHY'}">
 										<div class="specifications">
-											<img src="resources/images/icons/rooms.png" alt="">
+											<img src="resources/images/icons/photographers.png" alt="">
+											<p>Type</p>
+											<p>${service.amenitiyEntity.type}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_type eq 'SER_ENTERTAINERS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/entertainers.png" alt="">
+											<p>Type</p>
+											<p>${service.amenitiyEntity.type}</p>
+										</div>
+									</c:if>
+									<c:if test="${service.service_type eq 'SER_BEAUTICIANS'}">
+										<div class="specifications">
+											<img src="resources/images/icons/beauticians.png" alt="">
 											<p>Type</p>
 											<p>${service.amenitiyEntity.type}</p>
 										</div>
@@ -404,6 +535,8 @@
 	<script src="resources/slick/slick.js" type="text/javascript" charset="utf-8"></script>
 	<script src="resources/js/custom.js" type="text/javascript"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
+	<script src="resources/js/selectjs/classie.js"></script>
+    <script src="resources/js/selectjs/selectFx.js"></script>
 	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>

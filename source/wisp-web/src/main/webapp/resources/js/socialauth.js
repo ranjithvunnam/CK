@@ -257,7 +257,7 @@
 		e.preventDefault();
 		var full = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 		if (isMobile.any()) {
-			var message = encodeURIComponent(full);
+			var message = encodeURIComponent(full+$(this).data('js'));
 			var whatsapp_url = "whatsapp://send?text=" + message;
 			window.location.href = whatsapp_url;
 		} else {

@@ -13,6 +13,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
 
 @Entity(name="ServicesAddressEntity")
 @Table(name="wisp_services_address")
@@ -30,12 +33,14 @@ public class ServicesAddressEntity implements Serializable{
 	@Column(name = "address_id")
 	private Long address_id;
 	
+	@Field(analyzer=@Analyzer(definition="ngram"))
 	@Column(name = "address_1", updatable = true, nullable = false)
 	private String address_1;
 	
 	@Column(name = "address_2", updatable = true, nullable = false)
 	private String address_2;
 	
+	@Field(analyzer=@Analyzer(definition="ngram"))
 	@Column(name = "city", updatable = true, nullable = false)
 	private String city;
 	
@@ -50,6 +55,7 @@ public class ServicesAddressEntity implements Serializable{
 	
 	@OneToOne(fetch = FetchType.LAZY)
 	@PrimaryKeyJoinColumn
+	@ContainedIn
 	private ServiceListEntity serviceListEntity;
 
 	public Long getAddress_id() {

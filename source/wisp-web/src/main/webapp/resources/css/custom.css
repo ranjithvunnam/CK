@@ -519,6 +519,7 @@ ul.dropdown-menu{
 	font-family: 'Roboto', sans-serif;
 	text-transform: uppercase;
 	margin-bottom: 0px;
+	display: inline-block;
 }
 
 .service-box-right .contact {
@@ -571,7 +572,10 @@ ul.dropdown-menu{
 	width: 20px;
 	padding-right: 2px;
 }
-
+/* .service-box-right a{
+	display: block;
+    float: left;
+} */
 .service-box-right .icons-div .specifications:not(:last-child ) {
 	margin-right: 1.5%;
 }
@@ -1209,7 +1213,9 @@ section#contact .text-danger {
   box-sizing: content-box;
   transition: all .3s ease;
 }
-
+.social-networks li a{
+	float: none !important;
+}
 .share-button a {
   text-decoration:none;
 }

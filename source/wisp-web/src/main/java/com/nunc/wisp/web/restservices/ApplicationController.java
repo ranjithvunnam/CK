@@ -170,6 +170,9 @@ public class ApplicationController {
 		List<String> city_list = applicationServices.getListOfCities();
 		model.addAttribute("city_list", city_list);
 		model.addAttribute("_q", search);
+		ServiceFilterRequestBean bean = new ServiceFilterRequestBean();
+		bean.setService_type(ServiceType.SER_VENUE);
+		model.addAttribute("serviceFilterBean", bean);
 		return "services/search";
 	}
 	

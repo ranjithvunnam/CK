@@ -1,21 +1,14 @@
 package com.nunc.wisp.repository;
 
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.LowerCaseFilter;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.WhitespaceTokenizer;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.util.Version;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -51,7 +44,6 @@ import com.nunc.wisp.entities.UserEntity;
 import com.nunc.wisp.entities.UserFavoritesEntity;
 import com.nunc.wisp.entities.UserRoleEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
-import com.nunc.wisp.repository.utils.PermutermTokenFilter;
 
 @Repository("ApplicationRepository")
 public class ApplicationRepositoryImpl implements ApplicationRepository {
@@ -60,6 +52,9 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 	
 	private static final int MAX_ROWS_FOR_USER_SEARCH = 10;
 	private static final int DEFAULT_OFFSET = 0;
+	private static final String andOperator = " AND ";
+	private static final String orOperator = " OR ";
+	private static final String inOperator = " IN ";
 	
 	@Autowired
 	@Qualifier("sessionFactory")
@@ -746,7 +741,7 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
 	@Override
 	@Transactional
-	public List<ServiceListEntity> simulateSearchResultWithHibernateSearch(String searchQuery) throws WISPDataAccessException {
+	public List<ServiceListEntity> simulateSearchResultWithHibernateSearch(String searchTerm) throws WISPDataAccessException {
 		
 		List<ServiceListEntity> results = new ArrayList<>();
 		FullTextSession fullTextSession = null;
@@ -757,39 +752,74 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 			fullTextSession = Search.getFullTextSession(session);
 			QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();
 			
-			List<Query> queryList = new LinkedList<Query>();
-	        
-			Analyzer analyzer = new Analyzer() {
-				
-				@Override
-				public TokenStream tokenStream(String fieldName, Reader reader) {
-					// TODO Auto-generated method stub
-					TokenStream tokens = new WhitespaceTokenizer(Version.LUCENE_31, reader);
-					tokens = new LowerCaseFilter(Version.LUCENE_31, tokens);
-					tokens = new PermutermTokenFilter(tokens);
-			        return tokens;
-				}
-			};
-			
-			Query luceneFinalQuery = null;
-			String[] arrKeywords = searchQuery.split(" ");
-			for (String keyword : Arrays.asList(arrKeywords)) {
-				luceneFinalQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").matching(keyword+ "*").createQuery();
-	            queryList.add(luceneFinalQuery);
-	        }
+			//List<Query> queryList = new LinkedList<Query>();
 			
 			BooleanQuery finalQuery = new BooleanQuery();
-	        for (Query q : queryList) {
-	            finalQuery.add(q, Occur.MUST);
-	        }
+			switch (getLogicalOperator(searchTerm)) {
+			case "AND":
+				LOG_R.info("Hibernate Search Query search contains AND operator after "+after(searchTerm, "AND"));
+				Query luceneANDBeforeQuery = null;
+				Query luceneANDAfterQuery = null;
+				BooleanQuery booleanFinalQuery = new BooleanQuery();
+				//Handling before and
+				String[] beforeKeywords = before(searchTerm, "AND").split(" ");
+				BooleanQuery booleanBeforeQuery = new BooleanQuery();
+				for (String keyword : Arrays.asList(beforeKeywords)) {
+					if(!keyword.isEmpty()){
+						luceneANDBeforeQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						booleanBeforeQuery.add(luceneANDBeforeQuery, Occur.SHOULD);
+					}
+				}
+				//Handling after and
+				
+				String[] afterKeywords = after(searchTerm, "AND").split(" ");
+				BooleanQuery booleanAfterQuery = new BooleanQuery();
+				for (String keyword : Arrays.asList(afterKeywords)) {
+					if(!keyword.isEmpty()){
+						luceneANDAfterQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						booleanAfterQuery.add(luceneANDAfterQuery, Occur.SHOULD);
+					}
+				}
+				if(booleanBeforeQuery.getClauses().length > 0) {
+					booleanFinalQuery.add(booleanBeforeQuery, Occur.MUST);
+				}
+				if(booleanAfterQuery.getClauses().length > 0) {
+					booleanFinalQuery.add(booleanAfterQuery, Occur.MUST);
+				}
+				finalQuery.add(booleanFinalQuery, Occur.MUST);
+				break;
+			
+			case "OR":
+				LOG_R.info("Hibernate Search Query search contains OR operator");
+				break;
+				
+			case "IN":
+				LOG_R.info("Hibernate Search Query search contains IN operator");
+				break;
 
-	        LOG_R.info("Hibernate Search Query "+finalQuery.toString());
+			default:
+				//LOG_R.info("Hibernate Search Query search not contains any operator");
+				Query luceneNormalQuery = null;
+				String[] arrKeywords = searchTerm.split(" ");
+				for (String keyword : Arrays.asList(arrKeywords)) {
+					luceneNormalQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+					finalQuery.add(luceneNormalQuery, Occur.SHOULD);
+		        }
+				break;
+			}
+			
+			//Final adding query list to final query
+			/*for (Query q : queryList) {
+	            finalQuery.add(q, Occur.MUST);
+	        }*/
+			
+			LOG_R.info("Hibernate Search Query "+finalQuery.toString());
+			
 		    FullTextQuery fullTextQuery = fullTextSession.createFullTextQuery(finalQuery, ServiceListEntity.class);
 	        Criteria criteria = session.createCriteria(ServiceListEntity.class);
 		    criteria.add(Restrictions.eq("approval_status", 2));
-	        
-	        
 		    fullTextQuery.setCriteriaQuery(criteria);
+		    
 	        results = fullTextQuery.list();
 		} catch (HibernateException e) {
 			LOG_R.error(
@@ -801,5 +831,43 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 		}
 		return results;
 	}
+	
+	/**
+	 * Find any logical operator present in given string.
+	 * @param searchTerm
+	 * @return
+	 */
+	private String getLogicalOperator(String searchTerm) {
+		if(searchTerm.toLowerCase().indexOf(orOperator.toLowerCase()) != -1) {
+			return "OR";
+		} else if(searchTerm.toLowerCase().indexOf(andOperator.toLowerCase()) != -1){
+			return "AND";
+		}else if(searchTerm.toLowerCase().indexOf(inOperator.toLowerCase()) != -1){
+			return "IN";
+		}
+		return "";
+	}
+	
+	private String before(String value, String a) {
+        // Return substring containing all characters before a string.
+        int posA = value.toLowerCase().indexOf(a.toLowerCase());
+        if (posA == -1) {
+            return "";
+        }
+        return value.substring(0, posA);
+    }
+	
+	private String after(String value, String a) {
+        // Returns a substring containing all characters after a string.
+        int posA = value.toLowerCase().lastIndexOf(a.toLowerCase());
+        if (posA == -1) {
+            return "";
+        }
+        int adjustedPosA = posA + a.length();
+        if (adjustedPosA >= value.length()) {
+            return "";
+        }
+        return value.substring(adjustedPosA);
+    }
 
 }
