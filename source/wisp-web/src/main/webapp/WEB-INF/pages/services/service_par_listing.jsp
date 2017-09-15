@@ -465,7 +465,7 @@
 										data-size="xs" title="" disabled captio="none">
 								</form>
 							</div>
-						<span class="comments">(${service.commentsEntities.size()})</span>
+						<span class="comments">(${service_details.commentsEntities.size()})</span>
 			            </span>
 					</div>
 				</div>
