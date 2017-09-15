@@ -519,7 +519,7 @@ ul.dropdown-menu{
 	font-family: 'Roboto', sans-serif;
 	text-transform: uppercase;
 	margin-bottom: 0px;
-	display: inline-block;
+	/* display: inline-block; */
 }
 
 .service-box-right .contact {
@@ -578,6 +578,10 @@ ul.dropdown-menu{
 } */
 .service-box-right .icons-div .specifications:not(:last-child ) {
 	margin-right: 1.5%;
+}
+
+.specifications{
+  word-wrap: break-word;
 }
 
 .service-box-right .icons-div .specifications p {

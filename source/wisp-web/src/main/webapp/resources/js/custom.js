@@ -19,6 +19,19 @@
     	
     	// share icons
         $(".top-share-icon .share").on("click", function(){
+            //$(".social-networks").fadeOut();
+            $(this).find(".social-networks").slideToggle( "fast", function() {
+              });
+        });
+        
+        $(document).on('click touchstart', function(e) {
+            // console.log(e.target.className)
+            if (!$(e.target).is('.share') && !$(e.target).is('.share img') && !$(e.target).is('.share i')) {
+               $(".social-networks").fadeOut();
+            }
+           
+        });
+        /*$(".top-share-icon .share").on("click", function(){
 			$(".social-networks").fadeOut();
             $(this).find(".social-networks").slideToggle( "fast", function() {
               });
@@ -29,7 +42,7 @@
             if (e.target.className != 'share') {
                 $(".social-networks").fadeOut();
             }
-        });
+        });*/
         
         // get ratings
         $(".rating input").on("click", function() {

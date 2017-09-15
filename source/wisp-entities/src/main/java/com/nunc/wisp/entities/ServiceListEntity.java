@@ -57,9 +57,14 @@ public class ServiceListEntity implements Serializable{
 	@Column(name = "service_id")
 	private Long service_id;
 	
+	@Field(analyzer=@Analyzer(definition="ngram"))
 	@Column(name = "service_type", updatable = true, nullable = false)
 	@Enumerated (value = EnumType.STRING)
 	private ServiceType service_type;
+	
+	@Field(analyzer=@Analyzer(definition="ngram"))
+	@Column(name = "service_display_name", updatable = true, nullable = true)
+	private String service_display_name;
 	
 	@Field(analyzer=@Analyzer(definition="ngram"))
 	@Column(name = "service_name", updatable = true, nullable = false)
@@ -142,6 +147,14 @@ public class ServiceListEntity implements Serializable{
 
 	public void setService_type(ServiceType service_type) {
 		this.service_type = service_type;
+	}
+
+	public String getService_display_name() {
+		return service_display_name;
+	}
+
+	public void setService_display_name(String service_display_name) {
+		this.service_display_name = service_display_name;
 	}
 
 	public String getService_name() {

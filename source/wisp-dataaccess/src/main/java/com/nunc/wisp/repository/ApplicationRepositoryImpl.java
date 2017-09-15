@@ -752,21 +752,16 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 			fullTextSession = Search.getFullTextSession(session);
 			QueryBuilder queryBuilder = fullTextSession.getSearchFactory().buildQueryBuilder().forEntity(ServiceListEntity.class).get();
 			
-			//List<Query> queryList = new LinkedList<Query>();
-			
 			BooleanQuery finalQuery = new BooleanQuery();
 			switch (getLogicalOperator(searchTerm)) {
 			case "AND":
-				LOG_R.info("Hibernate Search Query search contains AND operator after "+after(searchTerm, "AND"));
-				Query luceneANDBeforeQuery = null;
-				Query luceneANDAfterQuery = null;
 				BooleanQuery booleanFinalQuery = new BooleanQuery();
 				//Handling before and
 				String[] beforeKeywords = before(searchTerm, "AND").split(" ");
 				BooleanQuery booleanBeforeQuery = new BooleanQuery();
 				for (String keyword : Arrays.asList(beforeKeywords)) {
 					if(!keyword.isEmpty()){
-						luceneANDBeforeQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						Query luceneANDBeforeQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("service_display_name").andField("addressEntity.city").matching(keyword+ "*").createQuery();
 						booleanBeforeQuery.add(luceneANDBeforeQuery, Occur.SHOULD);
 					}
 				}
@@ -776,7 +771,7 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 				BooleanQuery booleanAfterQuery = new BooleanQuery();
 				for (String keyword : Arrays.asList(afterKeywords)) {
 					if(!keyword.isEmpty()){
-						luceneANDAfterQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						Query luceneANDAfterQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("service_display_name").andField("addressEntity.city").matching(keyword+ "*").createQuery();
 						booleanAfterQuery.add(luceneANDAfterQuery, Occur.SHOULD);
 					}
 				}
@@ -791,27 +786,75 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 			
 			case "OR":
 				LOG_R.info("Hibernate Search Query search contains OR operator");
+				BooleanQuery booleanFinalQuery1 = new BooleanQuery();
+				//Handling before and
+				String[] beforeKeywords1 = before(searchTerm, "OR").split(" ");
+				BooleanQuery booleanBeforeQuery1 = new BooleanQuery();
+				for (String keyword : Arrays.asList(beforeKeywords1)) {
+					if(!keyword.isEmpty()){
+						Query luceneANDBeforeQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("service_display_name").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						booleanBeforeQuery1.add(luceneANDBeforeQuery, Occur.SHOULD);
+					}
+				}
+				//Handling after and
+				
+				String[] afterKeywords1 = after(searchTerm, "OR").split(" ");
+				BooleanQuery booleanAfterQuery1 = new BooleanQuery();
+				for (String keyword : Arrays.asList(afterKeywords1)) {
+					if(!keyword.isEmpty()){
+						Query luceneANDAfterQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("service_display_name").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						booleanAfterQuery1.add(luceneANDAfterQuery, Occur.SHOULD);
+					}
+				}
+				if(booleanBeforeQuery1.getClauses().length > 0) {
+					booleanFinalQuery1.add(booleanBeforeQuery1, Occur.SHOULD);
+				}
+				if(booleanAfterQuery1.getClauses().length > 0) {
+					booleanFinalQuery1.add(booleanAfterQuery1, Occur.SHOULD);
+				}
+				finalQuery.add(booleanFinalQuery1, Occur.MUST);
 				break;
 				
 			case "IN":
 				LOG_R.info("Hibernate Search Query search contains IN operator");
+				BooleanQuery booleanFinalQuery2 = new BooleanQuery();
+				//Handling before and
+				String[] beforeKeywords2 = before(searchTerm, "IN").split(" ");
+				BooleanQuery booleanBeforeQuery2 = new BooleanQuery();
+				for (String keyword : Arrays.asList(beforeKeywords2)) {
+					if(!keyword.isEmpty()){
+						Query luceneANDBeforeQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("service_display_name").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						booleanBeforeQuery2.add(luceneANDBeforeQuery, Occur.SHOULD);
+					}
+				}
+				//Handling after and
+				
+				String[] afterKeywords2 = after(searchTerm, "IN").split(" ");
+				BooleanQuery booleanAfterQuery2 = new BooleanQuery();
+				for (String keyword : Arrays.asList(afterKeywords2)) {
+					if(!keyword.isEmpty()){
+						Query luceneANDAfterQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+						booleanAfterQuery2.add(luceneANDAfterQuery, Occur.SHOULD);
+					}
+				}
+				if(booleanBeforeQuery2.getClauses().length > 0) {
+					booleanFinalQuery2.add(booleanBeforeQuery2, Occur.SHOULD);
+				}
+				if(booleanAfterQuery2.getClauses().length > 0) {
+					booleanFinalQuery2.add(booleanAfterQuery2, Occur.SHOULD);
+				}
+				finalQuery.add(booleanFinalQuery2, Occur.MUST);
 				break;
 
 			default:
-				//LOG_R.info("Hibernate Search Query search not contains any operator");
 				Query luceneNormalQuery = null;
 				String[] arrKeywords = searchTerm.split(" ");
 				for (String keyword : Arrays.asList(arrKeywords)) {
-					luceneNormalQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("addressEntity.city").matching(keyword+ "*").createQuery();
+					luceneNormalQuery = queryBuilder.keyword().wildcard().onField("service_name").andField("service_description").andField("service_display_name").andField("addressEntity.city").matching(keyword+ "*").createQuery();
 					finalQuery.add(luceneNormalQuery, Occur.SHOULD);
 		        }
 				break;
 			}
-			
-			//Final adding query list to final query
-			/*for (Query q : queryList) {
-	            finalQuery.add(q, Occur.MUST);
-	        }*/
 			
 			LOG_R.info("Hibernate Search Query "+finalQuery.toString());
 			

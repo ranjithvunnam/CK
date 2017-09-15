@@ -18,6 +18,8 @@ public class ServiceCreationRequestBean implements Serializable{
 	
 	private ServiceType service_type;
 	
+	private String service_display_name;
+	
 	private String service_name;
 	
 	private String service_description;
@@ -66,6 +68,14 @@ public class ServiceCreationRequestBean implements Serializable{
 
 	public void setService_type(ServiceType service_type) {
 		this.service_type = service_type;
+	}
+
+	public String getService_display_name() {
+		return service_display_name;
+	}
+
+	public void setService_display_name(String service_display_name) {
+		this.service_display_name = service_display_name;
 	}
 
 	public String getService_name() {

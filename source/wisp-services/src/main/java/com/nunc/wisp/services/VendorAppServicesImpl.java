@@ -29,6 +29,7 @@ import com.nunc.wisp.entities.UserEntity;
 import com.nunc.wisp.repository.ApplicationRepository;
 import com.nunc.wisp.repository.VendorAppRepository;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
+import com.nunc.wisp.repository.utils.ServiceTypeTokens;
 import com.nunc.wisp.services.exception.WISPServiceException;
 
 @Service("VendorAppServices")
@@ -64,6 +65,7 @@ public class VendorAppServicesImpl implements VendorAppServices {
 		//Service
 		ServiceListEntity service = new ServiceListEntity();
 		service.setService_type(requestBean.getService_type());
+		service.setService_display_name(ServiceTypeTokens.fromString(service.getService_type().name()));
 		service.setService_name(requestBean.getService_name());
 		service.setService_description(requestBean.getService_description());
 		service.setService_website(requestBean.getService_website());
