@@ -19,7 +19,7 @@
                         <p><a href="vendor/home" style="color: white;">Vendor</a></p>
                         <p><a href="ContactUs" style="color: white;">Contact Us</a></p>
                         <p>About Us</p>
-                        <p>Became a Partner</p>
+                        <p>Become a Partner</p>
                         <p>How it works</p>
                     </div>
                     <div class="col-xs-6 col-sm-2 col-md-2">

@@ -323,21 +323,21 @@
 									</c:if> --%>
 									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_BEAUTICIANS'}">
 										<div class="specifications">
-											<img src="resources/images/icons/rooms.png" alt="">
+											<img src="resources/images/icons/gender_type.png" alt="">
 											<p>Gender</p>
 											<p>${service.service_fav_list_entity.amenitiyEntity.gender}</p>
 										</div>
 									</c:if>
 									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_CHOREOGRAPHERS'}">
 										<div class="specifications">
-											<img src="resources/images/icons/rooms.png" alt="">
+											<img src="resources/images/icons/choreographers.png" alt="">
 											<p>Dance Style</p>
 											<p>${service.service_fav_list_entity.amenitiyEntity.dance_style}</p>
 										</div>
 									</c:if>
 									<c:if test="${service.service_fav_list_entity.service_type eq 'SER_TRAVEL'}">
 										<div class="specifications">
-											<img src="resources/images/icons/rooms.png" alt="">
+											<img src="resources/images/icons/travel.png" alt="">
 											<p>Fleet</p>
 											<p>${service.service_fav_list_entity.amenitiyEntity.fleet}</p>
 										</div>

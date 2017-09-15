@@ -56,6 +56,7 @@
 						<ul class="dropdown-menu">
 							<c:forEach items = "${city_list}" var="city" varStatus="city_var">
 								<li><a href="updateLocation?location=${city}">${city}</a></li>
+								<li><a href="resetLocation">Reset Location</a></li>
 							</c:forEach>
 						</ul>
 					</li>

@@ -226,7 +226,7 @@
 								</c:if>
 								<c:if test="${service_creation_bean.service_type eq 'SER_BEAUTICIANS'}">
 									<div class="specifications">
-										<img src="resources/images/icons/rooms.png" alt="">
+										<img src="resources/images/icons/gender_type.png" alt="">
 										<p>Gender</p>
 										<form:select class="form-control custom-select" name="gender" path="service_creation_bean.amenityBean.gender">
 											<option value="">Select</option>
@@ -238,14 +238,14 @@
 								</c:if>
 								<c:if test="${service_creation_bean.service_type eq 'SER_CHOREOGRAPHERS'}">
 									<div class="specifications">
-										<img src="resources/images/icons/rooms.png" alt="">
+										<img src="resources/images/icons/choreographers.png" alt="">
 										<p>Dance Style</p>
 										<form:input type="text" class="form-control select-custom" name="dance_style" path="service_creation_bean.amenityBean.dance_style"/>
 									</div>
 								</c:if>
 								<c:if test="${service_creation_bean.service_type eq 'SER_TRAVEL'}">
 									<div class="specifications">
-										<img src="resources/images/icons/rooms.png" alt="">
+										<img src="resources/images/icons/travel.png" alt="">
 										<p>Fleet</p>
 										<form:input type="text" class="form-control select-custom" name="fleet" path="service_creation_bean.amenityBean.fleet"/>
 									</div>

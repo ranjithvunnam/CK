@@ -129,7 +129,14 @@ public class ApplicationController {
 		session.setAttribute("location", location);
 		model.asMap().clear();
 		return "redirect:home/"+location;  
-    }  
+    }
+	
+	@RequestMapping(value = "/resetLocation", method = RequestMethod.GET)  
+    public String resetLocation(HttpSession session, Model model){
+		session.removeAttribute("location");
+		model.asMap().clear();
+		return "redirect:home";  
+    }
 	
 	/*
 	 * Home controller with out location

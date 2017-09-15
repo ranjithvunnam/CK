@@ -54,6 +54,7 @@
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/home" access="permitAll" />
 		<intercept-url pattern="/updateLocation" access="permitAll" />
+		<intercept-url pattern="/resetLocation" access="permitAll" />
 		<intercept-url pattern="/home/**" access="permitAll" />
 		<intercept-url pattern="/login" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
