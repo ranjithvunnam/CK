@@ -669,7 +669,8 @@
 
         // Default Calendar
         $('.calendar').pignoseCalendar({
-            select: onClickHandler
+            select: onClickHandler,
+			minDate : moment().format('YYYY-MM-DD')
         });
 
         // This use for DEMO page tab component.

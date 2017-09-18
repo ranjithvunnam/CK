@@ -362,7 +362,7 @@
                         <div class="input-group input-daterange">
                             <!-- <input name="fromDate" placeholder="From Date" type="text" class="form-control" value="2012-04-05"> -->
                             <div class='input-group date' id=example1>
-	                            <input name="fromDate" type='text' class="form-control"  placeholder="From Date" />
+	                            <input name="fromDate" type='text' class="form-control"  placeholder="From Date" readonly/>
 	                            <span class="input-group-addon">
 		                            <span class="fa fa-calendar"></span>
 		                        </span>
@@ -370,7 +370,7 @@
                             <div class="input-group-addon">to</div>
                             <!-- <input name="toDate"  placeholder="To Date" type="text" class="form-control" value="2012-04-19"> -->
                         	<div class='input-group date' id='example2'>
-                                <input name="toDate" type='text' class="form-control" placeholder="To Date" />
+                                <input name="toDate" type='text' class="form-control" placeholder="To Date" readonly/>
                                 <span class="input-group-addon">
                                	 	<span class="fa fa-calendar"></span>
 	                        	</span>
