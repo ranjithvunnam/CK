@@ -72,8 +72,9 @@
 					<div class="top-share-icon">
 						<a href="javascript:function() { return false; }"  id="handleReport" 
 							onclick="handleReportedMessage(event, '${service_details.service_id}', '2')"><span class="share"><img src="resources/images/icons/accept.png" alt="">Approve</span></a>
-						<a href="javascript:function() { return false; }"  id="handleReport" 
-							onclick="handleReportedMessage(event, '${service_details.service_id}', '3')"><span class="share"><img src="resources/images/icons/reject.png" alt="">Reject</span></a>
+						<%-- <a href="javascript:function() { return false; }"  id="handleReport" 
+							onclick="handleReportedMessage(event, '${service_details.service_id}', '3')"><span class="share"><img src="resources/images/icons/reject.png" alt="">Reject</span></a> --%>
+						<a href="javascript:function() { return false; }" data-toggle="modal" data-target="#reject_comment_modal" data-whatever="@mdo"><span class="share"><img src="resources/images/icons/reject.png" alt="">Reject</span></a>
 					</div>
 					<p class="name">${service_details.service_name}</p>
 					<p class="contact">	${service_details.addressEntity.address_1}, &nbsp
@@ -306,7 +307,27 @@
 		</div>
 	</div>
 	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
-
+	<div class="modal fade" id="reject_comment_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	        <form id="reject_form">
+	          <div class="form-group">
+	            <input type="hidden" class="form-control" id="service_id" value="${service_details.service_id}">
+	          </div>
+	          <div class="form-group">
+	            <label for="message-text" class="form-control-label">Comments:</label>
+	            <textarea class="form-control" id="reject_comment" rows="5"></textarea>
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary" onclick="rejectWithMessage(event)">RejectWithMessage</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -323,6 +344,35 @@
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
 	<script type="text/javascript">
+		$('#reject_comment_modal').on('hidden.bs.modal', function () {
+			$('#reject_comment').val('');
+		});
+		function rejectWithMessage(event) {
+			var service_id = $('#service_id').val();
+			var reject_comment = $('#reject_comment').val();
+			if($.trim(reject_comment) == ''){
+			      alert('Please provide the reason');
+			      event.preventDefault();
+			  } else {
+				  $.ajax({
+						url : 'admin/update_status',
+						type : 'DELETE',
+						contentType : 'application/json; charset=utf-8',
+						data : JSON.stringify({
+							service_id : service_id,
+							status : 3,
+							rejectComments : reject_comment
+						}),
+						success : function(msg) {
+							alert("Status updated successfully.");
+							window.location = 'admin/dashboard';
+						},
+						error : function(jqXHR, textStatus) {
+							alert(textStatus);
+						}
+					});  
+			  }
+		}
 		function handleReportedMessage(event, service_id, status) {
 			var conBox = confirm("Are you sure ?");
 			if (conBox) {

@@ -1,6 +1,9 @@
 package com.nunc.wisp.services;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import com.nunc.wisp.beans.ServiceStatusUpdateRequestBean;
 import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.entities.MainSliderEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
+import com.nunc.wisp.entities.ServiceRejectCommentsEntity;
 import com.nunc.wisp.repository.AdminApplicationRepository;
 import com.nunc.wisp.repository.ApplicationRepository;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
@@ -74,11 +78,20 @@ public class AdminApplicationServicesImpl implements AdminApplicationServices {
 	public void updateServiceStatus(ServiceStatusUpdateRequestBean bean)
 			throws WISPServiceException {
 		try {
-			
 			ServiceListEntity service = adminApplicationRepository.getServiceIndetailedByID(bean.getService_id());
 			if(service != null) {
 				if(bean !=null && bean.getStatus()!= null){
 					service.setApproval_status(bean.getStatus());
+					if(bean.getRejectComments() != null && !bean.getRejectComments().isEmpty()) {
+						LOG_R.info("Reject Comment "+bean.getRejectComments());
+						ServiceRejectCommentsEntity entity = new ServiceRejectCommentsEntity();
+						entity.setReject_comment(bean.getRejectComments());
+						entity.setCreated_date(new Date());
+						entity.setService_reject_comments(service);
+						Set<ServiceRejectCommentsEntity> set = new HashSet<>();
+						set.add(entity);
+						service.setRejectCommentsEntities(set);
+					}
 					adminApplicationRepository.updateServiceStatus(service);
 				}
 			}

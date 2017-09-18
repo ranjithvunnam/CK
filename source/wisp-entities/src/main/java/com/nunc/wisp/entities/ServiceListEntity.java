@@ -132,6 +132,10 @@ public class ServiceListEntity implements Serializable{
 	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "service_list_amenities", cascade = CascadeType.ALL)
 	private ServiceAmenitiyEntity amenitiyEntity;
+	
+	@OneToMany(mappedBy ="service_reject_comments", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OrderBy("created_date DESC")
+	private Set<ServiceRejectCommentsEntity> rejectCommentsEntities;
 
 	public Long getService_id() {
 		return service_id;
@@ -316,6 +320,15 @@ public class ServiceListEntity implements Serializable{
 
 	public void setAmenitiyEntity(ServiceAmenitiyEntity amenitiyEntity) {
 		this.amenitiyEntity = amenitiyEntity;
+	}
+
+	public Set<ServiceRejectCommentsEntity> getRejectCommentsEntities() {
+		return rejectCommentsEntities;
+	}
+
+	public void setRejectCommentsEntities(
+			Set<ServiceRejectCommentsEntity> rejectCommentsEntities) {
+		this.rejectCommentsEntities = rejectCommentsEntities;
 	}
 	
 	/*@Override

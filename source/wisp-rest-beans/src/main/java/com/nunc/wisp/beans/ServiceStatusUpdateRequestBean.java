@@ -12,6 +12,8 @@ public class ServiceStatusUpdateRequestBean implements Serializable{
 	private Long service_id;
 	
 	private Integer status;
+	
+	private String rejectComments;
 
 	public Long getService_id() {
 		return service_id;
@@ -27,5 +29,13 @@ public class ServiceStatusUpdateRequestBean implements Serializable{
 
 	public void setStatus(Integer status) {
 		this.status = status;
+	}
+
+	public String getRejectComments() {
+		return rejectComments;
+	}
+
+	public void setRejectComments(String rejectComments) {
+		this.rejectComments = rejectComments;
 	}
 }
