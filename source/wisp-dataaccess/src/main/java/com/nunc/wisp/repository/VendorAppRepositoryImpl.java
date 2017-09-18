@@ -3,7 +3,9 @@ package com.nunc.wisp.repository;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -25,6 +27,8 @@ import com.nunc.wisp.entities.ServiceHitsEntity;
 import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.ServiceVideosEntity;
+import com.nunc.wisp.entities.utils.CountriesEntity;
+import com.nunc.wisp.entities.utils.StatesEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
 @Repository("VendorAppRepository")
@@ -284,6 +288,74 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
 		}
 	}
-	
-	
+
+	@Override
+	@Transactional
+	public List<CountriesEntity> getAllCountries() throws WISPDataAccessException {
+		List<CountriesEntity> results = null;
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(CountriesEntity.class);
+			results = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return results;
+	}
+
+	@Override
+	@Transactional
+	public CountriesEntity getCountryByName(String country_name)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(CountriesEntity.class);
+			criteria.add(Restrictions.eq("country_name", country_name));
+			return (CountriesEntity) criteria.uniqueResult();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+	}
+
+	@Override
+	@Transactional
+	public StatesEntity getStateByName(String state_name)
+			throws WISPDataAccessException {
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(StatesEntity.class);
+			criteria.add(Restrictions.eq("state_name", state_name));
+			return (StatesEntity) criteria.uniqueResult();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+	}
+
+	@Override
+	@Transactional
+	public Set<StatesEntity> getStatesByCountry(Long country_id)
+			throws WISPDataAccessException {
+		List<StatesEntity> results = new ArrayList<>();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(StatesEntity.class);
+			criteria.add(Restrictions.eq("country_entity.country_id", country_id));
+			results = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return new HashSet<>(results);
+	}
 }

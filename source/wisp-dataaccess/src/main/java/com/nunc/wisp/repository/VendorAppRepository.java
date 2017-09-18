@@ -2,6 +2,7 @@ package com.nunc.wisp.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +11,8 @@ import com.nunc.wisp.entities.ServiceHitsEntity;
 import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.ServiceVideosEntity;
+import com.nunc.wisp.entities.utils.CountriesEntity;
+import com.nunc.wisp.entities.utils.StatesEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
 
 @Repository
@@ -43,4 +46,11 @@ public interface VendorAppRepository {
 
 	public void deleteVideoFromDB(ServiceVideosEntity entity) throws WISPDataAccessException;
 
+	public List<CountriesEntity> getAllCountries() throws WISPDataAccessException;
+
+	public CountriesEntity getCountryByName(String country_name) throws WISPDataAccessException;
+
+	public StatesEntity getStateByName(String state_name) throws WISPDataAccessException;
+
+	public Set<StatesEntity> getStatesByCountry(Long country_id) throws WISPDataAccessException;
 }

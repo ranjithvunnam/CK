@@ -84,22 +84,34 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="city" class="col-md-2 control-label">City *</label>
-							<div class="col-md-4 bottom-xs">
-								<form:input type="text" class="form-control" name="city" path="service_creation_bean.service_city"
-									placeholder="City"/>
-							</div>
 							<label for="" class="col-md-2 control-label">Country *</label>
 							<div class="col-md-4">
-								<form:input type="text" class="form-control" name="Country" path="service_creation_bean.service_country"
-									placeholder="Country"/>
+								<%-- <form:input type="text" class="form-control" name="Country" path="service_creation_bean.service_country"
+									placeholder="Country"/> --%>
+								<form:select class="form-control" name="" path="service_creation_bean.service_country" id="_select_country">
+									<form:option value="Select Country"/>
+									<form:options items="${countries}" itemLabel="country_name" itemValue="country_name"/>
+								</form:select>
+							</div>
+							<label for="" class="col-md-2 control-label">State *</label>
+							<div class="col-md-4 bottom-xs"> 
+								<%-- <form:input type="text" class="form-control" name="state" path="service_creation_bean.service_state"
+									placeholder="State"/> --%>
+									<form:select class="form-control" name="" path="service_creation_bean.service_state" id="_select_state">
+										<form:option value="Select State"/>
+										<form:options items="${states}" itemLabel="state_name" itemValue="state_name"/>
+									</form:select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label for="password" class="col-md-2 control-label">State *</label>
-							<div class="col-md-4 bottom-xs"> 
-								<form:input type="text" class="form-control" name="state" path="service_creation_bean.service_state"
-									placeholder="State"/>
+							<label for="city" class="col-md-2 control-label">City *</label>
+							<div class="col-md-4 bottom-xs">
+								<%-- <form:input type="text" class="form-control" name="city" path="service_creation_bean.service_city"
+									placeholder="City"/> --%>
+									<form:select class="form-control" name="" path="service_creation_bean.service_city" id="_select_city">
+										<form:option value="Select City"/>
+										<form:options items="${cities}" itemLabel="city_name" itemValue="city_name"/>
+									</form:select>
 							</div>
 							<label for="icode" class="col-md-2 control-label">Pin Code</label>
 							<div class="col-md-4">
@@ -253,7 +265,92 @@
 		$(document).ready(function(){
 			$("#step_reg,#step_media,#step_preview").removeClass('active');
 			$("#step_demograph").addClass('active');
+			/* var country_name = $('#_select_country option:selected').val();
+			alert(country_name);
+			$.ajax({
+		        type: "GET",
+		        url: "vendor/getStatesByCountry",
+		        data: {"country_name" : country_name },
+		        success: function(data){
+		           var slctSubcat = $("#_select_state"), option= "";
+		            slctSubcat.empty();
+		            option = option + "<option value=''>Select State</option>";
+		            for(var sb =0; sb<data.length; sb++){
+		                option = option + "<option value='" + data[sb].state_name + "'>" +data[sb].state_name + "</option>";
+		            }
+		            slctSubcat.append(option);
+		        },
+		        error:function(){
+		           alert("error");
+		        }
+		   });
+			var state_name = $('#_select_state option:selected').val();
+			alert(state_name);
+			$.ajax({
+			        type: "GET",
+			        url: "vendor/getCitiesByState",
+			        data: {"state_name" : state_name },
+			        success: function(data){
+			           var slctSubcat = $("#_select_city"), option= "";
+			            slctSubcat.empty();
+			            option = option + "<option value=''>Select City</option>";
+			            for(var sb =0; sb<data.length; sb++){
+			                option = option + "<option value='" + data[sb].city_name + "'>" +data[sb].city_name + "</option>";
+			            }
+			            slctSubcat.append(option);
+			        },
+			        error:function(){
+			           alert("error");
+			        }
+			   }); */
 		});
+		
+		$("#_select_country").change(function(){
+		    var country_name = $(this).val();
+		    alert(country_name);
+		    $.ajax({
+		        type: "GET",
+		        url: "vendor/getStatesByCountry",
+		        data: {"country_name" : country_name },
+		        success: function(data){
+		           var slctSubcat = $("#_select_state"), option= "";
+		            slctSubcat.empty();
+		            option = option + "<option value=''>Select State</option>";
+		            for(var sb =0; sb<data.length; sb++){
+		                option = option + "<option value='" + data[sb].state_name + "'>" +data[sb].state_name + "</option>";
+		            }
+		            slctSubcat.append(option);
+		        },
+		        error:function(){
+		           alert("error");
+		        }
+		   });
+
+		});
+		
+		$("#_select_state").change(function(){
+		    var state_name = $(this).val();
+		    alert(state_name);
+		    $.ajax({
+		        type: "GET",
+		        url: "vendor/getCitiesByState",
+		        data: {"state_name" : state_name },
+		        success: function(data){
+		           var slctSubcat = $("#_select_city"), option= "";
+		            slctSubcat.empty();
+		            option = option + "<option value=''>Select City</option>";
+		            for(var sb =0; sb<data.length; sb++){
+		                option = option + "<option value='" + data[sb].city_name + "'>" +data[sb].city_name + "</option>";
+		            }
+		            slctSubcat.append(option);
+		        },
+		        error:function(){
+		           alert("error");
+		        }
+		   });
+
+		});
+		
 	</script>
 </body>
 </html>

@@ -17,6 +17,8 @@ import com.nunc.wisp.beans.enums.ServiceType;
 import com.nunc.wisp.beans.request.ServiceCreationRequestBean;
 import com.nunc.wisp.beans.request.ServiceImagesRequestBean;
 import com.nunc.wisp.beans.request.ServiceVideosRequestBean;
+import com.nunc.wisp.beans.response.CitiesResponseBean;
+import com.nunc.wisp.beans.response.StatesResponseBean;
 import com.nunc.wisp.beans.vendor.ServiceAccessHitsDownlodResponseBean;
 import com.nunc.wisp.beans.vendor.ServiceAccessHitsResponseBean;
 import com.nunc.wisp.entities.ServiceAmenitiyEntity;
@@ -26,6 +28,9 @@ import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.ServiceVideosEntity;
 import com.nunc.wisp.entities.ServicesAddressEntity;
 import com.nunc.wisp.entities.UserEntity;
+import com.nunc.wisp.entities.utils.CitiesEntity;
+import com.nunc.wisp.entities.utils.CountriesEntity;
+import com.nunc.wisp.entities.utils.StatesEntity;
 import com.nunc.wisp.repository.ApplicationRepository;
 import com.nunc.wisp.repository.VendorAppRepository;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
@@ -378,5 +383,64 @@ public class VendorAppServicesImpl implements VendorAppServices {
 			LOG_R.error("Exception occured ::: ", e);
 			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
 		}
+	}
+
+	@Override
+	@Transactional
+	public List<CountriesEntity> getAllCountries() throws WISPServiceException {
+		try {
+			return vendorAppRepository.getAllCountries();
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+	}
+
+	@Override
+	@Transactional
+	public Set<StatesResponseBean> getStatesByCountry(String country_name)
+			throws WISPServiceException {
+		Set<StatesEntity> results = new HashSet<>();
+		Set<StatesResponseBean> beans = new HashSet<>();
+		try {
+			CountriesEntity entity = vendorAppRepository.getCountryByName(country_name);
+			if(entity != null){
+				results = vendorAppRepository.getStatesByCountry(entity.getCountry_id());
+			}
+			for (StatesEntity state : results) {
+				StatesResponseBean bean = new StatesResponseBean();
+				bean.setState_id(state.getState_id());
+				bean.setState_name(state.getState_name());
+				beans.add(bean);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+		return beans;
+	}
+
+	@Override
+	@Transactional
+	public Set<CitiesResponseBean> getCitiesByState(String state_name)
+			throws WISPServiceException {
+		Set<CitiesEntity> results = new HashSet<>();
+		Set<CitiesResponseBean> beans = new HashSet<>();
+		try {
+			StatesEntity entity = vendorAppRepository.getStateByName(state_name);
+			if(entity != null){
+				results = entity.getCities();
+			}
+			for (CitiesEntity city : results) {
+				CitiesResponseBean bean = new CitiesResponseBean();
+				bean.setCity_id(city.getCity_id());
+				bean.setCity_name(city.getCity_name());
+				beans.add(bean);
+			}
+		} catch (WISPDataAccessException e) {
+			LOG_R.error("Exception occured ::: ", e);
+			throw new WISPServiceException(e.getMessage(), e.getErrorCode());
+		}
+		return beans;
 	}
 }

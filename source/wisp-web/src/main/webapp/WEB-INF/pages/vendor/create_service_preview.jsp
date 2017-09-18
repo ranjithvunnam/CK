@@ -80,15 +80,26 @@
 						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
-								<p class="contact">${service_creation_bean.service_address1}</p>
-								<p class="contact">${service_creation_bean.service_address2}</p>
-								<p class="contact">${service_creation_bean.service_city}</p>
-								<p class="contact">${service_creation_bean.service_state}</p>
-								<p class="contact">${service_creation_bean.service_country}</p>
-								<p class="contact">${service_creation_bean.service_pin}</p>
-								<p class="contact">Phone : ${service_creation_bean.service_phone}</p>
-								<p class="web">WebSite : ${service_creation_bean.service_website}</p>
-								<p class="web">Email : ${service_creation_bean.service_email}</p>
+								<p class="contact">${service_creation_bean.service_address1}, &nbsp
+								<c:if test="${not empty service_creation_bean.service_address2}">
+									${service_creation_bean.service_address2}, &nbsp
+								</c:if>
+								${service_creation_bean.service_city}, &nbsp
+								${service_creation_bean.service_state}, &nbsp
+								${service_creation_bean.service_country}
+								<c:if test="${not empty service_creation_bean.service_pin}">
+										, &nbsp
+										${service_creation_bean.service_pin}
+								</c:if>
+								</p>
+								<br>
+								<p class="phone">Phone : ${service_creation_bean.service_phone}</p>
+								<c:if test="${not empty service_creation_bean.service_website}">
+									| &nbsp;&nbsp;<p class="phone">Website : ${service_creation_bean.service_website}</p>
+								</c:if>
+								<c:if test="${not empty service_creation_bean.service_email}">
+									| &nbsp;&nbsp;<p class="phone">Email : ${service_creation_bean.service_email}</p>
+								</c:if>
 							</div>
 						</div>
 					</div>

@@ -69,6 +69,10 @@
 		<error-code>403</error-code>
 		<location>/403</location>
 	</error-page>
+	<error-page> 
+        <exception-type>org.springframework.web.HttpSessionRequiredException</exception-type> 
+        <location>/sessionexpired</location> 
+    </error-page> 
 	<listener>
 	    <listener-class>
 	      org.springframework.security.web.session.HttpSessionEventPublisher

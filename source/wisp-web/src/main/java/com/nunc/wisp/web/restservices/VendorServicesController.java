@@ -71,6 +71,8 @@ import com.nunc.wisp.beans.request.ServiceAmenityRequestBean;
 import com.nunc.wisp.beans.request.ServiceCreationRequestBean;
 import com.nunc.wisp.beans.request.ServiceImagesRequestBean;
 import com.nunc.wisp.beans.request.ServiceVideosRequestBean;
+import com.nunc.wisp.beans.response.CitiesResponseBean;
+import com.nunc.wisp.beans.response.StatesResponseBean;
 import com.nunc.wisp.beans.vendor.ServiceAccessHitsDownlodResponseBean;
 import com.nunc.wisp.beans.vendor.ServiceAccessHitsResponseBean;
 import com.nunc.wisp.entities.ServiceAmenitiyEntity;
@@ -165,8 +167,19 @@ public class VendorServicesController {
 	@RequestMapping(value = "/getSRCreationForm", method = RequestMethod.GET)
 	public String getServiceCreationForm(Model model)  throws WISPServiceException {
 		model.addAttribute("service_list", ServiceType.values());
+		model.addAttribute("countries", vendorAppServices.getAllCountries());
 		model.addAttribute("service_creation_bean", new ServiceCreationRequestBean());
 		return "vendor/create_service";
+	}
+	
+	@RequestMapping(value = "/getStatesByCountry", method = RequestMethod.GET)
+	public @ResponseBody Set<StatesResponseBean> getStatesByCountry(@RequestParam(value = "country_name", required = true) String country_name) throws WISPServiceException {
+		return vendorAppServices.getStatesByCountry(country_name);
+	}
+	
+	@RequestMapping(value = "/getCitiesByState", method = RequestMethod.GET)
+	public @ResponseBody Set<CitiesResponseBean> getCitiesByState(@RequestParam(value = "state_name", required = true) String state_name) throws WISPServiceException {
+		return vendorAppServices.getCitiesByState(state_name);
 	}
 	
 	@RequestMapping(value = "/{token}/{service_id}/service_details", method = RequestMethod.GET)
@@ -198,7 +211,9 @@ public class VendorServicesController {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		
+		model.addAttribute("countries", vendorAppServices.getAllCountries());
+		model.addAttribute("states", vendorAppServices.getStatesByCountry(requestBean.getService_country()));
+		model.addAttribute("cities", vendorAppServices.getCitiesByState(requestBean.getService_state()));
 		Map<Integer, String> pageForms = new HashMap<Integer, String>();
 		pageForms.put(0, "vendor/create_service");
 		pageForms.put(1, "vendor/create_service_media");
@@ -238,6 +253,7 @@ public class VendorServicesController {
 				validator.validateServiceDemoghraphicDetails(requestBean, result);
 				if (result.hasErrors()) {
 					model.addAttribute("service_list", ServiceType.values());
+					model.addAttribute("countries", vendorAppServices.getAllCountries());
 					model.addAttribute("errors", "Your form contains errors");
 					model.addAttribute("service_creation_bean", requestBean);
 					return pageForms.get(currentPage);
@@ -253,6 +269,7 @@ public class VendorServicesController {
 						}
 						vendorAppServices.updateServiceDemoghraphicDetails(requestBean, 0);
 						model.addAttribute("service_list", ServiceType.values());
+						model.addAttribute("countries", vendorAppServices.getAllCountries());
 						model.addAttribute("service_creation_bean", requestBean);
 						return pageForms.get(targetPage);
 					} else {
@@ -265,6 +282,7 @@ public class VendorServicesController {
 						Long service_id = vendorAppServices.createServiceDemoghraphicDetails(requestBean, userDetails.getUsername(), 0);
 						requestBean.setService_id(service_id);
 						model.addAttribute("service_list", ServiceType.values());
+						model.addAttribute("countries", vendorAppServices.getAllCountries());
 						model.addAttribute("service_creation_bean", requestBean);
 						return pageForms.get(targetPage);
 					}
@@ -273,6 +291,7 @@ public class VendorServicesController {
 				validator.validateServiceMediaDetails(requestBean, result);
 				if (result.hasErrors()) {
 					model.addAttribute("service_list", ServiceType.values());
+					model.addAttribute("countries", vendorAppServices.getAllCountries());
 					model.addAttribute("errors", "Your form contains errors");
 					model.addAttribute("service_creation_bean", requestBean);
 					return pageForms.get(currentPage);
@@ -288,6 +307,7 @@ public class VendorServicesController {
 						}
 						vendorAppServices.updateServiceDemoghraphicDetails(requestBean, 0);
 						model.addAttribute("service_list", ServiceType.values());
+						model.addAttribute("countries", vendorAppServices.getAllCountries());
 						model.addAttribute("service_creation_bean", requestBean);
 						return pageForms.get(targetPage);
 					} else {
@@ -300,6 +320,7 @@ public class VendorServicesController {
 						Long service_id = vendorAppServices.createServiceDemoghraphicDetails(requestBean, userDetails.getUsername(), 0);
 						requestBean.setService_id(service_id);
 						model.addAttribute("service_list", ServiceType.values());
+						model.addAttribute("countries", vendorAppServices.getAllCountries());
 						model.addAttribute("service_creation_bean", requestBean);
 						return pageForms.get(targetPage);
 					}
@@ -315,12 +336,12 @@ public class VendorServicesController {
 						break;
 					case 1:
 						model.addAttribute("service_creation_bean", requestBean);
-						if(requestBean.getImagesBean() != null) {
+						/*if(requestBean.getImagesBean() != null) {
 							LOG_R.info("XXXXX Request bean updated "+requestBean.getImagesBean().size());
 							for(ServiceImagesRequestBean imagesRequestBean : requestBean.getImagesBean()) {
 								LOG_R.info("XXXXX Request bean updated "+imagesRequestBean.getUrl());
 							}
-						}
+						}*/
 						validator.validateServiceMediaDetails(requestBean, result);
 						break;
 					}
@@ -330,6 +351,7 @@ public class VendorServicesController {
 							LOG_R.info("Errroror : "+eer.getDefaultMessage());
 						}
 						model.addAttribute("service_list", ServiceType.values());
+						model.addAttribute("countries", vendorAppServices.getAllCountries());
 						model.addAttribute("errors", "Your form contains errors");
 						model.addAttribute("service_creation_bean", requestBean);
 						return pageForms.get(currentPage);
@@ -500,6 +522,9 @@ public class VendorServicesController {
 		}
 		ServiceCreationRequestBean service_creation_bean = createServiceCreationRequestBean(entity, requestBean);
 		model.addAttribute("service_creation_bean", service_creation_bean);
+		model.addAttribute("countries", vendorAppServices.getAllCountries());
+		model.addAttribute("states", vendorAppServices.getStatesByCountry(requestBean.getService_country()));
+		model.addAttribute("cities", vendorAppServices.getCitiesByState(requestBean.getService_state()));
 		return "vendor/edit_service";
 		
 	}
@@ -571,6 +596,10 @@ public class VendorServicesController {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		
+		model.addAttribute("countries", vendorAppServices.getAllCountries());
+		model.addAttribute("states", vendorAppServices.getStatesByCountry(requestBean.getService_country()));
+		model.addAttribute("cities", vendorAppServices.getCitiesByState(requestBean.getService_state()));
 		
 		Map<Integer, String> pageForms = new HashMap<Integer, String>();
 		pageForms.put(0, "vendor/edit_service");
