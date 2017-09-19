@@ -182,7 +182,7 @@ public class ApplicationController {
 			return "home";
 		}
 	}
-	
+	//TODO
 	@RequestMapping(value = {"/services/search"}, method = RequestMethod.GET)
 	public String search(@RequestParam(value = "_q", required = false) String search, Model model, Integer offset, Integer maxResults, HttpSession session) throws WISPServiceException {
 		model.asMap().clear();
@@ -691,7 +691,7 @@ public class ApplicationController {
 		}
 		return "redirect:/login";
 	}
-	
+	//TODO
 	@RequestMapping(value = "/simulateSearch", method = RequestMethod.GET)
 	public @ResponseBody List<SearchResultsResponseBean> simulateSearch(@RequestParam("term") String tagName)  throws WISPServiceException {
 		return applicationServices.simulateSearchResult(tagName);

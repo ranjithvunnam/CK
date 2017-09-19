@@ -333,8 +333,8 @@
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#step_reg,#step_demograph,#step_preview").removeClass('active');
-			$("#step_media").addClass('active');
+			$("#step_reg,#step_demograph,#step_media").removeClass('active');
+			$("#step_preview").addClass('active');
 		});
 	</script>
 	<script>

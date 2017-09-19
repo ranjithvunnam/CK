@@ -275,7 +275,6 @@
 		
 		$("#_select_country").change(function(){
 		    var country_name = $(this).val();
-		    alert(country_name);
 		    $.ajax({
 		        type: "GET",
 		        url: "vendor/getStatesByCountry",
@@ -298,7 +297,6 @@
 		
 		$("#_select_state").change(function(){
 		    var state_name = $(this).val();
-		    alert(state_name);
 		    $.ajax({
 		        type: "GET",
 		        url: "vendor/getCitiesByState",

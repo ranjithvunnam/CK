@@ -838,10 +838,10 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 					}
 				}
 				if(booleanBeforeQuery2.getClauses().length > 0) {
-					booleanFinalQuery2.add(booleanBeforeQuery2, Occur.SHOULD);
+					booleanFinalQuery2.add(booleanBeforeQuery2, Occur.MUST);
 				}
 				if(booleanAfterQuery2.getClauses().length > 0) {
-					booleanFinalQuery2.add(booleanAfterQuery2, Occur.SHOULD);
+					booleanFinalQuery2.add(booleanAfterQuery2, Occur.MUST);
 				}
 				finalQuery.add(booleanFinalQuery2, Occur.MUST);
 				break;
