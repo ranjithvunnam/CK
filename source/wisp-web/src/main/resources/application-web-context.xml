@@ -25,7 +25,7 @@
 
 	<context:property-placeholder
 		local-override="true"
-		location="classpath:properties/application-${wisp.environment}.properties" />
+		location="classpath:properties/application-PROD.properties" />
 
 	<tx:annotation-driven transaction-manager="txManager" />
 

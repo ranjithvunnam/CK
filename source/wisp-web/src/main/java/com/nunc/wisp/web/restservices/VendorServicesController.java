@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -116,13 +117,16 @@ public class VendorServicesController {
 	@Qualifier("authenticationManager")
 	AuthenticationManager authenticationManager;
 	
-	private String UPLOAD_TEMP_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_images";
-	private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://202.53.86.14/wisp/service_temp_images/";
-	
-	private String UPLOAD_TEMP_VIDEOS_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_videos";
-	private String ACCESS_TEMP_VIDEOS_DIRECTORY = "http://202.53.86.14/wisp/service_temp_videos/";
-	
-	private String ACCESS_DEFAULT_THUMBNAIL_URL = "http://202.53.86.14/wisp/service_video_thumbnail/default_video_m.jpg";
+	@Value("${UPLOAD_TEMP_IMAGES_DIRECTORY}")
+	private String UPLOAD_TEMP_IMAGES_DIRECTORY;
+	@Value("${ACCESS_TEMP_IMAGES_DIRECTORY}")
+	private String ACCESS_TEMP_IMAGES_DIRECTORY;
+	@Value("${UPLOAD_TEMP_VIDEOS_DIRECTORY}")
+	private String UPLOAD_TEMP_VIDEOS_DIRECTORY;
+	@Value("${ACCESS_TEMP_VIDEOS_DIRECTORY}")
+	private String ACCESS_TEMP_VIDEOS_DIRECTORY;
+	@Value("${ACCESS_DEFAULT_THUMBNAIL_URL}")
+	private String ACCESS_DEFAULT_THUMBNAIL_URL;
 	
 	private static final List<String> contentTypes = Arrays.asList("image/png", "image/jpeg", "image/gif");
 	

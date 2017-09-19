@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.nunc.wisp.services.exception.WISPServiceException;
@@ -18,18 +19,18 @@ import com.nunc.wisp.services.exception.WISPServiceException;
 public class FileUploadService {
 	
 	protected static final Logger LOG_R = Logger.getLogger(FileUploadService.class);
-	
-	private String UPLOAD_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_images";
-	private String ACCESS_IMAGES_DIRECTORY = "http://202.53.86.14/wisp/service_images/";
-	
-	private String UPLOAD_VIDEOS_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_videos";
-	private String ACCESS_VIDEOS_DIRECTORY = "http://202.53.86.14/wisp/service_videos/";
-	
-	private String UPLOAD_TEMP_IMAGES_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_images\\";
-	//private String ACCESS_TEMP_IMAGES_DIRECTORY = "http://202.53.86.11/wisp/service_temp_images/";
-	
-	private String UPLOAD_TEMP_VIDEOS_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\service_temp_videos\\";
-	//private String ACCESS_TEMP_VIDEOS_DIRECTORY = "http://202.53.86.11/wisp/service_temp_videos/";
+	@Value("${UPLOAD_IMAGES_DIRECTORY}")
+	private String UPLOAD_IMAGES_DIRECTORY;
+	@Value("${ACCESS_IMAGES_DIRECTORY}")
+	private String ACCESS_IMAGES_DIRECTORY;
+	@Value("${UPLOAD_VIDEOS_DIRECTORY}")
+	private String UPLOAD_VIDEOS_DIRECTORY;
+	@Value("${ACCESS_VIDEOS_DIRECTORY}")
+	private String ACCESS_VIDEOS_DIRECTORY;
+	@Value("${UPLOAD_TEMP_IMAGES_DIRECTORY}")
+	private String UPLOAD_TEMP_IMAGES_DIRECTORY;
+	@Value("${UPLOAD_TEMP_VIDEOS_DIRECTORY}")
+	private String UPLOAD_TEMP_VIDEOS_DIRECTORY;
 	
 	
 	@Autowired

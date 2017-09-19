@@ -17,6 +17,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -51,10 +52,11 @@ import com.nunc.wisp.web.restservices.exception.handler.ResourceNotFoundExceptio
 public class AdminServicesController {
 	
 	protected static final Logger LOG_R = Logger.getLogger(AdminServicesController.class);
+	@Value("${UPLOAD_BANNER_DIRECTORY}")
+	private String UPLOAD_BANNER_DIRECTORY;
 	
-	private String UPLOAD_BANNER_DIRECTORY = "C:\\Apache24\\htdocs\\wisp\\banner_images";
-	
-	private String DOWNLOAD_BANNER_DIRECTORY = "http://202.53.86.14/wisp/banner_images";
+	@Value("${DOWNLOAD_BANNER_DIRECTORY}")
+	private String DOWNLOAD_BANNER_DIRECTORY;
 	
 	@Autowired
 	@Qualifier("AdminApplicationServices")
