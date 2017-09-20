@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
+
 @Entity(name = "StatesEntity")
 @Table(name = "wisp_state_list")
 public class StatesEntity implements Serializable{
@@ -36,6 +39,7 @@ public class StatesEntity implements Serializable{
 	private CountriesEntity country_entity;
 	
 	@OneToMany(mappedBy ="state_entity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@Sort(type = SortType.COMPARATOR, comparator = CityComparator.class)
 	private Set<CitiesEntity> cities;
 
 	public Long getState_id() {

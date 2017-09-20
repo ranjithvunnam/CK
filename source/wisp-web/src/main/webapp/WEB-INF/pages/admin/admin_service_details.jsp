@@ -2,8 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib prefix="security"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="tag" uri="/WEB-INF/taglibs/customTaglib.tld"%>
 <html lang="en">
 <head>
@@ -103,7 +102,7 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12 service-box-gallery mTop10">
 				<div id="slider1_container" class="service_slider"
-					style="position: relative; top: 0px; left: 0px; width: 840px; height: 480px; background: #191919; overflow: hidden;">
+					style="position: relative; top: 0px; left: 0px; width: 840px; height: 480px; background: #191919;">
 					<!-- Loading Screen -->
 					<div u="loading" style="position: absolute; top: 0px; left: 0px;">
 						<div
@@ -124,10 +123,10 @@
 							</div>
 						</c:if>
 						<!-- Images -->
-						<c:forEach items="${service_details.imagesEntities}" var="image" varStatus="loop">
+						<c:forEach items="${service_details.imagesEntities}" var="_image" varStatus="loop">
 							<div>
-								<img u="image" src="${image.image_url}" /> <img u="thumb"
-									src="${image.image_url}" />
+								<img u="image" src="${_image.image_url}" /> <img u="thumb"
+									src="${_image.image_url}" />
 							</div>
 						</c:forEach>
 						<!-- Videos -->
@@ -181,8 +180,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<div
-					class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg mTop10 pbot10">
+				<div		class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg mTop10 pbot10">
 					<h5 class="service-heading">Amenities</h5>
 					<div class="icons-div">
 									<c:if test="${service_details.service_type eq 'SER_VENUE' || service_details.service_type eq 'SER_CATERERS'}">
@@ -306,7 +304,7 @@
 			</div>
 		</div>
 	</div>
-	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
+	<!-- Reject modal -->
 	<div class="modal fade" id="reject_comment_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -328,21 +326,17 @@
 	    </div>
 	  </div>
 	</div>
+	<%@ include file="/WEB-INF/pages/templetes/footer.jsp"%>
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script type="text/javascript"
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<script type="text/javascript" src="resources/js/moment.latest.min.js"></script>
-	<script type="text/javascript" src="resources/js/pignose.calendar.js"></script>
-	<script src="resources/js/bootstrap-datepicker.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="resources/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="resources/slick/slick.js" charset="utf-8"></script>
-	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript" src="resources/js/star-rating.js"></script>
-	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.slider.js"></script>
 	<script type="text/javascript" src="resources/js/jssor.js"></script>
+	<script type="text/javascript" src="resources/js/custom-jssor.js"></script>
+	<script type="text/javascript" src="resources/js/custom.js"></script>
 	<script type="text/javascript">
 		$('#reject_comment_modal').on('hidden.bs.modal', function () {
 			$('#reject_comment').val('');
@@ -397,41 +391,5 @@
 			};
 		};
 	</script>
-	<script>
-        $(document).ready(function(){
-            $('.service-small-slider').slick({
-              dots: true,
-              infinite: false,
-              speed: 300,
-              slidesToShow: 7,
-              slidesToScroll: 4,
-              responsive: [
-                {
-                  breakpoint: 992,
-                  settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 3,
-                    infinite: true,
-                    dots: true
-                  }
-                },
-                {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 480,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                  }
-                }
-              ]
-            });
-        });
-    </script>
 </body>
 </html>

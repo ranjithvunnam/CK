@@ -3,6 +3,7 @@ package com.nunc.wisp.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -400,8 +401,8 @@ public class VendorAppServicesImpl implements VendorAppServices {
 	@Transactional
 	public Set<StatesResponseBean> getStatesByCountry(String country_name)
 			throws WISPServiceException {
-		Set<StatesEntity> results = new HashSet<>();
-		Set<StatesResponseBean> beans = new HashSet<>();
+		Set<StatesEntity> results = new LinkedHashSet<>();
+		Set<StatesResponseBean> beans = new LinkedHashSet<>();
 		try {
 			CountriesEntity entity = vendorAppRepository.getCountryByName(country_name);
 			if(entity != null){
@@ -424,12 +425,12 @@ public class VendorAppServicesImpl implements VendorAppServices {
 	@Transactional
 	public Set<CitiesResponseBean> getCitiesByState(String state_name)
 			throws WISPServiceException {
-		Set<CitiesEntity> results = new HashSet<>();
-		Set<CitiesResponseBean> beans = new HashSet<>();
+		Set<CitiesEntity> results = new LinkedHashSet<>();
+		Set<CitiesResponseBean> beans = new LinkedHashSet<>();
 		try {
 			StatesEntity entity = vendorAppRepository.getStateByName(state_name);
 			if(entity != null){
-				results = entity.getCities();
+				results = vendorAppRepository.getCitiesByState(entity.getState_id());
 			}
 			for (CitiesEntity city : results) {
 				CitiesResponseBean bean = new CitiesResponseBean();

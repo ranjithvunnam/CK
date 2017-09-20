@@ -3,7 +3,7 @@ package com.nunc.wisp.repository;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +27,7 @@ import com.nunc.wisp.entities.ServiceHitsEntity;
 import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.ServiceVideosEntity;
+import com.nunc.wisp.entities.utils.CitiesEntity;
 import com.nunc.wisp.entities.utils.CountriesEntity;
 import com.nunc.wisp.entities.utils.StatesEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
@@ -296,6 +297,7 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 		try {
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(CountriesEntity.class);
+			criteria.addOrder(Order.asc("country_name"));
 			results = criteria.list();
 		} catch (HibernateException e) {
 			LOG_R.error("Exception occured while saving the user into inventory db",e);
@@ -349,6 +351,7 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 			Session session = sessionFactory.getCurrentSession();
 			Criteria criteria = session.createCriteria(StatesEntity.class);
 			criteria.add(Restrictions.eq("country_entity.country_id", country_id));
+			criteria.addOrder(Order.asc("state_name"));
 			results = criteria.list();
 		} catch (HibernateException e) {
 			LOG_R.error("Exception occured while saving the user into inventory db",e);
@@ -356,6 +359,26 @@ protected static final Logger LOG_R = Logger.getLogger(VendorAppRepositoryImpl.c
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
 					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
 		}
-		return new HashSet<>(results);
+		return new LinkedHashSet<>(results);
+	}
+
+	@Override
+	@Transactional
+	public Set<CitiesEntity> getCitiesByState(Long state_id)
+			throws WISPDataAccessException {
+		List<CitiesEntity> results = new ArrayList<>();
+		try {
+			Session session = sessionFactory.getCurrentSession();
+			Criteria criteria = session.createCriteria(CitiesEntity.class);
+			criteria.add(Restrictions.eq("state_entity.state_id", state_id));
+			criteria.addOrder(Order.asc("city_name"));
+			results = criteria.list();
+		} catch (HibernateException e) {
+			LOG_R.error("Exception occured while saving the user into inventory db",e);
+			throw new WISPDataAccessException(
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_MESSAGE,
+					WISPDataAccessException.DATA_ACCESS_EXCEPTION_CODE);
+		}
+		return new LinkedHashSet<>(results);
 	}
 }

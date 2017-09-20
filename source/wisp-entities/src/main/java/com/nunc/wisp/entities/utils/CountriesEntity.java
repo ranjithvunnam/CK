@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Sort;
+import org.hibernate.annotations.SortType;
+
 @Entity(name = "CountriesEntity")
 @Table(name = "wisp_country_list")
 public class CountriesEntity implements Serializable{
@@ -30,6 +33,7 @@ public class CountriesEntity implements Serializable{
 	
 	@OneToMany
 	@JoinColumn(name="state_id", referencedColumnName="country_id")
+	@Sort(type = SortType.COMPARATOR, comparator = StateComparator.class)
 	private Set<StatesEntity> states;
 
 	public Long getCountry_id() {

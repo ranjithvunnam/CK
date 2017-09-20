@@ -11,6 +11,7 @@ import com.nunc.wisp.entities.ServiceHitsEntity;
 import com.nunc.wisp.entities.ServiceImagesEntity;
 import com.nunc.wisp.entities.ServiceListEntity;
 import com.nunc.wisp.entities.ServiceVideosEntity;
+import com.nunc.wisp.entities.utils.CitiesEntity;
 import com.nunc.wisp.entities.utils.CountriesEntity;
 import com.nunc.wisp.entities.utils.StatesEntity;
 import com.nunc.wisp.repository.exception.WISPDataAccessException;
@@ -53,4 +54,6 @@ public interface VendorAppRepository {
 	public StatesEntity getStateByName(String state_name) throws WISPDataAccessException;
 
 	public Set<StatesEntity> getStatesByCountry(Long country_id) throws WISPDataAccessException;
+	
+	public Set<CitiesEntity> getCitiesByState(Long state_id) throws WISPDataAccessException;
 }
