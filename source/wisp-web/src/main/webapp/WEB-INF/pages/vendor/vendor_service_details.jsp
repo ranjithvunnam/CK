@@ -383,6 +383,21 @@
                 </div>
             </div>
         </div>
+        <!-- Reject comments -->
+        <c:if test="${not empty service_details.rejectCommentsEntities && service_details.approval_status eq 3}">
+        	<div class="row">
+				<div class="col-md-12 col-sm-12 col-xs-12 service-box-right white-bg">
+					<div class="col-md-10">
+						<div class="wrapper">
+							<h5 class="service-heading">Service Improvement Suggetions</h5>
+							<c:forEach items="${service_details.rejectCommentsEntities}" var="_reject_comments">
+								<p>${_reject_comments.reject_comment}</p>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+        </c:if>
 	</div>
 	<!-- Comments Model -->
 	<div class="modal fade" id="comments_modal" role="dialog">

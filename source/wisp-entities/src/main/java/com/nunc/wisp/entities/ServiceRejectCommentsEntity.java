@@ -22,7 +22,7 @@ public class ServiceRejectCommentsEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue
-	@Column(name = "contact_id")
+	@Column(name = "reject_id")
 	private Long reject_id;
 	
 	@Column(name = "reject_comment", updatable = true, nullable = false)
