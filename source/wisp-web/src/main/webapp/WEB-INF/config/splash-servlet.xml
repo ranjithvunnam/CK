@@ -61,7 +61,7 @@
 	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
-			<value>classpath:properties/application-${wisp.environment}.properties
+			<value>classpath:properties/application-PROD.properties
 			</value>
 		</property>
 	</bean>

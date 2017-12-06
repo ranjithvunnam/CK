@@ -30,10 +30,16 @@
 	<tx:annotation-driven transaction-manager="txManager" />
 
 	<task:annotation-driven />
-	<!-- DataSource Creation for SPLASH HTTP database -->
 
-	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/jdbc/wisp" />
+	</bean> -->
+	
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+	p:driverClassName="${database.driver}"
+	p:url="${database.url}"
+	p:username="${database.username}"
+	p:password="${database.password}">
 	</bean>
 
 	<bean id="sessionFactory"
@@ -43,8 +49,9 @@
 		</property>
 		<property name="hibernateProperties">
 			<props>
+				<prop key="hibernate.connection.pool_size">1</prop>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.show_sql">false</prop>
 				<prop key="hibernate.enable_lazy_load_no_trans">true</prop>
 				<prop key="hibernate.connection.useUnicode">true</prop>
 				<prop key="hibernate.connection.characterEncoding">utf8</prop>
@@ -67,8 +74,8 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
-		<property name="username" value="mkasplash.app@gmail.com"></property>
-		<property name="password" value="Mkasplash123"></property>
+		<property name="username" value="${mail.username}"></property>
+		<property name="password" value="${mail.password}"></property>
 
 		<property name="javaMailProperties">
 			<props>
